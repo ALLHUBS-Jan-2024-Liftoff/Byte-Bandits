@@ -1,11 +1,13 @@
 import { useState } from 'react'
+import * as React from 'react';
+import Button from '@mui/material/Button';
 import './App.css'
 
 function App() {
 
   return (
     <>
-      <h1>Balanced Bytes</h1>
+      <Button variant="contained">Byte Bandits</Button>
     </>
   )
 }
