@@ -17,6 +17,8 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 
+const baseURL = 'https://api.edamam.com/api/recipes/v2/7bf4a371c6884d809682a72808da7dc2?type=public&app_id=9cf8e5c7&app_key=c09e40e5a30cd7fd27e3a855f484a47b';
+
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
   return <IconButton {...other} />;
@@ -35,14 +37,24 @@ export default function RecipeReviewCard() {
     setExpanded(!expanded);
   };
 
-  const [data, setData] = useState([]);
+  const [post, setPost] = React.useState(null);
+  const [error, setError] = React.useState(null);
 
-  useEffect(() => {
-    axios.get('https://api.edamam.com/api/recipes/v2/7bf4a371c6884d809682a72808da7dc2?type=public&app_id=9cf8e5c7&app_key=667f0b9db2fc945f8eade6b12b9926ed')
-      .then(response => setData(response.data));
+  React.useEffect(() => {
+    // invalid url will trigger an 404 error
+    axios.get(`${baseURL}`).then((response) => {
+      setPost(response.data);
+    }).catch(error => {
+      setError(error);
+    });
   }, []);
+  
+  if (error) return `Error: ${error.message}`;
+  if (!post) return "No post!"
 
-  console.log(data.recipe.images.SMALL.url);
+  // console.log(post);
+
+  // console.log(data.recipe.images.SMALL.url);
 
   return (
     <Card sx={{ maxWidth: 345 }}>
@@ -57,13 +69,13 @@ export default function RecipeReviewCard() {
             <MoreVertIcon />
           </IconButton>
         }
-        title={data.recipe.label}
-        subheader={data.recipe.source}
+        title={post.recipe.label}
+        subheader={post.recipe.source}
       />
       <CardMedia
         component="img"
         height="194"
-        image={data.recipe.images.SMALL.url}
+        image={post.recipe.images.SMALL.url}
         alt="Paella dish"
       />
       <CardContent>
@@ -90,7 +102,7 @@ export default function RecipeReviewCard() {
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
           <Typography paragraph>Ingredients:</Typography>
-          {data.recipe.ingredientLines.map(ingredient => (
+          {post.recipe.ingredientLines.map(ingredient => (
           <Typography paragraph>{ingredient}</Typography>
         ))}
         </CardContent>

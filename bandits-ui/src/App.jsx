@@ -4,20 +4,34 @@ import * as React from 'react';
 import axios from 'axios';
 import './App.css'
 
-function App() {
-  const [data, setData] = useState([]);
+// const API_URL = 'https://api.edamam.com/api/recipes/v2/7bf4a371c6884d809682a72808da7dc2?type=public&app_id=9cf8e5c7&app_key=c09e40e5a30cd7fd27e3a855f484a47b';
+const baseURL = 'https://api.edamam.com/api/recipes/v2/7bf4a371c6884d809682a72808da7dc2?type=public&app_id=9cf8e5c7&app_key=c09e40e5a30cd7fd27e3a855f484a47b';
 
-  useEffect(() => {
-    axios.get('https://api.edamam.com/api/recipes/v2/7bf4a371c6884d809682a72808da7dc2?type=public&app_id=9cf8e5c7&app_key=667f0b9db2fc945f8eade6b12b9926ed')
-      .then(response => setData(response.data));
+function App() {
+
+  const [post, setPost] = React.useState(null);
+  const [error, setError] = React.useState(null);
+
+  React.useEffect(() => {
+    // invalid url will trigger an 404 error
+    axios.get(`${baseURL}`).then((response) => {
+      setPost(response.data);
+    }).catch(error => {
+      setError(error);
+    });
   }, []);
+  
+  if (error) return `Error: ${error.message}`;
+  if (!post) return "No post!"
+
+console.log(post);
 
   return (
     <div>
-      <h1>{data.recipe.label}</h1>
-      <img src={data.recipe.image} alt={data.recipe.label} />
+      <h1>{post.recipe.label}</h1>
+      <img src={post.recipe.image} alt={post.recipe.label} />
       <ul>
-        {data.recipe.ingredientLines.map(ingredient => (
+        {post.recipe.ingredientLines.map(ingredient => (
           <li>{ingredient}</li>
         ))}
       </ul>

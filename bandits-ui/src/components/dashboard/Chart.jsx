@@ -36,7 +36,7 @@ const chartSetting = {
   },
 };
 
-const valueFormatter = (value) => `${value}mm`;
+const valueFormatter = (value) => `${value}mg`;
 
 export default function BarsDataset() {
   return (
