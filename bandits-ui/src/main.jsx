@@ -5,10 +5,11 @@ import App from './App.jsx'
 import RecipeReviewCard from './components/recipereviewcard.jsx'
 import Dashboard from './components/dashboard/Dashboard.jsx'
 import './index.css'
+import CustomizedTables from './components/CustomizedTables.jsx'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
-    <App />
+  <>
+    <CustomizedTables />
     {/* <App /> */}
-  </React.StrictMode>,
+  </>,
 )

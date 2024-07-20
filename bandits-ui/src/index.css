@@ -67,7 +67,7 @@ button:focus-visible {
   }
 }
 
-ul {
+ul, ol {
   text-align: left;
   padding: 0;
   margin: 0;
