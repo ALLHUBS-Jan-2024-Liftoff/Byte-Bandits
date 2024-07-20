@@ -9,9 +9,12 @@ const baseURL = 'https://api.edamam.com/api/recipes/v2/7bf4a371c6884d809682a7280
 
 function App() {
 
+
+  
   const [post, setPost] = React.useState(null);
   const [error, setError] = React.useState(null);
 
+  // Retrieve data from public API
   React.useEffect(() => {
     // invalid url will trigger an 404 error
     axios.get(`${baseURL}`).then((response) => {
@@ -24,7 +27,8 @@ function App() {
   if (error) return `Error: ${error.message}`;
   if (!post) return "No post!"
 
-console.log(post);
+  // Check the data returned from the API 
+  console.log(post);
 
   return (
     <div>
