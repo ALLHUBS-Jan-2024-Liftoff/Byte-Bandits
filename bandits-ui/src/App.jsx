@@ -18,20 +18,20 @@ function App() {
           backgroundImage:`url('src/img/bg-img-hero.jpeg') `,
           backgroundSize:'cover',
           textAlign: 'center',
-          color:'#eee',
+          color:'#333',
           padding: 4,
           my:2
         }}
       >
-        <Container>
+        <Container sx={{bgcolor:'rgba(175, 161, 168, 0.50)', p:5}}>
           <Typography variant="h1" gutterBottom>
-            Welcome to Our Website
+          Healthy Eating Made Easy
           </Typography>
           <Typography variant="h2" paragraph>
-            We offer the best solutions to enhance your productivity and performance.
+          Customizable Meal Plans for Every Lifestyle
           </Typography>
-          <Button variant="contained" color="primary" size="large">
-            Get Started
+          <Button variant="contained" sx={{backgroundColor:'green'}} size="large">
+            Get Started.
           </Button>
         </Container>
       </Box>
