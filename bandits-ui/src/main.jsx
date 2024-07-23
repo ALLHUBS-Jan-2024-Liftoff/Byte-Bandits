@@ -7,10 +7,11 @@ import Dashboard from './components/dashboard/Dashboard.jsx'
 import './index.css'
 import CustomizedTables from './components/CustomizedTables.jsx'
 import CollapsibleTable from './components/CollapsibleTable.jsx'
+import Blog from './components/blog/Blog.jsx'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <>
-    <CollapsibleTable />
+    <Blog />
     {/* <App /> */}
   </>,
 )
