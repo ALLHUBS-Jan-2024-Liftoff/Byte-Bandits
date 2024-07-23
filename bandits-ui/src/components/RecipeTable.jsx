@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import { useState } from 'react';
+import CheckboxGroup from './CheckboxGroup';
 
 function RecipeTable() {
 
@@ -7,19 +8,54 @@ function RecipeTable() {
     const [txtIngredients, setTxtIngredients] = useState(''); 
 
     
+    const dietsList = ['kosher', 'vegan', 'vegetarian'];
+    const allergiesList = ['dairy-free', 'egg-free', 'soy-free'];
+
+
+    const [diets, setDiets] = useState(
+        dietsList.reduce((acc, diet) => {
+          acc[diet] = false;
+          return acc;
+        }, [])
+      );
+    
+      const [allergies, setAllergies] = useState(
+        allergiesList.reduce((acc, allergy) => {
+          acc[allergy] = false;
+          return acc;
+        }, [])
+      );
+    
+      const handleDietsChange = (name, checked) => {
+        setDiets({
+          ...diets,
+          [name]: checked,
+        });
+      };
+    
+      const handleAllergiesChange = (name, checked) => {
+        setAllergies({
+          ...allergies,
+          [name]: checked,
+        });
+      };
+
     const handletxtIngredientsChange = (event) => {
         setTxtIngredients(event.target.value);
-        console.log(txtIngredients)
     };
 
     const handleSubmit = (event) => {
         // Prevent default form submission
         event.preventDefault();
 
-        let query = txtIngredients;
+        const ingredients = txtIngredients;
+        const selectedDietsArr = Object.keys(diets).filter((diet) => diets[diet]);
+        const selectedAllergiesArr = Object.keys(allergies).filter((allergy) => allergies[allergy]);
+
+        console.log(selectedDietsArr)
         //useEffect(() => {
             const fetchData = async () => {
-               const data = await fetch(`http://localhost:8080/search?sQuery=${query}`)
+               const data = await fetch(`http://localhost:8080/search/${ingredients}/${selectedDietsArr}`)
                .then(response => response.json())
                .then(response => {
                    setRecipes(response.hits);
@@ -27,8 +63,7 @@ function RecipeTable() {
                }
                )
                .catch(err => console.error(err));
-            }
-          
+            }    
             fetchData();
          // }, []);
     };
@@ -88,6 +123,18 @@ function RecipeTable() {
                         onChange={handletxtIngredientsChange}
                     />
                 </div>
+                <CheckboxGroup
+                    title="diets"
+                    options={dietsList}
+                    checkedItems={diets}
+                    onChange={handleDietsChange}
+                />
+                <CheckboxGroup
+                    title="allergies"
+                    options={allergiesList}
+                    checkedItems={allergies}
+                    onChange={handleAllergiesChange}
+                />
                 <button type="submit">Search</button>
             </form>
         </div>
