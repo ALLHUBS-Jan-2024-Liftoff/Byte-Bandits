@@ -1,42 +1,34 @@
 package com.bandits.api.bandits_api.controller;
 
 import com.bandits.api.bandits_api.model.User;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 import com.bandits.api.bandits_api.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-@Controller
+
+@RestController
 public class UserController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/register")
-    public String showRegistrationForm(Model model){
-        model.addAttribute("user", new User());
-        return "register";
-    }
+    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @PostMapping("/register")
-    public String registerUser(@ModelAttribute User user) {
-        userService.save(user);
-        return "redirect:/login";
+    public ResponseEntity<String> registerUser(@RequestBody User user) {
+        try {
+            userService.saveUser(user);
+            return new ResponseEntity<>("User registered successfully", HttpStatus.OK);
+        } catch (Exception e) {
+            logger.error("Error registering user", e);
+            return new ResponseEntity<>("An error occurred while registering the user. Please try again.", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
-
-    @GetMapping("/login")
-    public String showLoginForm() {
-        return "login";
-    }
-
-    @GetMapping("/account")
-    public String showAccountPage(Model model, @RequestParam String username) {
-        User user = userService.findByUsername(username);
-        model.addAttribute("user", user);
-        return "account";
-    }
-
 }
