@@ -1,6 +1,10 @@
 import React, { useEffect } from 'react'
 import { useState } from 'react';
 import CheckboxGroup from './CheckboxGroup';
+import { Box, Button, Container, FormControl, FormGroup, Input, InputLabel, List, ListItem, ListItemText, MenuItem, OutlinedInput, Select, TextField, Typography } from '@mui/material';
+import { CloseFullscreen, Label } from '@mui/icons-material';
+import SampleCheckBoxGroup from './SampleCheckBoxGroup';
+import RecipeGroupByCusine from './RecipeGroupByCusine';
 
 function RecipeTable() {
 
@@ -44,25 +48,43 @@ function RecipeTable() {
         setTxtIngredients(event.target.value);
     };
 
+    const [selectedValue, setSelectedValue] = useState('');
+
+    const handleDropDownChange = (event) => {
+      setSelectedValue(event.target.value);
+    };
+
     const handleSubmit = (event) => {
         // Prevent default form submission
         event.preventDefault();
 
-        const ingredients = txtIngredients;
-        const selectedDietsArr = Object.keys(diets).filter((diet) => diets[diet]);
-        const selectedAllergiesArr = Object.keys(allergies).filter((allergy) => allergies[allergy]);
+        const ingredients = (txtIngredients.length < 2) ? 'null' : txtIngredients;
 
-        console.log(selectedDietsArr)
+        
+        const selectedDietsArr = (diets.length === 0) ? 'null' : Object.keys(diets).filter((diet) => diets[diet]);
+        const selectedAllergiesArr = (diets.length === 0) ? 'null' : Object.keys(allergies).filter((allergy) => allergies[allergy]);
+
+        console.log(selectedDietsArr,'selected')
         //useEffect(() => {
+
+        let url;
+
+        if(selectedDietsArr.length > 0){
+            url = `http://localhost:8080/search/${ingredients}/${selectedDietsArr}`
+        }
+        else{
+            url = `http://localhost:8080/search/${ingredients}/${selectedDietsArr}`
+        }
             const fetchData = async () => {
-               const data = await fetch(`http://localhost:8080/search/${ingredients}/${selectedDietsArr}`)
+              
+                const data = await fetch(url)
                .then(response => response.json())
                .then(response => {
                    setRecipes(response.hits);
                    console.log(response.hits);
                }
                )
-               .catch(err => console.error(err));
+               .catch(err => console.error(err,"Error"));
             }    
             fetchData();
          // }, []);
@@ -90,57 +112,66 @@ function RecipeTable() {
         })
     }
 
-    const DisplayRecipeMenu = recipes.map(r => (
-        <li>
-           <h3>{r.recipe.label}</h3>
-           <p>Cusine Type: {r.recipe.cuisineType}</p>
-           <img src={r.recipe.image}></img>
-           <ul>
-           <h4>Ingredients</h4>
-            {r.recipe.ingredients.map(x=>(
-                    <ul>
-                        <li>Name: {x.food}</li>
-                        <li>Text: {x.text}</li>
-                        <li>Quantiy: {x.quantity}</li>
-                    </ul>
-                ))}
-           </ul>
-        </li>
+        const filterByMealTypeAndGroupByCusineType = recipes.filter(recipe=>recipe.recipe.mealType == selectedValue).reduce((acc, rec) => {
+      // Initialize the category if it doesn't exist in the accumulator
+      if (!acc[rec.recipe.cuisineType]) {
+        acc[rec.recipe.cuisineType] = [];
+      }
+      // Add the item to the appropriate category
+      acc[rec.recipe.cuisineType].push(rec);
+      return acc;
+    }, {});
 
-    ))
-
-    GetRecipesHtml();
+    console.log(filterByMealTypeAndGroupByCusineType, 'group by type')
+    //GetRecipesHtml();
   return (
     <>
-        <div>RecipeTable</div>
-        <div>
-            <form onSubmit={handleSubmit}>
-                <div className="form-group">
-                    <label>Ingredients:</label>
-                    <input
-                        type="text"
-                        value={txtIngredients}
-                        onChange={handletxtIngredientsChange}
-                    />
-                </div>
-                <CheckboxGroup
-                    title="diets"
-                    options={dietsList}
-                    checkedItems={diets}
-                    onChange={handleDietsChange}
-                />
-                <CheckboxGroup
+        <Typography variant='h1' sx={{fontSize:'2rem',py:'1rem', color:'#111', fontWeight:'bold'
+        }}>Let's Create your meal plan</Typography>
+        <Box sx={{width:'100%'}}>
+          <form onSubmit={handleSubmit}>
+            <Container sx={{textTransform:'capitalize',display:'flex',flexDirection:'row', flexWrap: 'wrap'}}> 
+              <FormControl sx={{ flexBasis: '50%'}}>
+                <InputLabel htmlFor='txt-ingredients'>Ingredients</InputLabel>
+                  <OutlinedInput
+                    label="Ingredients"
+                    id="txt-ingredients"
+                    type="text"
+                    value={txtIngredients}
+                    onChange={handletxtIngredientsChange}
+                    required="true" sx={{width:'80%'}}/>
+              </FormControl>
+              <FormControl sx={{ flexBasis: '50%'}}>
+                <InputLabel htmlFor="select-meal-type">Meal Type</InputLabel>
+                  <Select
+                    value={selectedValue}
+                    onChange={handleDropDownChange}
+                    label="mealType"
+                    id="select-meal-type"
+                    required="true" sx={{width:'60%'}}
+                  >
+                    <MenuItem value={'breakfast'}>Breakfast</MenuItem>
+                    <MenuItem value={'lunch/dinner'}>Lunch</MenuItem>
+                    <MenuItem value={'lunch/dinner'}>Dinner</MenuItem>
+                  </Select>
+              </FormControl>
+              <SampleCheckBoxGroup options={dietsList} checkedItems={diets} onChange={handleDietsChange} labelFor='Dietery Option'/>
+              <SampleCheckBoxGroup options={allergiesList} checkedItems={allergies} onChange={handleAllergiesChange} labelFor='Allergy Option'/>
+                {/* <CheckboxGroup
                     title="allergies"
                     options={allergiesList}
                     checkedItems={allergies}
                     onChange={handleAllergiesChange}
-                />
-                <button type="submit">Search</button>
+                />  */}
+                <FormGroup sx={{ flexBasis: '100%'}}>
+                <Button type="submit" sx={{ width:'15rem', background:'#555', color:'#fff','&:hover': {
+                        backgroundColor: 'green', // Background color on hover
+        }}}>Search</Button>
+                </FormGroup>
+            </Container>
             </form>
-        </div>
-        <ul>
-            {DisplayRecipeMenu}
-        </ul>
+        </Box>
+        <RecipeGroupByCusine data={filterByMealTypeAndGroupByCusineType} />
     </>
 
   )
