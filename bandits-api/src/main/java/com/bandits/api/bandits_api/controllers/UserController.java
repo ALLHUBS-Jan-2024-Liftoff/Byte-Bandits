@@ -2,17 +2,14 @@ package com.bandits.api.bandits_api.controllers;
 
 import com.bandits.api.bandits_api.models.User;
 import com.bandits.api.bandits_api.models.data.UserRepository;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.Errors;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
-@RequestMapping("users")
+@RequestMapping("signup")
+@CrossOrigin(origins = "http://localhost:3000")
 public class UserController {
 
     @Autowired
@@ -20,5 +17,9 @@ public class UserController {
 
     // TODO Get mapping
 
-    // TODO Post mapping
+    @PostMapping
+    public ResponseEntity<User> addNewUser(@RequestBody User user) {
+        User newUser = userRepository.save(user);
+        return new ResponseEntity<>(user, HttpStatus.CREATED);
+    }
 }
