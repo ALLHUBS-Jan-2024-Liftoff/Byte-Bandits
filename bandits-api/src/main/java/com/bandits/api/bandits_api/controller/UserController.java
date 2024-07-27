@@ -1,13 +1,11 @@
 package com.bandits.api.bandits_api.controller;
 
+import com.bandits.api.bandits_api.dto.LoginRequest;
 import com.bandits.api.bandits_api.model.User;
-import jakarta.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import com.bandits.api.bandits_api.service.UserService;
 import org.slf4j.Logger;
@@ -29,6 +27,15 @@ public class UserController {
         } catch (Exception e) {
             logger.error("Error registering user", e);
             return new ResponseEntity<>("An error occurred while registering the user. Please try again.", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    @PostMapping("/login")
+    public ResponseEntity<String> loginUser(@RequestBody LoginRequest loginRequest) {
+        User user = userService.authenticate(loginRequest.getUsername(), loginRequest.getPassword());
+        if (user != null) {
+            return new ResponseEntity<>("Login successful", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("Invalid username or password", HttpStatus.UNAUTHORIZED);
         }
     }
 }
