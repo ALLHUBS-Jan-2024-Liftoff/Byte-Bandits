@@ -4,9 +4,7 @@ package com.bandits.api.bandits_api.controller;
 import com.bandits.api.bandits_api.service.RecipeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/")
@@ -19,9 +17,15 @@ public class RecipeController {
         this.recipeService = recipeService;
     }
 
-    @GetMapping("/chicken")
-    public ResponseEntity<?> callEndPointToGetRecipeData(){
-        return  ResponseEntity.ok(recipeService.getAllChickenRecipeData());
+    @GetMapping("/search/{ingredients}")
+    public ResponseEntity<?> callEndPointToGetRecipeData(@PathVariable String ingredients) {
+        return ResponseEntity.ok(recipeService.getAllRecipeData(ingredients));
+
+    }
+
+    @GetMapping("/search/{ingredients}/{diets}")
+    public ResponseEntity<?> callEndPointToGetRecipeDataByDiet(@PathVariable String ingredients, @PathVariable String diets) {
+        return ResponseEntity.ok(recipeService.getRecipeDataByDiets(ingredients, diets));
 
     }
 }

@@ -15,7 +15,7 @@ const Layout = () =>{
     <div className='Container'>
      <Header />
      <Outlet />
-     <Footer /> 
+     {/* <Footer />  */}
     </div>
   )
 }
