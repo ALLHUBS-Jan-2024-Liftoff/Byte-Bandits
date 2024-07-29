@@ -1,9 +1,12 @@
 package com.bandits.api.bandits_api.models.dto;
 
+import com.bandits.api.bandits_api.models.Recipe;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -17,6 +20,7 @@ public class UserDto {
     private String username;
     private String email;
     private int age;
-    private List<Recipe> recipes;
+//    // Shouldn't reference entities directly
+//    private List<Recipe> recipes;
 
 }

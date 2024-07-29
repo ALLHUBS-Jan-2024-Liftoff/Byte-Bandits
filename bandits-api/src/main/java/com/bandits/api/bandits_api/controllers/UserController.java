@@ -2,6 +2,7 @@ package com.bandits.api.bandits_api.controllers;
 
 import com.bandits.api.bandits_api.models.User;
 import com.bandits.api.bandits_api.models.data.UserRepository;
+import com.bandits.api.bandits_api.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,9 @@ public class UserController {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private UserService userService;
 
     // TODO Get mapping
 
