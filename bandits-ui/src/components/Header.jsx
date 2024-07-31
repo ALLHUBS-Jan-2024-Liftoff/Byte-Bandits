@@ -14,7 +14,7 @@ import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 
 const pages = ['About us', 'Blog', 'Contact us'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const settings = ['Profile', 'Account', 'Dashboard', <a href="/register">Signup</a>];
 
 function Header() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -55,7 +55,7 @@ function Header() {
               textDecoration: 'none',
             }}
           >
-            Balanced Byte
+            Balanced Bytes
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>

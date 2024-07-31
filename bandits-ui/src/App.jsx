@@ -1,42 +1,29 @@
-import { useState } from 'react'
-import RecipeTable from './components/RecipeTable'
-import Header from './components/Header'
-import Footer from './components/Footer'
-import { Box, Button, Container, Typography } from '@mui/material'
-function App() {
+// App.jsx
 
+import "./App.css";
+import CssBaseline from '@mui/material/CssBaseline';
+import { RecipePage } from "./components/Todo/RecipePage";
+import { HomePage } from "./components/Home/HomePage";
+import { RegistrationPage } from "./components/User/RegistrationPage";
+import { LoginPage } from "./components/User/LoginPage";
+import { NavBar } from "./components/NavBar/NavBar";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { AuthProvider } from "./context/AuthContext";
+
+function App() {
   return (
-    <div className='App'>
-            <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          height: '50vh',
-          backgroundColor: '#f5f5f5',
-          backgroundImage:`url('src/img/bg-img-hero.jpeg') `,
-          backgroundSize:'cover',
-          textAlign: 'center',
-          color:'#333',
-          padding: 4,
-          my:2
-        }}
-      >
-        <Container sx={{bgcolor:'rgba(175, 161, 168, 0.50)', p:5}}>
-          <Typography variant="h1" gutterBottom>
-          Healthy Eating Made Easy
-          </Typography>
-          <Typography variant="h2" paragraph>
-          Customizable Meal Plans for Every Lifestyle
-          </Typography>
-          <Button variant="contained" sx={{backgroundColor:'green'}} size="large">
-            Get Started.
-          </Button>
-        </Container>
-      </Box>
-    </div>
-  )
+    <AuthProvider>
+    <BrowserRouter>
+      <NavBar />
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/todo" element={<RecipePage />} />
+        <Route path="/register" element={<RegistrationPage />} />
+        <Route path="/login" element={<LoginPage />} />
+      </Routes>
+    </BrowserRouter>
+    </AuthProvider>
+  );
 }
 
-export default App
+export default App;

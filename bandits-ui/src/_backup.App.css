@@ -1,0 +1,11 @@
+body{
+    box-sizing: content-box;
+    width:85%;
+    margin: 0 auto;
+}
+
+.App {
+    width:100%;
+    margin: 0 auto;
+}
+
