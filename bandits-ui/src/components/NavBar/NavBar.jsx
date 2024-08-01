@@ -1,6 +1,7 @@
 // components/NavBar/NavBar.jsx
 import { Link } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
+import CssBaseline from '@mui/material/CssBaseline'
 
 export const NavBar = () => {
   const { user, logout } = useAuth();
@@ -10,15 +11,15 @@ export const NavBar = () => {
   };
 
   return (
-    <nav className="navbar navbar-light bg-light">
-      <Link className="navbar-brand" to="/">
-        MyApp
-      </Link>
+    <nav className="navbar navbar-expand-lg navbar-light bg-light">
       <Link className="nav-link" to="/">
         Home
       </Link>
       <Link className="nav-link" to="/todo">
-        Todo
+        Recipes
+      </Link>
+      <Link className="nav-link" to="/search">
+        Search
       </Link>
 
       {!user ? (

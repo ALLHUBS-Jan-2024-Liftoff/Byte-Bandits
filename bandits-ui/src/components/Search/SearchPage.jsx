@@ -1,13 +1,19 @@
-export const HomePage = () => {
+export const SearchPage = () => {
 
   return (
-    <div className="mt-5 container">
-      <div className="card">
-        {/* <div className="card-header">Your Todo Application</div> */}
-        <div className="card-body">
-          Welcome to the Balanced Bytes
+    <div className="container-lg">
+      <form>
+        <div class="form-group">
+          <label for="exampleInputEmail1">Enter an Ingredient to Search for Recipes</label>
+          <input type="text" class="form-control" id="q" aria-describedby="recipeHelp" placeholder="Enter ingredient" />
+          {/* <small id="emailHelp" class="form-text text-muted">Enter an ingrediet to search for recipes</small> */}
         </div>
-      </div>
+        {/* <div class="form-group form-check">
+          <input type="checkbox" class="form-check-input" id="exampleCheck1" />
+          <label class="form-check-label" for="exampleCheck1">Check me out</label>
+        </div> */}
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
     </div>
   );
 }
