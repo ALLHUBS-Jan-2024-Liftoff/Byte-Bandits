@@ -5,7 +5,8 @@ import { Box, Button, Container, FormControl, FormGroup, Input, InputLabel, List
 import { CloseFullscreen, Label } from '@mui/icons-material';
 import SampleCheckBoxGroup from './SampleCheckBoxGroup';
 import RecipeGroupByCusine from './RecipeGroupByCusine';
-import RecipeStandardView from './RecipeStandardView';
+import RecipeStandardView from './RecipeCardView';
+import RecipeCardView from './RecipeCardView';
 
 function RecipeTable() {
 
@@ -62,16 +63,17 @@ function RecipeTable() {
         const ingredients = (txtIngredients.length < 2) ? 'null' : txtIngredients;
 
         
-        const selectedDietsArr = (diets.length == 0) ? '' : Object.keys(diets).filter((diet) => diets[diet]);
-        const selectedAllergiesArr = (diets.length == 0) ? '' : Object.keys(allergies).filter((allergy) => allergies[allergy]);
+        const selectedDietsArr = (diets.length == 0) ? '' : Object.keys(diets).filter((diet) => diets[diet]).map((diet) => `health=${diet}&`);;
+        const selectedAllergiesArr = (allergies.length == 0) ? '' : Object.keys(allergies).filter((allergy) => allergies[allergy]).map((allergy)=> `health=${allergy}&`);
 
-        console.log(selectedDietsArr,'selected')
+        console.log(selectedDietsArr, "sfsdfdsfdsfsd")
         //useEffect(() => {
 
         let url = "";
         console.log(ingredients,selectedDietsArr,selectedAllergiesArr, "list")
-        if(selectedDietsArr.length > 0){
-            url = `http://localhost:8080/search/${ingredients}/${selectedDietsArr}`
+        if(selectedDietsArr.length > 0 || selectedAllergiesArr.length > 0){
+            
+            url = `http://localhost:8080/search/${ingredients}/${selectedDietsArr+selectedAllergiesArr}`
         }
         else{
             url = `http://localhost:8080/search/${ingredients}`
@@ -173,7 +175,8 @@ function RecipeTable() {
             </form>
         </Box>
         {/* <RecipeGroupByCusine data={filterByMealTypeAndGroupByCusineType} /> */}
-        <RecipeStandardView data={recipes} />
+        {/* <RecipeStandardView data={recipes} /> */}
+        <RecipeCardView data={recipes} />
     </>
 
   )
