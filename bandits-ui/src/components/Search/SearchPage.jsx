@@ -1,18 +1,38 @@
+import React, { useState } from 'react';
+
 export const SearchPage = () => {
+
+  const [q, setQ] = useState("");
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const formData = new FormData(q);
+    const data = [...formData.entries()];
+    const asString = data
+        .map(x => `${encodeURIComponent(x[0])}=${encodeURIComponent(x[1])}`)
+        .join('&');
+    console.log("String:" + asString);
+  };
 
   return (
     <div className="container-lg">
-      <form>
-        <div class="form-group">
-          <label for="exampleInputEmail1">Enter an Ingredient to Search for Recipes</label>
-          <input type="text" class="form-control" id="q" aria-describedby="recipeHelp" placeholder="Enter ingredient" />
+      <form onSubmit={handleSubmit}>
+        <div className="form-group">
+          <label className="form-label">Enter an Ingredient to Search for Recipes</label>
+          <input
+              type="text"
+              className="form-control"
+              value={q}
+              onChange={(e) => setQ(e.target.value)}
+              required
+            />
           {/* <small id="emailHelp" class="form-text text-muted">Enter an ingrediet to search for recipes</small> */}
         </div>
         {/* <div class="form-group form-check">
           <input type="checkbox" class="form-check-input" id="exampleCheck1" />
           <label class="form-check-label" for="exampleCheck1">Check me out</label>
         </div> */}
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" className="btn btn-primary">Search</button>
       </form>
     </div>
   );

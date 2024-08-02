@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-export const NewRecipeForm = ({ addTodo }) => {
+export const NewRecipeForm = ({ addRecipe }) => {
   const [uri, setUri] = useState("");
   const [label, setLabel] = useState("");
   const [image, setImage] = useState("");
