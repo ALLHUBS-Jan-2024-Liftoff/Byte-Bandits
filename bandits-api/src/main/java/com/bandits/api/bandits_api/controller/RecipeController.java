@@ -24,8 +24,15 @@ public class RecipeController {
     }
 
     @GetMapping("/search/{ingredients}/{diets}")
-    public ResponseEntity<?> callEndPointToGetRecipeDataByDiet(@PathVariable String ingredients, @PathVariable String diets) {
+    public ResponseEntity<?> callEndPointToGetRecipeDataByDiets(@PathVariable String ingredients, @PathVariable String diets) {
         return ResponseEntity.ok(recipeService.getRecipeDataByDiets(ingredients, diets));
 
     }
+
+    @GetMapping("/search/{ingredients}/{diets}/{allergies}")
+    public ResponseEntity<?> callEndPointToGetRecipeDataByDietsAndCalories(@PathVariable String ingredients, @PathVariable String diets, @PathVariable String allergies) {
+        return ResponseEntity.ok(recipeService.getRecipeDataByDietsAndCalories(ingredients, diets, allergies));
+
+    }
+
 }
