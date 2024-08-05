@@ -1,8 +1,8 @@
 import React from "react";
-import { RecipeRowItem } from "./RecipeRowItem";
+import { ResultsRowItem } from "./ResultsRowItem";
 import { addRecipe } from "../../services/recipeService";
 
-export const RecipeTable = ({ recipes, deleteRecipe, addRecipe }) => {
+export const ResultsTable = ({ recipes, addRecipe }) => {
   return (
     <table className="table table-hover">
       <thead>
@@ -17,7 +17,7 @@ export const RecipeTable = ({ recipes, deleteRecipe, addRecipe }) => {
       </thead>
       <tbody>
         {recipes.map((recipe) => (
-          <RecipeRowItem key={recipe.id} recipe={recipe} deleteRecipe={deleteRecipe} addRecipe={addRecipe} />
+          <ResultsRowItem key={recipe.id} recipe={recipe} addRecipe={addRecipe} />
         ))}
       </tbody>
     </table>

@@ -1,7 +1,7 @@
 import React from "react";
 import { addRecipe } from "../../services/recipeService";
 
-export const RecipeRowItem = ({ recipe, deleteRecipe }) => {
+export const ResultsRowItem = ({ recipe, addRecipe }) => {
   return (
     <tr key={recipe.id}>
       <th scope="row">{recipe.id}</th>
@@ -12,11 +12,6 @@ export const RecipeRowItem = ({ recipe, deleteRecipe }) => {
       <td>
         <button className="btn btn-success" onClick={() => addRecipe(recipe.id)}>
           Save
-        </button>
-      </td>
-      <td>
-        <button className="btn btn-danger" onClick={() => deleteRecipe(recipe.id)}>
-          Delete
         </button>
       </td>
     </tr>

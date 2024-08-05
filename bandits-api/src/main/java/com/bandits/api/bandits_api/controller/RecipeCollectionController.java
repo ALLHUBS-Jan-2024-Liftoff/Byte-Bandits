@@ -30,12 +30,6 @@ public class RecipeCollectionController {
 //        return ResponseEntity.ok(HttpStatus.OK);
     }
 
-    @PostMapping("/search")
-    public List<Recipe> ssearchByParams(@RequestBody Recipe newRecipe) {
-        return recipeRepository.save(newRecipe);
-//        return ResponseEntity.ok(HttpStatus.OK);
-    }
-
 //    @PostMapping("/new")
 //    public Recipe addNewRecipe(@RequestParam String uri, @RequestParam String label, @RequestParam String image, @RequestParam String source){
 //        Recipe newRecipe = new Recipe();

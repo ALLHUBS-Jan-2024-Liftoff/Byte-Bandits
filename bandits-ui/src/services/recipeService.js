@@ -2,11 +2,13 @@ import axios from "axios";
 
 const LOCAL_API_BASE_URL = "http://localhost:8080";
 
-const RECIPE_SEARCH_BASE_URL = "https://api.edamam.com/api/recipes/v2?/type=public";
+const RECIPE_SEARCH_BASE_URL = "https://api.edamam.com/api/recipes/v2?type=public";
+const RECIPE_SEARCH_APP_KEY = "f7b7c5856e28029b8e7ab08182ab9fe1"
+const RECIPE_SEARCH_APP_ID = "9cf8e5c7";
 
 export const searchRecipes = async (queryString) => {
   try {
-    const response = await axios.get(`${LOCAL_API_BASE_URL}&${queryString}`);
+    const response = await axios.get(`${RECIPE_SEARCH_BASE_URL}&${queryString}&app_key=${RECIPE_SEARCH_APP_KEY}&app_id=${RECIPE_SEARCH_APP_ID}`);
     return response.data;
   } catch (error) {
     console.error("There was an error fetching the todos!", error);

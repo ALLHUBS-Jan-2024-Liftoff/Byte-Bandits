@@ -1,18 +1,30 @@
 import React, { useState } from 'react';
+import { searchRecipes, addRecipe, deleteRecipe } from "../../services/recipeService";
+import { ResultsPage } from './ResultsPage';
 
 export const SearchPage = () => {
 
-  const [q, setQ] = useState("");
+  const [showResults, setShowResults] = useState(false);
+  const [recipes, setRecipes] = useState([]);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const formData = new FormData(q);
-    const data = [...formData.entries()];
-    const asString = data
-        .map(x => `${encodeURIComponent(x[0])}=${encodeURIComponent(x[1])}`)
-        .join('&');
-    console.log("String:" + asString);
+  function formatUri(e) {
+    const formData = new FormData(e.target);
+    const queryString = new URLSearchParams(formData).toString();
+    console.log(queryString);
+    return queryString;
   };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const queryString = formatUri(e);
+    searchRecipes(queryString)
+      .then((response) => {
+      setRecipes(response.data.hits);
+  }).catch((error) => {
+        console.error("There was an error fetching the recipes!", error);
+    });
+    setShowResults(true);
+  }
 
   return (
     <div className="container-lg">
@@ -22,8 +34,8 @@ export const SearchPage = () => {
           <input
               type="text"
               className="form-control"
-              value={q}
-              onChange={(e) => setQ(e.target.value)}
+              name="q"
+              // onChange={(e) => setQ(e.target.value)}
               required
             />
           {/* <small id="emailHelp" class="form-text text-muted">Enter an ingrediet to search for recipes</small> */}
@@ -34,7 +46,11 @@ export const SearchPage = () => {
         </div> */}
         <button type="submit" className="btn btn-primary">Search</button>
       </form>
+      <div className="card-body">
+        {showResults && <ResultsPage recipes={recipes} />}
+      </div>
     </div>
+
   );
 }
 
