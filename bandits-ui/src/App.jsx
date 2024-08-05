@@ -1,35 +1,71 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React from 'react';
+import { useState } from 'react';
+import RecipeTable from './components/RecipeTable';
+import Header from './components/Header';
+import Footer from './components/Footer';
+import { Box, Button, Container, Typography } from '@mui/material';
+import RegistrationForm from './RegistrationForm';
+import LoginForm from './LoginForm';
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div className='App'>
+   
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          height: '50vh',
+          backgroundColor: '#f5f5f5',
+          backgroundImage: `url('src/img/bg-img-hero.jpeg') `,
+          backgroundSize: 'cover',
+          textAlign: 'center',
+          color: '#333',
+          padding: 4,
+          my: 2
+        }}
+      >
+        <Container sx={{ bgcolor: 'rgba(175, 161, 168, 0.50)', p: 5 }}>
+          <Typography variant="h1" gutterBottom>
+            Healthy Eating Made Easy
+          </Typography>
+          <Typography variant="h2" paragraph>
+            Customizable Meal Plans for Every Lifestyle
+          </Typography>
+          <Button variant="contained" sx={{ backgroundColor: 'green' }} size="large">
+            Get Started.
+          </Button>
+        </Container>
+      </Box>
+      <Container>
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            my: 4
+          }}
+        >
+         
+        </Box>
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            my: 4
+          }}
+        >
+          
+        </Box>
+      </Container>
+     
+    </div>
+  );
 }
 
-export default App
+export default App;
