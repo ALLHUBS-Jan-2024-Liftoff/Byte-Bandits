@@ -24,6 +24,7 @@ function App() {
         }}
       >
         <Container sx={{bgcolor:'rgba(175, 161, 168, 0.50)', p:5}}>
+          
           <Typography variant="h1" gutterBottom>
           Healthy Eating Made Easy
           </Typography>
