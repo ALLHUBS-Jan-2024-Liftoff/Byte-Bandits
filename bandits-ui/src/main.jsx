@@ -8,6 +8,7 @@ import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom'
 import About from './pages/About.jsx'
 import { createTheme } from '@mui/material'
 import MealPrep from './pages/Account/MealPrep.jsx'
+import Account from './pages/Account/Index.jsx'
 
 
 const Layout = () =>{
@@ -15,7 +16,7 @@ const Layout = () =>{
     <div className='Container'>
      <Header />
      <Outlet />
-     <Footer /> 
+    
     </div>
   )
 }
@@ -33,6 +34,10 @@ const router = createBrowserRouter([{
   {
     path:'/account/meal-prep',
     element:<MealPrep />
+  },
+  {
+    path:'/account',
+    element:<Account />
   },
   // {
   //   path:'/',
