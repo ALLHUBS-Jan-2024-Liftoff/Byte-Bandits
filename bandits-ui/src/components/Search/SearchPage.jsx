@@ -1,30 +1,52 @@
 import React, { useState } from 'react';
 import { searchRecipes, addRecipe, deleteRecipe } from "../../services/recipeService";
 import { ResultsPage } from './ResultsPage';
+import CustomizedTables from '../RecipeTable';
 
 export const SearchPage = () => {
 
   const [showResults, setShowResults] = useState(false);
   const [recipes, setRecipes] = useState([]);
+  const [query, setQuery] = useState("");
 
-  function formatUri(e) {
-    const formData = new FormData(e.target);
-    const queryString = new URLSearchParams(formData).toString();
-    console.log(queryString);
-    return queryString;
-  };
+  // function formatUri(e) {
+  //   const formData = new FormData(e.target);
+  //   const q = new URLSearchParams(formData).toString();
+  //   console.log(q);
+  //   return q;
+  // };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const queryString = formatUri(e);
-    searchRecipes(queryString)
+    searchRecipes(query)
       .then((response) => {
-      setRecipes(response.data.hits);
-  }).catch((error) => {
+        // console.log("response", response.hits);
+        setRecipes(response.hits);
+      }).catch((error) => {
         console.error("There was an error fetching the recipes!", error);
     });
     setShowResults(true);
+    // console.log("recipes:", recipes);
   }
+
+  function createData(label, calories, fat, carbs, protein) {
+    return { label, calories, fat, carbs, protein };
+  }
+  
+  const rows = [];
+  
+  for (let i = 0; i < recipes.length; i++) {
+      let label = recipes[i].recipe.label;
+      let calories = parseFloat(recipes[i].recipe.calories).toFixed(2);
+      let fat = parseFloat(recipes[i].recipe.totalNutrients.FAT.quantity).toFixed(2);;
+      let carbs = parseFloat(recipes[i].recipe.totalNutrients.CHOCDF.quantity).toFixed(2);;
+      let protein = parseFloat(recipes[i].recipe.totalNutrients.PROCNT.quantity).toFixed(2);;
+      rows.push(createData(label, calories, fat, carbs, protein));
+      // console.log("rows", rows);
+      // return rows;
+  }
+
+  console.log("search page rows:", rows)
 
   return (
     <div className="container-lg">
@@ -35,7 +57,7 @@ export const SearchPage = () => {
               type="text"
               className="form-control"
               name="q"
-              // onChange={(e) => setQ(e.target.value)}
+              onChange={e => setQuery(e.target.value)}
               required
             />
           {/* <small id="emailHelp" class="form-text text-muted">Enter an ingrediet to search for recipes</small> */}
@@ -47,7 +69,7 @@ export const SearchPage = () => {
         <button type="submit" className="btn btn-primary">Search</button>
       </form>
       <div className="card-body">
-        {showResults && <ResultsPage recipes={recipes} />}
+        {showResults && <CustomizedTables rows={rows} />}
       </div>
     </div>
 
