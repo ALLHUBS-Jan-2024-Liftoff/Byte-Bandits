@@ -1,11 +1,11 @@
 import React from 'react';
 import { useState } from 'react';
-import RecipeTable from './components/RecipeTable';
-import Header from './components/Header';
-import Footer from './components/Footer';
+import RecipeTable from './components/layout/Recipe/RecipeTable';
+import Header from './components/layout/Header';
+import Footer from './components/layout/Footer';
 import { Box, Button, Container, Typography } from '@mui/material';
-import RegistrationForm from './RegistrationForm';
-import LoginForm from './LoginForm';
+import RegistrationForm from './components/layout/UserAccount/RegistrationForm';
+import LoginForm from './components/layout/UserAccount/LoginForm';
 
 function App() {
   return (

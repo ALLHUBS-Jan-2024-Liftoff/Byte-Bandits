@@ -1,5 +1,5 @@
 import React from 'react'
-import RecipeTable from '../../components/RecipeTable'
+import RecipeTable from '../../components/layout/Recipe/RecipeTable'
 
 function MealPrep() {
   return (

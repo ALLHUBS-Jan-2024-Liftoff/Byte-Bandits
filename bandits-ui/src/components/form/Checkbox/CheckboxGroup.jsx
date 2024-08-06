@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Checkbox, FormControl, FormControlLabel, FormGroup, FormLabel, FormHelperText, InputLabel } from '@mui/material';
 import { Margin } from '@mui/icons-material';
 
-const SampleCheckBoxGroup = ({labelFor,options,onChange,checkedItems}) => {
+const CheckBoxGroup = ({labelFor,options,onChange,checkedItems}) => {
       // Define the options for the checkbox group    
       // Initial state for checkboxes
     //   const [checkedState, setCheckedState] = useState(
@@ -45,4 +45,4 @@ const SampleCheckBoxGroup = ({labelFor,options,onChange,checkedItems}) => {
     };
     
 
-export default SampleCheckBoxGroup;
+export default CheckBoxGroup;

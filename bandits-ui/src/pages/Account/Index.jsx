@@ -1,7 +1,7 @@
 import { Typography } from '@mui/material'
 import React from 'react'
-import LoginForm from '../../LoginForm'
-import RegistrationForm from '../../RegistrationForm'
+import LoginForm from '../../components/layout/UserAccount/LoginForm'
+import RegistrationForm from '../../components/layout/UserAccount/RegistrationForm'
 
 function Account() {
   return (

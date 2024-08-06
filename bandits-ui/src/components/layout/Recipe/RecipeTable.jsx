@@ -1,11 +1,8 @@
 import React, { useEffect } from 'react'
 import { useState } from 'react';
-import CheckboxGroup from './CheckboxGroup';
 import { Box, Button, Container, FormControl, FormGroup, Input, InputLabel, List, ListItem, ListItemText, MenuItem, OutlinedInput, Select, TextField, Typography } from '@mui/material';
 import { CloseFullscreen, Label } from '@mui/icons-material';
-import SampleCheckBoxGroup from './SampleCheckBoxGroup';
-import RecipeGroupByCusine from './RecipeGroupByCusine';
-import RecipeStandardView from './RecipeCardView';
+import CheckBoxGroup from '../../form/Checkbox/CheckboxGroup';
 import RecipeCardView from './RecipeCardView';
 
 function RecipeTable() {
@@ -158,8 +155,8 @@ function RecipeTable() {
                     <MenuItem value={'lunch/dinner'}>Dinner</MenuItem>
                   </Select>
               </FormControl>
-              <SampleCheckBoxGroup options={dietsList} checkedItems={diets} onChange={handleDietsChange} labelFor='Dietery Option'/>
-              <SampleCheckBoxGroup options={allergiesList} checkedItems={allergies} onChange={handleAllergiesChange} labelFor='Allergy Option'/>
+              <CheckBoxGroup options={dietsList} checkedItems={diets} onChange={handleDietsChange} labelFor='Dietery Option'/>
+              <CheckBoxGroup options={allergiesList} checkedItems={allergies} onChange={handleAllergiesChange} labelFor='Allergy Option'/>
                 {/* <CheckboxGroup
                     title="allergies"
                     options={allergiesList}
