@@ -5,6 +5,8 @@ import { Box, Button, Container, FormControl, FormGroup, Input, InputLabel, List
 import { CloseFullscreen, Label } from '@mui/icons-material';
 import SampleCheckBoxGroup from './SampleCheckBoxGroup';
 import RecipeGroupByCusine from './RecipeGroupByCusine';
+import RecipeStandardView from './RecipeCardView';
+import RecipeCardView from './RecipeCardView';
 
 function RecipeTable() {
 
@@ -61,20 +63,23 @@ function RecipeTable() {
         const ingredients = (txtIngredients.length < 2) ? 'null' : txtIngredients;
 
         
-        const selectedDietsArr = (diets.length === 0) ? 'null' : Object.keys(diets).filter((diet) => diets[diet]);
-        const selectedAllergiesArr = (diets.length === 0) ? 'null' : Object.keys(allergies).filter((allergy) => allergies[allergy]);
+        const selectedDietsArr = (diets.length == 0) ? '' : Object.keys(diets).filter((diet) => diets[diet]).map((diet) => `health=${diet}&`);;
+        const selectedAllergiesArr = (allergies.length == 0) ? '' : Object.keys(allergies).filter((allergy) => allergies[allergy]).map((allergy)=> `health=${allergy}&`);
 
-        console.log(selectedDietsArr,'selected')
+        console.log(selectedDietsArr, "sfsdfdsfdsfsd")
         //useEffect(() => {
-
-        let url;
-
-        if(selectedDietsArr.length > 0){
-            url = `http://localhost:8080/search/${ingredients}/${selectedDietsArr}`
+        let url = "";
+        console.log(ingredients,selectedDietsArr,selectedAllergiesArr, "list")
+        if(selectedDietsArr.length > 0 || selectedAllergiesArr.length > 0){
+            
+            
+            url = `http://localhost:8080/search/${ingredients}/${selectedDietsArr+selectedAllergiesArr}` // search?
         }
         else{
-            url = `http://localhost:8080/search/${ingredients}/${selectedDietsArr}`
+            url = `http://localhost:8080/search/${ingredients}`
         }
+
+        console.log(url,"url")
             const fetchData = async () => {
               
                 const data = await fetch(url)
@@ -104,26 +109,24 @@ function RecipeTable() {
 
 
     function GetRecipesHtml() {
-        console.log(recipes[0])
-
-
         recipes.map(recipe=>{
-            console.log(recipe.recipe.label)
+            console.log(recipe.recipe.cuisineType)
         })
     }
 
-        const filterByMealTypeAndGroupByCusineType = recipes.filter(recipe=>recipe.recipe.mealType == selectedValue).reduce((acc, rec) => {
-      // Initialize the category if it doesn't exist in the accumulator
-      if (!acc[rec.recipe.cuisineType]) {
-        acc[rec.recipe.cuisineType] = [];
-      }
+    const filterByMealTypeAndGroupByCusineType = recipes.filter(recipe=>recipe.recipe.mealType == selectedValue)
+                                                            .reduce((acc, rec) => {
+                              // Initialize the category if it doesn't exist in the accumulator
+                              if (!acc[rec.recipe.cuisineType]) {
+                              acc[rec.recipe.cuisineType] = [];
+                              }
       // Add the item to the appropriate category
       acc[rec.recipe.cuisineType].push(rec);
       return acc;
     }, {});
 
     console.log(filterByMealTypeAndGroupByCusineType, 'group by type')
-    //GetRecipesHtml();
+  GetRecipesHtml();
   return (
     <>
         <Typography variant='h1' sx={{fontSize:'2rem',py:'1rem', color:'#111', fontWeight:'bold'
@@ -171,7 +174,9 @@ function RecipeTable() {
             </Container>
             </form>
         </Box>
-        <RecipeGroupByCusine data={filterByMealTypeAndGroupByCusineType} />
+        {/* <RecipeGroupByCusine data={filterByMealTypeAndGroupByCusineType} /> */}
+        {/* <RecipeStandardView data={recipes} /> */}
+        <RecipeCardView data={recipes} />
     </>
 
   )
