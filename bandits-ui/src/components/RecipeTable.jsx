@@ -68,12 +68,12 @@ function RecipeTable() {
 
         console.log(selectedDietsArr, "sfsdfdsfdsfsd")
         //useEffect(() => {
-
         let url = "";
         console.log(ingredients,selectedDietsArr,selectedAllergiesArr, "list")
         if(selectedDietsArr.length > 0 || selectedAllergiesArr.length > 0){
             
-            url = `http://localhost:8080/search/${ingredients}/${selectedDietsArr+selectedAllergiesArr}`
+            
+            url = `http://localhost:8080/search/${ingredients}/${selectedDietsArr+selectedAllergiesArr}` // search?
         }
         else{
             url = `http://localhost:8080/search/${ingredients}`
