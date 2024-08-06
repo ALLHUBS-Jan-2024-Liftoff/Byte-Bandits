@@ -8,6 +8,21 @@ import RegistrationForm from './RegistrationForm';
 import LoginForm from './LoginForm';
 
 function App() {
+  const[isLoggedin, setIsloggedIn] = useState(false);
+
+   // Load authentication state from localStorage when the app initializes
+   useEffect(() => {
+    const loggedInStatus = localStorage.getItem('isLoggedIn');
+    if (loggedInStatus === 'true') {
+        setIsLoggedIn(true);
+    }
+}, []);
+
+// Save authentication state to localStorage whenever it changes
+useEffect(() => {
+    localStorage.setItem('isLoggedIn', isLoggedIn);
+}, [isLoggedIn]);
+
   return (
     <div className='App'>
    
@@ -60,12 +75,25 @@ function App() {
             my: 4
           }}
         >
+            {!isLoggedIn ? (
+                        <>
+                            <Typography variant="h3" gutterBottom>
+                                Register
+                            </Typography>
+                            <RegistrationForm />
+                            <Typography variant="h3" gutterBottom>
+                                Login
+                            </Typography>
+                            <LoginForm setIsloggedIn={setIsloggedIn}/>
+                        </>
+                    ) : (
+                        <Account setIsloggedIn={setIsloggedIn}/>
+                    )}
+                </Box>
+            </Container>
+        </div>
+    );
           
-        </Box>
-      </Container>
-     
-    </div>
-  );
 }
 
 export default App;

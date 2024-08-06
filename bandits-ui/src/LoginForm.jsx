@@ -5,6 +5,8 @@ const LoginForm = () => {
         username: '',
         password: ''
     });
+    const[sessionId, setSessionId] = useState('');
+    const [error, setError] = useState('');
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -26,15 +28,22 @@ const LoginForm = () => {
             });
 
             if (response.ok) {
-                alert('Login successful');
+                alert(responseData);
+                const sessionIdMatch = responseData.match(/Session ID: (\w+)/);
+                if (sessionIdMatch) {
+                    setSessionId(sessionIdMatch[1]);
+                    setIsLoggedIn(true);
+                }
             } else {
-                alert('Invalid username or password');
+                setError(responseData);
             }
         } catch (error) {
             console.error('Error:', error);
-            alert('Login failed');
+            setError('Login failed');
         }
     };
+
+
 
     return (
         <form onSubmit={handleSubmit}>
@@ -59,6 +68,16 @@ const LoginForm = () => {
                 />
             </div>
             <button type="submit">Login</button>
+            {sessionId && (
+                <div>
+                    <p>Session ID: {sessionId}</p>
+                </div>
+            )}
+            {error && (
+                <div>
+                    <p style={{ color: 'red' }}>{error}</p>
+                </div>
+            )}
         </form>
     );
 };

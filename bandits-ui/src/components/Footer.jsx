@@ -1,5 +1,6 @@
 import { Box, Container, Link, Typography } from '@mui/material'
 import React from 'react'
+import { Link as RouterLink } from 'react-router-dom'
 
 function Footer() {
   return (
@@ -30,6 +31,9 @@ function Footer() {
           </Link>
           <Link href="#contact" color="inherit" sx={{ mx: 1 }}>
             Contact
+          </Link>
+          <Link component={RouterLink} to="/signup" color="inherit" sx={{ mx: 1 }}>
+          SignUp
           </Link>
         </Box>
       </Container>
