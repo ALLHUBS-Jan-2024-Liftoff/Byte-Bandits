@@ -31,12 +31,6 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-  // function createData(label, calories, fat, carbs, protein) {
-  //   return { label, calories, fat, carbs, protein };
-  // }
-
-  console.log("component rows:", rows);
-
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
@@ -51,7 +45,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
         </TableHead>
         <TableBody>
           {rows.map((row) => (
-            <StyledTableRow key={row.label}>
+            <StyledTableRow key={row.uri}>
               <StyledTableCell component="th" scope="row">
                 {row.label}
               </StyledTableCell>
