@@ -26,13 +26,14 @@ const LoginForm = () => {
                 },
                 body: JSON.stringify(formData)
             });
+            const responseData = await response.text();
 
             if (response.ok) {
                 alert(responseData);
                 const sessionIdMatch = responseData.match(/Session ID: (\w+)/);
                 if (sessionIdMatch) {
                     setSessionId(sessionIdMatch[1]);
-                    setIsLoggedIn(true);
+                    alert('Login successful. Session ID: ' + sessionIdMatch[1]);
                 }
             } else {
                 setError(responseData);
