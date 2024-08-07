@@ -37,11 +37,8 @@ export const addRecipe = async (uri, label, image, source) => {
       },
     {
       headers: { 'content-type': 'application/json' },
-    })
-    .then((response) => {
-      console.log(response.data);
-      return response.data;
     });
+      return response.data;
   } catch (error) {
     console.error("There was an error creating the recipe!", error);
     throw error;

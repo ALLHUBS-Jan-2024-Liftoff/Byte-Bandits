@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { searchRecipes, addRecipe, deleteRecipe } from "../../services/recipeService";
 import { ResultsPage } from './ResultsPage';
-import CustomizedTables from '../RecipeTable';
+import CustomizedTables from './RecipeResultsTable';
 
 export const SearchPage = () => {
 
@@ -42,8 +42,9 @@ export const SearchPage = () => {
       let carbs = parseFloat(recipes[i].recipe.totalNutrients.CHOCDF.quantity).toFixed(2);
       let protein = parseFloat(recipes[i].recipe.totalNutrients.PROCNT.quantity).toFixed(2);
       let uri = recipes[i].recipe.uri;
+      console.log(recipes[i].recipe);
       rows.push(createData(label, calories, fat, carbs, protein, uri));
-      // console.log("rows", rows);
+      // console.log("rows", i, rows[i]);
       // return rows;
   }
 

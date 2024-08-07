@@ -1,7 +1,9 @@
 import React from "react";
 import { addRecipe } from "../../services/recipeService";
-
-export const RecipeRowItem = ({ recipe, deleteRecipe }) => {
+import DeleteIcon from "@mui/icons-material/Delete";
+import Button from "@mui/material/Button";
+import RestaurantIcon from '@mui/icons-material/Restaurant';
+export const RecipeRowItem = ({ recipe, addRecipe, deleteRecipe }) => {
   return (
     <tr key={recipe.id}>
       <th scope="row">{recipe.id}</th>
@@ -10,14 +12,14 @@ export const RecipeRowItem = ({ recipe, deleteRecipe }) => {
       <td>{recipe.image}</td>
       <td>{recipe.source}</td>
       <td>
-        <button className="btn btn-success" onClick={() => addRecipe(recipe.id)}>
-          Save
-        </button>
+        <Button variant="outlined" color="success" size="small" startIcon={<RestaurantIcon />} onClick={() => addRecipe(recipe.id)}>
+          Add
+        </Button>
       </td>
       <td>
-        <button className="btn btn-danger" onClick={() => deleteRecipe(recipe.id)}>
+        <Button variant="outlined" color="error" size="small" startIcon={<DeleteIcon />} onClick={() => deleteRecipe(recipe.id)}>
           Delete
-        </button>
+        </Button>
       </td>
     </tr>
   );

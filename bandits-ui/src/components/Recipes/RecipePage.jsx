@@ -32,7 +32,7 @@ export const RecipePage = () => {
         setRecipes(recipes.filter((recipe) => recipe.id !== recipeId));
       })
       .catch((error) => {
-        console.error("There was an error deleting the todo!", error);
+        console.error("There was an error deleting the recipe!", error);
       });
   };
 

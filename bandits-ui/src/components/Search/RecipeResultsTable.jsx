@@ -45,6 +45,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
         </TableHead>
         <TableBody>
           {rows.map((row) => (
+            // console.log("row", row),
             <StyledTableRow key={row.uri}>
               <StyledTableCell component="th" scope="row">
                 {row.label}

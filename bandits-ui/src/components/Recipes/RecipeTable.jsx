@@ -17,6 +17,7 @@ export const RecipeTable = ({ recipes, deleteRecipe, addRecipe }) => {
       </thead>
       <tbody>
         {recipes.map((recipe) => (
+          console.log("recipe", recipe),
           <RecipeRowItem key={recipe.id} recipe={recipe} deleteRecipe={deleteRecipe} addRecipe={addRecipe} />
         ))}
       </tbody>
