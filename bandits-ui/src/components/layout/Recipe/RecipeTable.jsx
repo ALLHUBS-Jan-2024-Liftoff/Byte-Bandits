@@ -60,26 +60,27 @@ function RecipeTable() {
         const ingredients = (txtIngredients.length < 2) ? 'null' : txtIngredients;
 
         
-        const selectedDietsArr = (diets.length == 0) ? '' : Object.keys(diets).filter((diet) => diets[diet]).map((diet) => `health=${diet}&`);;
-        const selectedAllergiesArr = (allergies.length == 0) ? '' : Object.keys(allergies).filter((allergy) => allergies[allergy]).map((allergy)=> `health=${allergy}&`);
+        const selectedDietsArr = (diets.length == 0) ? '' : Object.keys(diets).filter((diet) => diets[diet]).map((diet) => `${diet}`);
+        const selectedAllergiesArr = (allergies.length == 0) ? '' : Object.keys(allergies).filter((allergy) => allergies[allergy]).map((allergy)=> `${allergy}`);
 
-        console.log(selectedDietsArr, "sfsdfdsfdsfsd")
         //useEffect(() => {
         let url = "";
+        let health = "";
         console.log(ingredients,selectedDietsArr,selectedAllergiesArr, "list")
         if(selectedDietsArr.length > 0 || selectedAllergiesArr.length > 0){
             
-            
-            url = `http://localhost:8080/search/${ingredients}/${selectedDietsArr+selectedAllergiesArr}` // search?
+            url =ingredients
+            health = selectedDietsArr.concat(selectedAllergiesArr).join(',')
         }
         else{
-            url = `http://localhost:8080/search/${ingredients}`
+            url = ingredients
         }
 
-        console.log(url,"url")
             const fetchData = async () => {
-              
-                const data = await fetch(url)
+              const queryParams = new URLSearchParams();
+              queryParams.append('health',health);
+              queryParams.append('query', url);
+                const data = await fetch(`http://localhost:8080/search?${queryParams}`)
                .then(response => response.json())
                .then(response => {
                    setRecipes(response.hits);
@@ -145,12 +146,6 @@ function RecipeTable() {
               </FormControl>
               <CheckBoxGroup options={dietsList} checkedItems={diets} onChange={handleDietsChange} labelFor='Dietery Option'/>
               <CheckBoxGroup options={allergiesList} checkedItems={allergies} onChange={handleAllergiesChange} labelFor='Allergy Option'/>
-                {/* <CheckboxGroup
-                    title="allergies"
-                    options={allergiesList}
-                    checkedItems={allergies}
-                    onChange={handleAllergiesChange}
-                />  */}
                 <FormGroup sx={{ flexBasis: '100%'}}>
                 <Button type="submit" sx={{ width:'15rem', background:'#555', color:'#fff','&:hover': {
                         backgroundColor: 'green', // Background color on hover
@@ -159,8 +154,6 @@ function RecipeTable() {
             </Container>
             </form>
         </Box>
-        {/* <RecipeGroupByCusine data={filterByMealTypeAndGroupByCusineType} /> */}
-        {/* <RecipeStandardView data={recipes} /> */}
         <RecipeCardView data={recipes} />
     </>
 
