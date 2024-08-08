@@ -93,18 +93,6 @@ function RecipeTable() {
     };
 
 
-    // async function initProducts() {
-    //     await fetch(`http://localhost:8080/chicken`)
-    //         .then(response => response.json())
-    //         .then(response => {
-    //             setRecipes(response.hits);
-    //             console.log(response.hits);
-    //         }
-    //         )
-    //         .catch(err => console.error(err));
-    // }
-
-
     function GetRecipesHtml() {
         recipes.map(recipe=>{
             console.log(recipe.recipe.cuisineType)
