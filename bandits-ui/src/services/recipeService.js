@@ -28,6 +28,7 @@ export const fetchRecipes = async () => {
 
 export const addRecipe = async (uri, label, image, source) => {
   try {
+    // console.log("uri", uri, "label", label, "image", image, "source", source);
     const response = await axios.post(`${LOCAL_API_BASE_URL}/api/recipes/new`,
       {
         uri: uri,

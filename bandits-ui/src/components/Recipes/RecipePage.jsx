@@ -19,10 +19,11 @@ export const RecipePage = () => {
   const handleAddRecipe = (uri, label, image, source) => {
     addRecipe(uri, label, image, source)
       .then((newRecipe) => {
+        console.log("newRecipe", newRecipe);
         setRecipes([...recipes, newRecipe]);
       })
       .catch((error) => {
-        console.error("There was an error creating the todo!", error);
+        console.error("There was an error creating the recipe!", error);
       });
   };
 

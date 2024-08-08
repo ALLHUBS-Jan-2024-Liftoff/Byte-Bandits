@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import Button from "@mui/material/Button";
+import RestaurantIcon from '@mui/icons-material/Restaurant';
 
 export const NewRecipeForm = ({ addRecipe }) => {
   const [uri, setUri] = useState("");
@@ -68,9 +70,9 @@ export const NewRecipeForm = ({ addRecipe }) => {
           </label>
         </div>
         </div>
-        <button type="submit" className="btn btn-primary mt-3">
-          Add Todo
-        </button>
+        <Button type="submit" variant="contained" color="success" size="large" startIcon={<RestaurantIcon />}>
+          Add Recipe
+        </Button>
       </form>
     </div>
   );
