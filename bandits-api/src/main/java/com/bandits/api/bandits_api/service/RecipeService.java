@@ -3,6 +3,7 @@ package com.bandits.api.bandits_api.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -11,8 +12,12 @@ import org.springframework.web.server.ResponseStatusException;
 @Service
 public class RecipeService {
     private  static final String url = "https://api.edamam.com/api/recipes/v2";
-    private static  final String app_id ="ab03e048";
-    private  static final String app_key="bf527ba933a3e60652df268be4c3b0c0";
+
+    @Value("${rec.api.id}")
+    private String app_id;
+
+    @Value("${rec.api.key}")
+    private String app_key;
 
     private static final Logger log = LoggerFactory.getLogger(RecipeService.class);
 

@@ -1,4 +1,4 @@
-package com.bandits.api.bandits_api.config;
+package com.bandits.api.bandits_api.service;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
