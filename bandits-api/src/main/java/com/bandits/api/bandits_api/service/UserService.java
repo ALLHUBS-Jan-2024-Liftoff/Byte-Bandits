@@ -2,6 +2,7 @@ package com.bandits.api.bandits_api.service;
 
 import com.bandits.api.bandits_api.model.User;
 import com.bandits.api.bandits_api.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,7 @@ public class UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Transactional
     public void saveUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
