@@ -1,6 +1,7 @@
 package com.bandits.api.bandits_api.controller;
 
 
+import com.bandits.api.bandits_api.JwtService;
 import com.bandits.api.bandits_api.service.RecipeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,9 @@ public class RecipeController {
 
     @Autowired
     private final RecipeService recipeService;
+
+    @Autowired
+    private JwtService jwtService;
 
     public RecipeController(RecipeService recipeService) {
         this.recipeService = recipeService;

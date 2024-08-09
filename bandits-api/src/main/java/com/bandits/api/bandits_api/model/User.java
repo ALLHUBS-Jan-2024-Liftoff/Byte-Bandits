@@ -1,9 +1,8 @@
 package com.bandits.api.bandits_api.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 public class User {
@@ -14,12 +13,27 @@ public class User {
     private String firstName;
     private String lastName;
     private String email;
-
     private String hashedPassword;
-
     private String role;
 
+    @OneToMany(mappedBy = "user")
+    private List<Recipe> recipes;
+
+    @OneToMany(mappedBy = "user")
+    private List<Meal> meals;
+
+    @OneToMany(mappedBy = "user")
+    private List<MealPlan> mealPlans;
+
     public User() {
+    }
+
+    public User(String firstName, String lastName, String email, String hashedPassword, String role) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.hashedPassword = hashedPassword;
+        this.role = role;
     }
 
     public Long getId() {

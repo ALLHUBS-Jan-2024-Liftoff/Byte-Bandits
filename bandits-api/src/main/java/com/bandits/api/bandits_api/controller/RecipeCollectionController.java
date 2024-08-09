@@ -2,6 +2,7 @@ package com.bandits.api.bandits_api.controller;
 
 import com.bandits.api.bandits_api.model.Recipe;
 import com.bandits.api.bandits_api.repositories.RecipeRepository;
+import com.bandits.api.bandits_api.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,8 +16,16 @@ public class RecipeCollectionController {
     @Autowired
     private RecipeRepository recipeRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
     @GetMapping
-    public List<Recipe> getAllRecipes(){
+    public List<Recipe> getAllRecipes() {
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//
+//        String login = authentication.getName();
+//
+//        System.out.println(login);
         return recipeRepository.findAll();
     }
 
@@ -27,6 +36,7 @@ public class RecipeCollectionController {
 
     @PostMapping("/new")
     public Recipe saveNewRecipe(@RequestBody Recipe newRecipe) {
+
         return recipeRepository.save(newRecipe);
 //        return ResponseEntity.ok(HttpStatus.OK);
     }

@@ -13,7 +13,7 @@ public class MealPlan {
 
     // TODO: create user end of relationship
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "user_id")
     private User user;
 
     @ManyToMany

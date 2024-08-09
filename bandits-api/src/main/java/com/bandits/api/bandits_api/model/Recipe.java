@@ -14,13 +14,13 @@ public class Recipe {
     private String label;
     private String image;
     private String source;
-//
-//    @OneToMany(mappedBy = "recipe")
-//    private List<Meal> meals;
-//
-//    @ManyToOne
-//    @JoinColumn(name = "user_id", nullable = false)
-//    private User user;
+
+    @OneToMany(mappedBy = "recipe")
+    private List<Meal> meals;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
     public Recipe() {
     }
@@ -71,5 +71,21 @@ public class Recipe {
 
     public void setSource(String source) {
         this.source = source;
+    }
+
+    public List<Meal> getMeals() {
+        return meals;
+    }
+
+    public void setMeals(List<Meal> meals) {
+        this.meals = meals;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

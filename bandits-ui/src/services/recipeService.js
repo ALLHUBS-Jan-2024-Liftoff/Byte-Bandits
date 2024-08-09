@@ -36,15 +36,17 @@ export const addRecipe = async (uri, label, image, source) => {
         image: image,
         source: source
       },
-    {
-      headers: { 'content-type': 'application/json' },
-    });
+      {
+        headers: { 'content-type': 'application/json' },
+        withCredentials: true,
+      });
       return response.data;
   } catch (error) {
     console.error("There was an error creating the recipe!", error);
     throw error;
   }
 };
+
 
 // export const addRecipe = async (uri, label, image, source) => {
 //   try {
