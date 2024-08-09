@@ -1,3 +1,5 @@
+import { Button, FormControl, InputLabel, OutlinedInput } from '@mui/material';
+import { Box, Container } from '@mui/system';
 import React, { useState } from 'react';
 
 const RegistrationForm = () => {
@@ -38,38 +40,48 @@ const RegistrationForm = () => {
     };
 
     return (
+
         <form onSubmit={handleSubmit}>
-            <div>
-                <label>Username:</label>
-                <input
+        <Box sx={{textTransform:'capitalize'}}>
+        <Container sx={{py:'2rem', display:'flex',flexDirection:'column', flexWrap: 'wrap'}}>
+            <FormControl sx={{ flexBasis: '80%', my:'1rem'}}>
+                <InputLabel htmlFor='userName'>Username:</InputLabel>
+                    <OutlinedInput
                     type="text"
-                    name="username"
+                    id="userName"
+                    label="userName"
                     value={formData.username}
                     onChange={handleChange}
-                    required
+                    required="true"
                 />
-            </div>
-            <div>
-                <label>Password:</label>
-                <input
+            </FormControl>
+            <FormControl sx={{ flexBasis: '80%', my:'1rem'}}>
+                <InputLabel htmlFor='password'>Password:</InputLabel>
+                <OutlinedInput
                     type="password"
                     name="password"
+                    label='password'
                     value={formData.password}
                     onChange={handleChange}
-                    required
+                    required="true"
                 />
-            </div>
-            <div>
-                <label>Email:</label>
-                <input
-                    type="email"
+            </FormControl>
+            <FormControl sx={{ flexBasis: '80%', my:'1rem'}}>
+                <InputLabel htmlFor='email'>Email:</InputLabel>
+                <OutlinedInput
+                    type="text"
                     name="email"
+                    label='email'
                     value={formData.email}
                     onChange={handleChange}
-                    required
+                    required="true"
                 />
-            </div>
-            <button type="submit">Register</button>
+            </FormControl>
+            <Button type="submit" sx={{ width:'15rem', background:'#555', color:'#fff','&:hover': {
+                        backgroundColor: 'green', // Background color on hover
+                        }}}>Register</Button>
+        </Container>
+        </Box>
         </form>
     );
 };
