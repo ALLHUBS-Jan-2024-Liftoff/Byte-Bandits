@@ -1,10 +1,16 @@
 import React, { useState } from "react";
 import axios from "axios";
+import Alert from 'react-bootstrap/Alert';
+import { useNavigate } from "react-router-dom";
+ 
 
 function LoginPage({ setAuthenticated }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
+  const [condition, setCondition] = useState("");
+
+  const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -20,8 +26,11 @@ function LoginPage({ setAuthenticated }) {
         }
       );
       setAuthenticated(true);
+      setCondition("success");
       setMessage(response.data.message);
+      navigate("/home");
     } catch (error) {
+      setCondition("danger");
       setMessage(error.response?.data?.message || "Login failed");
     }
   };
@@ -48,7 +57,10 @@ function LoginPage({ setAuthenticated }) {
         />
         <button type="submit" className="btn btn-primary">Login</button>
       </form>
-      {message && <p>{message}</p>}
+      {message &&
+        <Alert variant={condition}>
+          {message}
+        </Alert>}
     </div>
   );
 }

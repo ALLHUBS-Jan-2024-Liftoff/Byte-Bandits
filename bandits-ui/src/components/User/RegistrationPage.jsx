@@ -1,11 +1,15 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+ 
 
 function RegistrationPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
+  const [condition, setCondition] = useState("");
 
+  const navigate = useNavigate();
 
   const handleRegister = async (e) => {
     e.preventDefault();
@@ -26,8 +30,11 @@ function RegistrationPage() {
         }
       );
       setMessage(response.data.message);
+      setCondition("success");
+      navigate("/login");
     } catch (error) {
-      setMessage(error.response?.data?.message || "Registration failed");
+      setMessage(error.response?.data?.message || "User has NOT been registered");
+      setCondition("danger");
     }
   };
 
@@ -55,7 +62,10 @@ function RegistrationPage() {
         </div>
         <button type="submit">Register</button>
       </form>
-      {message && <p>{message}</p>}
+      {message &&
+        <Alert variant={condition}>
+          {message}
+        </Alert>}
     </div>
   );
 }

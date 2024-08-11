@@ -7,6 +7,7 @@ import {
   Link,
 } from "react-router-dom";
 import LoginPage from "./components/User/LoginPage";
+import HomePage from "./components/Home/HomePage";
 import RegistrationPage from "./components/User/RegistrationPage";
 import Logout from "./components/User/Logout";
 import { RecipePage } from "./components/Recipes/RecipePage";
@@ -28,7 +29,7 @@ function App() {
       <>
       <Navbar bg="light" data-bs-theme="dark">
         <Container>
-          <Navbar.Brand href="#home">Balanced Bytes</Navbar.Brand>
+          <Navbar.Brand as={Link} to="home">Balanced Bytes</Navbar.Brand>
           {console.log("Navbar", authenticated)}
           {!authenticated ? (
             <>
@@ -45,7 +46,7 @@ function App() {
                 <Nav.Link as={Link} to="#MealPlans">Meal Plans</Nav.Link>
               </Nav>
               <Nav className="ms-auto">
-                <Button href="/logout" variant="outline-danger">Logout</Button>
+                <Button as={Link} to="logout" variant="outline-danger">Logout</Button>
               </Nav>
             </>
           )}
@@ -68,7 +69,10 @@ function App() {
             {/* Private Routes */}
             {authenticated ? (
               <>
-                {console.log("Routes Bool", authenticated)}
+                <Route
+                    path="/home"
+                    element={<HomePage />}
+                />
                 <Route
                   path="/recipes"
                   element={<RecipePage />}
