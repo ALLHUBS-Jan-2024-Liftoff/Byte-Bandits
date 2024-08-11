@@ -93,7 +93,7 @@ public class UserController {
         User theUser = userRepository.findByUsername(loginFormDTO.getUsername());
         String password = loginFormDTO.getPassword();
         if (theUser == null) {
-            responseBody.put("message", "Username does not exist");
+            responseBody.put("message", "Username or Password is Invalid!");
             response = ResponseEntity
                     .status(HttpStatus.BAD_REQUEST)
                     .body(responseBody);
