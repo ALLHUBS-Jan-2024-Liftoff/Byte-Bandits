@@ -11,49 +11,82 @@ import RegistrationPage from "./components/User/RegistrationPage";
 import Logout from "./components/User/Logout";
 import { RecipePage } from "./components/Recipes/RecipePage";
 import { NewRecipeForm } from "./components/Recipes/NewRecipeForm";
+import { SearchPage } from "./components/Search/SearchPage";
 import "./App.css";
+import Container from 'react-bootstrap/Container';
+import Nav from 'react-bootstrap/Nav';
+import Navbar from 'react-bootstrap/Navbar';
+import Button from 'react-bootstrap/Button';
 
+
+// console.log(authenticated);
 function App() {
   const [authenticated, setAuthenticated] = useState(false);
 
   return (
     <Router>
-      <nav>
-        {!authenticated ? (
-          <>
-            <Link to="/login">Login</Link>
-            <Link to="/register">Register</Link>
-          </>
-        ) : (
-          <>
-            <Link to="/recipes">Recipes</Link>
-            <Link to="/recipes/new">Create Recipe</Link>
-            <Link to="/logout">Logout</Link>
-          </>
-        )}
-      </nav>
+      <>
+      <Navbar bg="light" data-bs-theme="dark">
+        <Container>
+          <Navbar.Brand href="#home">Balanced Bytes</Navbar.Brand>
+          {console.log("Navbar", authenticated)}
+          {!authenticated ? (
+            <>
+              <Nav className="me-auto">
+                <Nav.Link as={Link} to="/login">Log In</Nav.Link>
+                <Nav.Link as={Link} to="/register">Register</Nav.Link>
+              </Nav>
+            </>
+          ) : (
+            <>
+              <Nav className="me-auto">
+                <Nav.Link as={Link} to="/recipes">Saved Recipes</Nav.Link>
+                <Nav.Link as={Link} to="/search">Find Recipes</Nav.Link>
+                <Nav.Link as={Link} to="#MealPlans">Meal Plans</Nav.Link>
+              </Nav>
+              <Nav className="ms-auto">
+                <Button href="/logout" variant="outline-danger">Logout</Button>
+              </Nav>
+            </>
+          )}
+        </Container>
+      </Navbar>
+    </>
       <div className="App">
         <header className="App-header">
           <Routes>
-            {/* Public Routes */}
+            {console.log("Routes", authenticated)}
             <Route
               path="/login"
               element={<LoginPage setAuthenticated={setAuthenticated} />}
             />
-            <Route path="/register" element={<RegistrationPage />} />
+            <Route
+              path="/register"
+              element={<RegistrationPage />}
+            />
 
             {/* Private Routes */}
             {authenticated ? (
               <>
-                <Route path="/recipes" element={<RecipePage />} />
-                <Route path="/recipes/new" element={<RecipePage />} />
+                {console.log("Routes Bool", authenticated)}
+                <Route
+                  path="/recipes"
+                  element={<RecipePage />}
+                />
+                <Route
+                  path="/search"
+                  element={<SearchPage />}
+                />
                 <Route
                   path="/logout"
                   element={<Logout setAuthenticated={setAuthenticated} />}
                 />
               </>
             ) : (
-              <Route path="*" element={<Navigate to="/login" replace />} />
+                <Route
+                  path="*"
+                  element={<Navigate to="/login" replace />}
+                />              
             )}
           </Routes>
         </header>
