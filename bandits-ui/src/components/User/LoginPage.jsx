@@ -1,52 +1,56 @@
-// components/User/LoginPage.jsx
 import React, { useState } from "react";
-import { useAuth } from "../../context/AuthContext";
+import axios from "axios";
 
-export const LoginPage = () => {
-  const [email, setEmail] = useState("");
+function LoginPage({ setAuthenticated }) {
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState(null);
-  const { login } = useAuth();
+  const [message, setMessage] = useState("");
 
-  const handleSubmit = async (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      await login(email, password);
-      window.location.href = "/"; // Redirect after login
+      const response = await axios.post(
+        "http://localhost:8080/user/login",
+        {
+          username,
+          password,
+        },
+        {
+          withCredentials: true,
+        }
+      );
+      setAuthenticated(true);
+      setMessage(response.data.message);
     } catch (error) {
-      setError("Login failed. Please check your credentials.");
+      setMessage(error.response?.data?.message || "Login failed");
     }
   };
 
   return (
     <div className="container mt-5">
       <h2>Login</h2>
-      {error && <div className="alert alert-danger">{error}</div>}
-      <form onSubmit={handleSubmit}>
-        <div className="mb-3">
-          <label className="form-label">Email</label>
-          <input
-            type="email"
-            className="form-control"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </div>
-        <div className="mb-3">
-          <label className="form-label">Password</label>
-          <input
-            type="password"
-            className="form-control"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-        <button type="submit" className="btn btn-primary">
-          Login
-        </button>
+      <form onSubmit={handleLogin}>
+      <label className="form-label">Username</label>
+        <input
+          type="text"
+          className="form-control"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          placeholder="Username"
+        />
+        <label className="form-label">Password</label>
+        <input
+          type="password"
+          className="form-control"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          placeholder="Password"
+        />
+        <button type="submit" className="btn btn-primary">Login</button>
       </form>
+      {message && <p>{message}</p>}
     </div>
   );
-};
+}
+
+export default LoginPage;

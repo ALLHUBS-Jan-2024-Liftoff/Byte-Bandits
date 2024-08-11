@@ -1,6 +1,6 @@
-package com.bandits.api.bandits_api.controller;
+package com.bandits.api.bandits_api.controllers;
 
-import com.bandits.api.bandits_api.model.Recipe;
+import com.bandits.api.bandits_api.models.Recipe;
 import com.bandits.api.bandits_api.repositories.RecipeRepository;
 import com.bandits.api.bandits_api.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;

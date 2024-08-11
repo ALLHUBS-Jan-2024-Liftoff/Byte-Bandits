@@ -1,4 +1,4 @@
-package com.bandits.api.bandits_api.model;
+package com.bandits.api.bandits_api.models;
 
 import jakarta.persistence.*;
 

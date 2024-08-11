@@ -1,89 +1,63 @@
 import React, { useState } from "react";
-import { registerUser } from "../../services/userService";
+import axios from "axios";
 
-export const RegistrationPage = () => {
-  const [email, setEmail] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
+function RegistrationPage() {
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [verifyPassword, setVerifyPassword] = useState("");
-  const [error, setError] = useState(null);
-  const [successMessage, setSuccessMessage] = useState(null);
+  const [message, setMessage] = useState("");
 
-  const handleSubmit = async (e) => {
+
+  const handleRegister = async (e) => {
     e.preventDefault();
     try {
-      await registerUser(email, firstName, lastName, password, verifyPassword);
-      setSuccessMessage("Registration successful! Please log in.");
-      setError(null);
+      const response = await axios.post(
+        "http://localhost:8080/user/register",
+        {
+          username,
+          password,
+          firstName: "John",
+          lastName: "Doe",
+          email: "john.doe@example.com",
+          phoneNumber: "1234567890",
+          address: "123 Main St",
+        },
+        {
+          withCredentials: true,
+        }
+      );
+      setMessage(response.data.message);
     } catch (error) {
-      setError("Registration failed. Please try again.");
-      setSuccessMessage(null);
+      setMessage(error.response?.data?.message || "Registration failed");
     }
   };
 
   return (
     <div className="container mt-5">
       <h2>Register</h2>
-      {error && <div className="alert alert-danger">{error}</div>}
-      {successMessage && (
-        <div className="alert alert-success">{successMessage}</div>
-      )}
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleRegister}>
         <div className="mb-3">
-          <label className="form-label">Email</label>
-          <input
-            type="email"
-            className="form-control"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </div>
-        <div className="mb-3">
-          <label className="form-label">First Name</label>
+          <label className="form-label">Username</label>
           <input
             type="text"
-            className="form-control"
-            value={firstName}
-            onChange={(e) => setFirstName(e.target.value)}
-            required
-          />
-        </div>
-        <div className="mb-3">
-          <label className="form-label">Last Name</label>
-          <input
-            type="text"
-            className="form-control"
-            value={lastName}
-            onChange={(e) => setLastName(e.target.value)}
-            required
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            placeholder="Username"
           />
         </div>
         <div className="mb-3">
           <label className="form-label">Password</label>
           <input
             type="password"
-            className="form-control"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            required
+            placeholder="Password"
           />
         </div>
-        <div className="mb-3">
-          <label className="form-label">Verify Password</label>
-          <input
-            type="password"
-            className="form-control"
-            value={verifyPassword}
-            onChange={(e) => setVerifyPassword(e.target.value)}
-            required
-          />
-        </div>
-        <button type="submit" className="btn btn-primary">
-          Register
-        </button>
+        <button type="submit">Register</button>
       </form>
+      {message && <p>{message}</p>}
     </div>
   );
-};
+}
+
+export default RegistrationPage;
