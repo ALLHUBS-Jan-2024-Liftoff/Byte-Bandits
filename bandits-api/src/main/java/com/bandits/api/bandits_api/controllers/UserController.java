@@ -53,7 +53,7 @@ public class UserController {
         try{
             User existingUser = userRepository.findByUsername(registerFormDTO.getUsername());
             if (existingUser == null && !registerFormDTO.getUsername().isEmpty() && !registerFormDTO.getPassword().isEmpty()){
-                responseBody.put("message", "Given user details are successfully registered");
+                responseBody.put("message", "Registration Successful!");
                 response = ResponseEntity
                         .status(HttpStatus.CREATED)
                         .body(responseBody);
@@ -61,17 +61,17 @@ public class UserController {
                 setUserInSession(request.getSession(), newUser);
                 userRepository.save(newUser);
             } else if(existingUser != null) {
-                responseBody.put("message", "User Already Exists.");
+                responseBody.put("message", "User Already Exists!");
                 response = ResponseEntity
                         .status(HttpStatus.BAD_REQUEST)
                         .body(responseBody);
             } else if(registerFormDTO.getUsername().isEmpty()) {
-                responseBody.put("message", "Username required.");
+                responseBody.put("message", "Username is Required!");
                 response = ResponseEntity
                         .status(HttpStatus.BAD_REQUEST)
                         .body(responseBody);
             } else if (registerFormDTO.getPassword().isEmpty()) {
-                responseBody.put("message", "Password required");
+                responseBody.put("message", "Password Required!");
                 response = ResponseEntity
                         .status(HttpStatus.BAD_REQUEST)
                         .body(responseBody);
@@ -99,7 +99,7 @@ public class UserController {
                     .body(responseBody);
         } else if (!theUser.isMatchingPassword(password)) {
             System.out.println(password);
-            responseBody.put("message", "Password does not match");
+            responseBody.put("message", "Username or Password is Invalid!");
             response = ResponseEntity
                     .status(HttpStatus.UNAUTHORIZED)
                     .body(responseBody);
