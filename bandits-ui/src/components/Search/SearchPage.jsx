@@ -29,8 +29,8 @@ export const SearchPage = () => {
     // console.log("recipes:", recipes);
   }
 
-  function createData(label, calories, fat, carbs, protein) {
-    return { label, calories, fat, carbs, protein };
+  function createData(label, calories, fat, carbs, protein, uri) {
+    return { label, calories, fat, carbs, protein, uri };
   }
   
   const rows = [];
@@ -44,7 +44,7 @@ export const SearchPage = () => {
       let uri = recipes[i].recipe.uri;
       console.log(recipes[i].recipe);
       rows.push(createData(label, calories, fat, carbs, protein, uri));
-      // console.log("rows", i, rows[i]);
+      console.log("rows", i, rows[i]);
       // return rows;
   }
 
