@@ -3,12 +3,21 @@ package com.bandits.api.bandits_api.models;
 public class RecipeDTO {
 
     private String id;
+    private String label;
     private String uri;
     private String image;
     private String source;
 
     public String getId() {
         return id;
+    }
+
+    public String getLabel() {
+        return label;
+    }
+
+    public void setLabel(String label) {
+        this.label = label;
     }
 
     public void setId(String id) {

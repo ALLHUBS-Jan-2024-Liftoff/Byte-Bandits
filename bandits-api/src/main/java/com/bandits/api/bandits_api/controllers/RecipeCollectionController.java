@@ -55,9 +55,8 @@ public class RecipeCollectionController {
     }
 
     @PostMapping("/new")
-    public ResponseEntity<Map<String, String>> createTodo(HttpSession session, @RequestBody Recipe recipe) {
+    public ResponseEntity<RecipeDTO> createTodo(HttpSession session, @RequestBody Recipe recipe) {
         User user = userController.getUserFromSession(session);
-        Map<String, String> responseBody = new HashMap<>();
         if (user != null) {
             Recipe newRecipe = new Recipe();
             newRecipe.setUri(recipe.getUri());
@@ -66,11 +65,10 @@ public class RecipeCollectionController {
             newRecipe.setSource(recipe.getSource());
             newRecipe.setUser(user);
             recipeRepository.save(newRecipe);
-            responseBody.put("message", "Recipe saved successfully by controller for " + user);
-            return ResponseEntity.status(HttpStatus.CREATED).body(responseBody);
+            RecipeDTO newRecipeDTO = modelMapper.map(newRecipe, RecipeDTO.class);
+            return ResponseEntity.ok(newRecipeDTO);
         } else {
-            responseBody.put("message", "User Not Found!");
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(responseBody);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
     }
 }
