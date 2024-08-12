@@ -59,7 +59,7 @@ export const RecipePage = () => {
   return (
     <div className="mt-5 container">
       <div className="card">
-        <div className="card-header">Your Recipes</div>
+        <div className="card-header">Your Saved Recipes</div>
         <div className="card-body">
           <RecipeTable recipes={recipes} deleteRecipe={handleDeleteRecipe} />
           <button

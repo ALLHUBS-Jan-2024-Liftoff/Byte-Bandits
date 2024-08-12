@@ -11,7 +11,7 @@ export const RecipeTable = ({ recipes, deleteRecipe, addRecipe }) => {
           <th scope="col">Label</th>
           <th scope="col">Calories</th>
           <th scope="col">Fat</th>
-          <th scope="col">Cards</th>
+          <th scope="col">Carbs</th>
           <th scope="col">Protein</th>
           <th scope="col">Actions</th>
         </tr>
