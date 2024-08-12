@@ -13,7 +13,7 @@ export const ResultsRowItem = ({ rows, recipe }) => {
       <td>{recipe.carbs}</td>
       <td>{recipe.protein}</td>
       <td>
-        <Button variant="outlined" color="success" size="small" startIcon={<RestaurantIcon />} onClick={() => addRecipe(JSON.stringify(recipe))}>
+        <Button variant="outlined" color="success" size="small" startIcon={<RestaurantIcon />} onClick={() => addRecipe(recipe)}>
           Add
         </Button>
       </td>

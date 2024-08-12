@@ -38,10 +38,11 @@ export const SearchPage = () => {
   
   for (let i = 0; i < recipes.length; i++) {
       let label = recipes[i].recipe.label;
-      let calories = parseFloat(recipes[i].recipe.calories).toFixed(2);
-      let fat = parseFloat(recipes[i].recipe.totalNutrients.FAT.quantity).toFixed(2);
-      let carbs = parseFloat(recipes[i].recipe.totalNutrients.CHOCDF.quantity).toFixed(2);
-      let protein = parseFloat(recipes[i].recipe.totalNutrients.PROCNT.quantity).toFixed(2);
+      let calories = parseFloat((recipes[i].recipe.calories).toFixed(2));
+      console.log("calories", typeof calories);
+      let fat = parseFloat((recipes[i].recipe.totalNutrients.FAT.quantity).toFixed(2));
+      let carbs = parseFloat((recipes[i].recipe.totalNutrients.CHOCDF.quantity).toFixed(2));
+      let protein = parseFloat((recipes[i].recipe.totalNutrients.PROCNT.quantity).toFixed(2));
       let uri = recipes[i].recipe.uri;
       let image = recipes[i].recipe.image;
       let source = recipes[i].recipe.source;

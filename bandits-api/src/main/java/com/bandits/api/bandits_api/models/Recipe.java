@@ -18,10 +18,10 @@ public class Recipe {
     private String image;
 
     private String source;
-    private String calories;
-    private String fat;
-    private String carbs;
-    private String protein;
+    private Integer calories;
+    private Integer fat;
+    private Integer carbs;
+    private Integer protein;
 
     @NotNull
     @ManyToOne
@@ -34,7 +34,7 @@ public class Recipe {
     public Recipe() {
     }
 
-    public Recipe(Long id, String uri, String label, String image, String source, String calories, String fat, String carbs, String protein, User user, List<Meal> meals) {
+    public Recipe(Long id, String uri, String label, String image, String source, Integer calories, Integer fat, Integer carbs, Integer protein, User user, List<Meal> meals) {
         this.id = id;
         this.uri = uri;
         this.label = label;
@@ -88,35 +88,35 @@ public class Recipe {
         this.source = source;
     }
 
-    public String getCalories() {
+    public Integer getCalories() {
         return calories;
     }
 
-    public void setCalories(String calories) {
+    public void setCalories(Integer calories) {
         this.calories = calories;
     }
 
-    public String getFat() {
+    public Integer getFat() {
         return fat;
     }
 
-    public void setFat(String fat) {
+    public void setFat(Integer fat) {
         this.fat = fat;
     }
 
-    public String getCarbs() {
+    public Integer getCarbs() {
         return carbs;
     }
 
-    public void setCarbs(String carbs) {
+    public void setCarbs(Integer carbs) {
         this.carbs = carbs;
     }
 
-    public String getProtein() {
+    public Integer getProtein() {
         return protein;
     }
 
-    public void setProtein(String protein) {
+    public void setProtein(Integer protein) {
         this.protein = protein;
     }
 
