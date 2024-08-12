@@ -28,6 +28,7 @@ dependencies {
 	implementation 'org.modelmapper:modelmapper:3.2.1'
 //  // Do not enable, breaks authentication
 //	implementation 'org.springframework.boot:spring-boot-starter-security:3.3.2'
+	compileOnly 'org.projectlombok:lombok:1.18.34'
 	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
 	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
 	runtimeOnly 'com.mysql:mysql-connector-j'

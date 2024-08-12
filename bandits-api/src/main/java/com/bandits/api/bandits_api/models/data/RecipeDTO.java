@@ -1,15 +1,10 @@
-package com.bandits.api.bandits_api.models;
+package com.bandits.api.bandits_api.models.data;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
+import jakarta.persistence.Column;
+import lombok.Data;
 
-import java.util.List;
 
-@Entity
-public class Recipe {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class RecipeDTO {
 
     private String uri;
     private String label;
@@ -22,39 +17,6 @@ public class Recipe {
     private String fat;
     private String carbs;
     private String protein;
-
-    @NotNull
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
-
-    @OneToMany(mappedBy = "recipe")
-    private List<Meal> meals;
-
-    public Recipe() {
-    }
-
-    public Recipe(Long id, String uri, String label, String image, String source, String calories, String fat, String carbs, String protein, User user, List<Meal> meals) {
-        this.id = id;
-        this.uri = uri;
-        this.label = label;
-        this.image = image;
-        this.source = source;
-        this.calories = calories;
-        this.fat = fat;
-        this.carbs = carbs;
-        this.protein = protein;
-        this.user = user;
-        this.meals = meals;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getUri() {
         return uri;
@@ -118,21 +80,5 @@ public class Recipe {
 
     public void setProtein(String protein) {
         this.protein = protein;
-    }
-
-    public List<Meal> getMeals() {
-        return meals;
-    }
-
-    public void setMeals(List<Meal> meals) {
-        this.meals = meals;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 }

@@ -8,19 +8,25 @@ export const RecipeTable = ({ recipes, deleteRecipe, addRecipe }) => {
       <thead>
         <tr>
           <th scope="col">#</th>
-          <th scope="col">URI</th>
           <th scope="col">Label</th>
-          <th scope="col">Image</th>
-          <th scope="col">Source</th>
+          <th scope="col">Calories</th>
+          <th scope="col">Fat</th>
+          <th scope="col">Cards</th>
+          <th scope="col">Protein</th>
           <th scope="col">Actions</th>
         </tr>
       </thead>
       <tbody>
-        {recipes.map((recipe, index) => (
-          console.log("recipe", recipe),
-          <RecipeRowItem key={index} recipe={recipe} deleteRecipe={deleteRecipe} addRecipe={addRecipe} />
+        {recipes.map((recipe) => (
+          <RecipeRowItem key={recipes.indexOf(recipe)} recipe={recipe} recipes={recipes} deleteRecipe={deleteRecipe} addRecipe={addRecipe} />
         ))}
       </tbody>
     </table>
   );
 };
+
+{/* <td>{recipe.label}</td>
+<td>{recipe.calories}</td>
+<td>{recipe.fat}</td>
+<td>{recipe.carbs}</td>
+<td>{recipe.protein}</td> */}

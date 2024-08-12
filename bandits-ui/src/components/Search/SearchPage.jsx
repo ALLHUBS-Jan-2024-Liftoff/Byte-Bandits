@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { searchRecipes, addRecipe, deleteRecipe } from "../../services/recipeService";
-import { ResultsPage } from './ResultsPage';
+import { searchRecipes, addRecipe } from "../../services/recipeService";
+import { ResultsTable } from './ResultsTable';
+
 import CustomizedTables from './RecipeResultsTable';
 
 export const SearchPage = () => {
@@ -29,8 +30,8 @@ export const SearchPage = () => {
     // console.log("recipes:", recipes);
   }
 
-  function createData(label, calories, fat, carbs, protein, uri) {
-    return { label, calories, fat, carbs, protein, uri };
+  function createData(label, calories, fat, carbs, protein, uri, image, source) {
+    return { label, calories, fat, carbs, protein, uri, image, source };
   }
   
   const rows = [];
@@ -42,9 +43,12 @@ export const SearchPage = () => {
       let carbs = parseFloat(recipes[i].recipe.totalNutrients.CHOCDF.quantity).toFixed(2);
       let protein = parseFloat(recipes[i].recipe.totalNutrients.PROCNT.quantity).toFixed(2);
       let uri = recipes[i].recipe.uri;
-      console.log(recipes[i].recipe);
-      rows.push(createData(label, calories, fat, carbs, protein, uri));
+      let image = recipes[i].recipe.image;
+      let source = recipes[i].recipe.source;
+      // console.log(recipes[i].recipe);
+      rows.push(createData(label, calories, fat, carbs, protein, uri, image, source));
       console.log("rows", i, rows[i]);
+      // console.log("rows", i, rows[i]);
       // return rows;
   }
 
@@ -69,7 +73,8 @@ export const SearchPage = () => {
         <button type="submit" className="btn btn-primary">Search</button>
       </form>
       <div className="card-body">
-        {showResults && <CustomizedTables rows={rows} />}
+        {showResults && <ResultsTable rows={rows} />}
+        {/* {showResults && <CustomizedTables rows={rows} />} */}
       </div>
     </div>
 

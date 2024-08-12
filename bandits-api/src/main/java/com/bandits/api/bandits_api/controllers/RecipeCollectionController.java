@@ -1,10 +1,9 @@
 package com.bandits.api.bandits_api.controllers;
 
 import com.bandits.api.bandits_api.models.Recipe;
-import com.bandits.api.bandits_api.models.RecipeDTO;
+import com.bandits.api.bandits_api.models.data.RecipeDTO;
 import com.bandits.api.bandits_api.models.User;
 import com.bandits.api.bandits_api.repositories.RecipeRepository;
-import com.bandits.api.bandits_api.repositories.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -55,20 +54,40 @@ public class RecipeCollectionController {
     }
 
     @PostMapping("/new")
-    public ResponseEntity<RecipeDTO> createTodo(HttpSession session, @RequestBody Recipe recipe) {
+    public ResponseEntity<Map<String, String>> saveNewRecipe(HttpSession session, @RequestBody Recipe recipe) {
         User user = userController.getUserFromSession(session);
+        Map<String, String> responseBody = new HashMap<>();
         if (user != null) {
-            Recipe newRecipe = new Recipe();
-            newRecipe.setUri(recipe.getUri());
-            newRecipe.setLabel(recipe.getLabel());
-            newRecipe.setImage(recipe.getImage());
-            newRecipe.setSource(recipe.getSource());
-            newRecipe.setUser(user);
-            recipeRepository.save(newRecipe);
-            RecipeDTO newRecipeDTO = modelMapper.map(newRecipe, RecipeDTO.class);
-            return ResponseEntity.ok(newRecipeDTO);
+            recipe.setUser(user);
+            recipeRepository.save(recipe);
+            responseBody.put("message", "Recipe save successfully!");
+            return ResponseEntity.status(HttpStatus.CREATED).body(responseBody);
         } else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+            responseBody.put("message", "There was a problem saving the recipe.");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseBody);
         }
     }
 }
+
+
+
+//public ResponseEntity<RecipeDTO> saveNewRecipe(HttpSession session, @RequestBody Recipe recipe) {
+//    User user = userController.getUserFromSession(session);
+//    if (user != null) {
+//        Recipe newRecipe = new Recipe();
+//        newRecipe.setUri(recipe.getUri());
+//        newRecipe.setLabel(recipe.getLabel());
+//        newRecipe.setImage(recipe.getImage());
+//        newRecipe.setSource(recipe.getSource());
+//        newRecipe.setCalories(recipe.getCalories());
+//        newRecipe.setFat(recipe.getFat());
+//        newRecipe.setCarbs(recipe.getCarbs());
+//        newRecipe.setProtein(recipe.getProtein());
+//        newRecipe.setUser(user);
+//        recipeRepository.save(newRecipe);
+//        RecipeDTO newRecipeDTO = modelMapper.map(newRecipe, RecipeDTO.class);
+//        return ResponseEntity.ok(newRecipeDTO);
+//    } else {
+//        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+//    }
+//}

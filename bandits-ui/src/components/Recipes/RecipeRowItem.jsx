@@ -3,14 +3,15 @@ import { addRecipe } from "../../services/recipeService";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Button from "@mui/material/Button";
 import RestaurantIcon from '@mui/icons-material/Restaurant';
-export const RecipeRowItem = ({ recipe, addRecipe, deleteRecipe }) => {
+export const RecipeRowItem = ({ recipe, recipes, addRecipe, deleteRecipe }) => {
   return (
-    <tr key={recipe.id}>
-      <th scope="row">{recipe.id}</th>
-      <td>{recipe.uri}</td>
+    <tr key={recipes.indexOf(recipe)}>
+      <th scope="row">{recipes.indexOf(recipe) + 1}</th>
       <td>{recipe.label}</td>
-      <td>{recipe.image}</td>
-      <td>{recipe.source}</td>
+      <td>{recipe.calories}</td>
+      <td>{recipe.fat}</td>
+      <td>{recipe.carbs}</td>
+      <td>{recipe.protein}</td>
       <td>
         <Button variant="outlined" color="success" size="small" startIcon={<RestaurantIcon />} onClick={() => addRecipe(recipe.id)}>
           Add
