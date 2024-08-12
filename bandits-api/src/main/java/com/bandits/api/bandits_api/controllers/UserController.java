@@ -34,11 +34,8 @@ public class UserController {
 
         Optional<User> user = userRepository.findById(userId);
 
-        if (user.isEmpty()) {
-            return null;
-        }
+        return user.orElse(null);
 
-        return user.get();
     }
 
     private static void setUserInSession(HttpSession session, User user) {

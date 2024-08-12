@@ -18,7 +18,8 @@ export const searchRecipes = async (q) => {
 
 export const fetchRecipes = async () => {
   try {
-    const response = await axios.get(`${LOCAL_API_BASE_URL}/api/recipes`);
+    const response = await axios.get(`${LOCAL_API_BASE_URL}/api/recipes`, {withCredentials:true});
+    console.log("response", response);
     return response.data;
   } catch (error) {
     console.error("There was an error fetching the recipes!", error);
@@ -65,6 +66,7 @@ export const deleteRecipe = async (recipeId) => {
   try {
     await axios.post(`${LOCAL_API_BASE_URL}/api/recipes/delete`, null, {
       params: { recipeId },
+      withCredentials: true,
     });
   } catch (error) {
     console.error("There was an error deleting the recipe!", error);

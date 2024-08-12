@@ -11,13 +11,13 @@ import HomePage from "./components/Home/HomePage";
 import RegistrationPage from "./components/User/RegistrationPage";
 import Logout from "./components/User/Logout";
 import { RecipePage } from "./components/Recipes/RecipePage";
-import { NewRecipeForm } from "./components/Recipes/NewRecipeForm";
 import { SearchPage } from "./components/Search/SearchPage";
-import "./App.css";
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import Button from 'react-bootstrap/Button';
+import NavDropdown from 'react-bootstrap/NavDropdown';
+import "./App.css";
+import { Button } from "react-bootstrap";
 
 
 // console.log(authenticated);
@@ -27,32 +27,42 @@ function App() {
   return (
     <Router>
       <>
-      <Navbar bg="light" data-bs-theme="dark">
-        <Container>
-          <Navbar.Brand as={Link} to="home">Balanced Bytes</Navbar.Brand>
-          {console.log("Navbar", authenticated)}
-          {!authenticated ? (
-            <>
-              <Nav className="me-auto">
-                <Nav.Link as={Link} to="/login">Log In</Nav.Link>
-                <Nav.Link as={Link} to="/register">Register</Nav.Link>
-              </Nav>
-            </>
-          ) : (
-            <>
-              <Nav className="me-auto">
-                <Nav.Link as={Link} to="/recipes">Saved Recipes</Nav.Link>
-                <Nav.Link as={Link} to="/search">Find Recipes</Nav.Link>
-                <Nav.Link as={Link} to="#MealPlans">Meal Plans</Nav.Link>
-              </Nav>
-              <Nav className="ms-auto">
-                <Button as={Link} to="logout" variant="outline-danger">Logout</Button>
-              </Nav>
-            </>
-          )}
-        </Container>
-      </Navbar>
-    </>
+        <Navbar bg="light" data-bs-theme="dark">
+          <Container>
+            <Navbar.Brand as={Link} to="home">Balanced Bytes</Navbar.Brand>
+            {console.log("Navbar", authenticated)}
+            {!authenticated ? (
+              <>
+                <Nav className="me-auto">
+                  <Nav.Link as={Link} to="/login">Log In</Nav.Link>
+                  <Nav.Link as={Link} to="/register">Register</Nav.Link>
+                </Nav>
+              </>
+            ) : (
+              <>
+                <Nav className="me-auto">
+                  <Nav.Link as={Link} to="/recipes">Saved Recipes</Nav.Link>
+                  <Nav.Link as={Link} to="/search">Find Recipes</Nav.Link>
+                  <Nav.Link as={Link} to="#MealPlans">Meal Plans</Nav.Link>
+                </Nav>
+                <Nav className="ms-auto">
+                  <NavDropdown title="Profile" id="basic-nav-dropdown">
+                    <NavDropdown.Item href="#action/3.1">Account</NavDropdown.Item>
+                    <NavDropdown.Item href="#action/3.2">
+                       Help
+                    </NavDropdown.Item>
+                    <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
+                    <NavDropdown.Divider />
+                    <NavDropdown.Item as={Link} to="/logout">
+                      Logout
+                    </NavDropdown.Item>
+                  </NavDropdown>
+                </Nav>
+              </>
+            )}
+          </Container>
+        </Navbar>
+      </>
       <div className="App">
         <header className="App-header">
           <Routes>
@@ -70,8 +80,8 @@ function App() {
             {authenticated ? (
               <>
                 <Route
-                    path="/home"
-                    element={<HomePage />}
+                  path="/home"
+                  element={<HomePage />}
                 />
                 <Route
                   path="/recipes"
@@ -87,10 +97,10 @@ function App() {
                 />
               </>
             ) : (
-                <Route
-                  path="*"
-                  element={<Navigate to="/login" replace />}
-                />              
+              <Route
+                path="*"
+                element={<Navigate to="/login" replace />}
+              />
             )}
           </Routes>
         </header>

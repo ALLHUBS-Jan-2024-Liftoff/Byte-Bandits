@@ -2,22 +2,40 @@ package com.bandits.api.bandits_api.models;
 
 public class RecipeDTO {
 
-    private  String recipeName;
-    private  String recipeImageUrl;
+    private String id;
+    private String uri;
+    private String image;
+    private String source;
 
-    public String getRecipeName() {
-        return recipeName;
+    public String getId() {
+        return id;
     }
 
-    public void setRecipeName(String recipeName) {
-        this.recipeName = recipeName;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public String getRecipeImageUrl() {
-        return recipeImageUrl;
+    public String getUri() {
+        return uri;
     }
 
-    public void setRecipeImageUrl(String recipeImageUrl) {
-        this.recipeImageUrl = recipeImageUrl;
+    public void setUri(String uri) {
+        this.uri = uri;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public String getSource() {
+        return source;
+    }
+
+    public void setSource(String source) {
+        this.source = source;
     }
 }

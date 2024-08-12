@@ -1,6 +1,7 @@
 package com.bandits.api.bandits_api.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.List;
 
@@ -15,12 +16,13 @@ public class Recipe {
     private String image;
     private String source;
 
-    @OneToMany(mappedBy = "recipe")
-    private List<Meal> meals;
-
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+
+    @OneToMany(mappedBy = "recipe")
+    private List<Meal> meals;
 
     public Recipe() {
     }

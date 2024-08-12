@@ -25,6 +25,7 @@ dependencies {
 	implementation 'com.fasterxml.jackson.core:jackson-databind:2.17.2'
 	implementation 'io.jsonwebtoken:jjwt-jackson:0.11.5'
 	implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
+	implementation 'org.modelmapper:modelmapper:3.2.1'
 //  // Do not enable, breaks authentication
 //	implementation 'org.springframework.boot:spring-boot-starter-security:3.3.2'
 	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
