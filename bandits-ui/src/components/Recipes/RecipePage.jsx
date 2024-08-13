@@ -74,3 +74,4 @@ export const RecipePage = () => {
     </div>
   );
 };
+
