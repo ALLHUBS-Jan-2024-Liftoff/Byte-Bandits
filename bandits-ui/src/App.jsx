@@ -16,14 +16,52 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
+import axios from "axios";
 import "./App.css";
 import { Button } from "react-bootstrap";
-
 
 // console.log(authenticated);
 function App() {
   const [authenticated, setAuthenticated] = useState(false);
+  const [image, setImage] = useState(null);
 
+  // Handle Image Selection
+  const handleImageChange = (e) => {
+    setImage(e.target.files[0]);
+  };
+
+  // Upload Image to S3
+  const handleUpload = async () => {
+    if (image == null) {
+      console.log("No image uploaded");
+      return;
+    }
+
+    // Get Format of Image - jpg, svg, png, webp
+    const type = `${image.type}`;
+    const imageName = image.name;
+    console.log(1, type);
+
+    try {
+      // Get the presigned URL
+      const response = await axios.post('http://localhost:8080/presignedurl', { type: type, name: imageName });
+      const url = response.data;
+
+      console.log(1, url);
+      console.log(1, typeof url);
+
+      // Upload the image to S3
+      await axios.put(
+        url, // URL to bucket obtained from the backend
+        image, // Image you want to upload
+        { headers: { "Content-Type": type } }
+      );
+
+      console.log("Successfully uploaded!");
+    } catch (error) {
+      console.error("Error during upload:", error);
+    }
+  };
   return (
     <Router>
       <>
