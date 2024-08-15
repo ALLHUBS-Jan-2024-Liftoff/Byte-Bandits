@@ -18,6 +18,7 @@ import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import "./App.css";
 import { Button } from "react-bootstrap";
+import BigCal from "./components/MealPlan/BigCalendar.jsx";
 
 
 // console.log(authenticated);
@@ -43,7 +44,8 @@ function App() {
                 <Nav className="me-auto">
                   <Nav.Link as={Link} to="/recipes">Saved Recipes</Nav.Link>
                   <Nav.Link as={Link} to="/search">Find Recipes</Nav.Link>
-                  <Nav.Link as={Link} to="#MealPlans">Meal Plans</Nav.Link>
+                  <Nav.Link as={Link} to="/MealPlans">Meal Plans</Nav.Link>
+                  
                 </Nav>
                 <Nav className="ms-auto">
                   <NavDropdown title="Profile" id="basic-nav-dropdown">
@@ -90,6 +92,10 @@ function App() {
                 <Route
                   path="/search"
                   element={<SearchPage />}
+                />
+                <Route
+                  path="/MealPlans"
+                  element={<BigCal />}
                 />
                 <Route
                   path="/logout"
