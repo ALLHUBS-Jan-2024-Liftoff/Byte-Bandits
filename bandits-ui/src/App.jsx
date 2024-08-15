@@ -18,13 +18,16 @@ import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import "./App.css";
 import { Button } from "react-bootstrap";
+import BigCal from "./components/MealPlan/BigCalendar.jsx";
+import BasicCal from "./components/MealPlan/BasicCal.jsx";
 
 
 // console.log(authenticated);
 function App() {
-  const [authenticated, setAuthenticated] = useState(false);
+  const [authenticated, setAuthenticated] = useState(true);
 
   return (
+
     <Router>
       <>
         <Navbar bg="light" data-bs-theme="dark">
@@ -43,13 +46,14 @@ function App() {
                 <Nav className="me-auto">
                   <Nav.Link as={Link} to="/recipes">Saved Recipes</Nav.Link>
                   <Nav.Link as={Link} to="/search">Find Recipes</Nav.Link>
-                  <Nav.Link as={Link} to="#MealPlans">Meal Plans</Nav.Link>
+                  <Nav.Link as={Link} to="/MealPlans">Meal Plans</Nav.Link>
+
                 </Nav>
                 <Nav className="ms-auto">
                   <NavDropdown title="Profile" id="basic-nav-dropdown">
                     <NavDropdown.Item href="#action/3.1">Account</NavDropdown.Item>
                     <NavDropdown.Item href="#action/3.2">
-                       Help
+                      Help
                     </NavDropdown.Item>
                     <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
                     <NavDropdown.Divider />
@@ -92,6 +96,10 @@ function App() {
                   element={<SearchPage />}
                 />
                 <Route
+                  path="/MealPlans"
+                  element={<BigCal />}
+                />
+                <Route
                   path="/logout"
                   element={<Logout setAuthenticated={setAuthenticated} />}
                 />
@@ -106,6 +114,7 @@ function App() {
         </header>
       </div>
     </Router>
+
   );
 }
 

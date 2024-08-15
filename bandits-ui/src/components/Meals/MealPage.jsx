@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { deleteRecipe } from "../../services/recipeService";
-import { addMeal } from "../../services/mealService";
+import { fetchRecipes, addRecipe, deleteRecipe } from "../../services/recipeService";
 import { RecipeTable } from "./RecipeTable";
 import { NewRecipeForm } from "./NewRecipeForm";
 import axios from "axios";
@@ -13,7 +12,7 @@ export const RecipePage = () => {
 
   useEffect(() => {
     // Fetch all recipes when the component mounts
-    const fetchSavedMeals = async () => {
+    const fetchSavedRecipes = async () => {
       try {
         const response = await axios.get(`${LOCAL_API_BASE_URL}/api/recipes`, {withCredentials:true});
         console.log("response", response.data);
@@ -24,8 +23,10 @@ export const RecipePage = () => {
       }
     };
 
-    fetchSavedMeals();
+    fetchSavedRecipes();
   }, []);
+
+  
 
   // useEffect(() => {
   //   // Fetch all recipes when the component mounts
@@ -57,23 +58,12 @@ export const RecipePage = () => {
       });
   };
 
-  const handleAddMeal = (uri, mealType, date) => {
-    console.log("uri", uri, "mealType", mealType, "date", date);
-    addMeal(uri, mealType, date);
-      // .then((newRecipe) => {
-      //   setRecipes([...recipes, newRecipe]);
-      // })
-      // .catch((error) => {
-      //   console.error("There was an error saving the recipe!", error);
-      // });
-  };
-
   return (
-    <div className="mt-5 px-0 container">
+    <div className="mt-5 container">
       <div className="card">
         <div className="card-header">Your Saved Recipes</div>
         <div className="card-body">
-          <RecipeTable recipes={recipes} deleteRecipe={handleDeleteRecipe} addMeal={handleAddMeal} />
+          <RecipeTable recipes={recipes} deleteRecipe={handleDeleteRecipe} />
           <button
             onClick={() => setShowAddForm(!showAddForm)}
             className="btn btn-primary"

@@ -8,16 +8,21 @@ export const NewRecipeForm = ({ addRecipe }) => {
   const [image, setImage] = useState("");
   const [source, setSource] = useState("");
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (uri !== "" && label !== "" && image !== "" && source !== "") {
-      addRecipe(uri, label, image, source);
-      setUri("");
-      setLabel("");
-      setImage("");
-      setSource("");
+  useEffect(() => {
+    // Fetch all recipes when the component mounts
+    const fetchSavedRecipes = async () => {
+      try {
+        const response = await axios.get(`${LOCAL_API_BASE_URL}/api/recipes`, {withCredentials:true});
+        console.log("response", response.data);
+        setRecipes(response.data);
+        console.log("Meals fetched from the database", response.data);
+      } catch (error) {
+        console.error("There was an error fetching the recipes!", error);
+        throw error;
+      }
     }
-  };
+  }, []);
+
 
   return (
     <div className="mt-5">
