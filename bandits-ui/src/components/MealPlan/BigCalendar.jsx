@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
+import events from './events'
 
 import "../../App.css";
 import "react-big-calendar/lib/css/react-big-calendar.css";
@@ -27,7 +28,7 @@ class BigCal extends Component {
           localizer={localizer}
           defaultDate={new Date()}
           defaultView="month"
-          events={this.state.events}
+          events={events}
           style={{ height: "100vh" }}
         />
       </div>
