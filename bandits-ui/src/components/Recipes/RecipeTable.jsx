@@ -1,7 +1,5 @@
 import React from "react";
 import { RecipeRowItem } from "./RecipeRowItem";
-import { addRecipe } from "../../services/recipeService";
-import ReactDayPicker from "../MealPlan/ReactDayPicker";
 
 export const RecipeTable = ({ recipes, deleteRecipe, addRecipe }) => {
   return (
