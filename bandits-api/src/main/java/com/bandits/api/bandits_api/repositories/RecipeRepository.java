@@ -11,6 +11,7 @@ import java.util.List;
 public interface RecipeRepository extends JpaRepository<Recipe, Long> {
 
     Recipe findByUri(String uri);
+
     List<Recipe> findByUser(User user);
 
 }

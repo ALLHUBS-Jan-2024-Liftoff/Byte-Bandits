@@ -19,13 +19,12 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import "./App.css";
 import { Button } from "react-bootstrap";
 import BigCal from "./components/MealPlan/BigCalendar.jsx";
-import { PrimeReactProvider } from 'primereact/api';
 import BasicCal from "./components/MealPlan/BasicCal.jsx";
 
 
 // console.log(authenticated);
 function App() {
-  const [authenticated, setAuthenticated] = useState(false);
+  const [authenticated, setAuthenticated] = useState(true);
 
   return (
 

@@ -3,12 +3,26 @@ import { addRecipe } from "../../services/recipeService";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Button from "@mui/material/Button";
 import RestaurantIcon from '@mui/icons-material/Restaurant';
-import "primereact/resources/themes/lara-light-cyan/theme.css";
+import MuiDatePicker from '../MealPlan/MuiDatePicker';
+import Select from 'react-select';
 
 export const RecipeRowItem = ({ recipe, recipes, addRecipe, deleteRecipe }) => {
-  const [date, setDate] = React.useState(null);
+  const [date, setDate] = React.useState("");
+  const [mealType, setMealType] = React.useState("");
 
+  const MealPicker = () => {
 
+    const options = [
+      { value: 'breakfast', label: 'Breakfast' },
+      { value: 'lunch', label: 'Lunch' },
+      { value: 'dinner', label: 'Dinner' }
+    ];
+
+    return (
+      <Select options={options} onChange={(e) => setMealType(e.target.value)} />
+    );
+
+  }
 
 
   return (
@@ -20,15 +34,20 @@ export const RecipeRowItem = ({ recipe, recipes, addRecipe, deleteRecipe }) => {
       <td>{recipe.carbs}</td>
       <td>{recipe.protein}</td>
       <td>
-        <input type="date" value={date} onChange={(e) => setDate(e.target.value)} />
+        <MealPicker className = "form-select" />
       </td>
+      <div>
       <td>
-        <Button variant="outlined" color="success" size="small" startIcon={<RestaurantIcon />} onClick={() => addRecipe(recipe.id)}>
+        <input className="form-control" type="date" value={date} onChange={(e) => setDate(e.target.value)} />
+      </td>
+      </div>
+      <td>
+        <Button variant="outlined" color="success" size="medium" startIcon={<RestaurantIcon />} onClick={() => addRecipe(recipe.id)}>
           Add
         </Button>
       </td>
       <td>
-        <Button variant="outlined" color="error" size="small" startIcon={<DeleteIcon />} onClick={() => deleteRecipe(recipe.id)}>
+        <Button variant="outlined" color="error" size="medium" startIcon={<DeleteIcon />} onClick={() => deleteRecipe(recipe.id)}>
           Delete
         </Button>
       </td>
