@@ -26,6 +26,8 @@ dependencies {
 	implementation 'io.jsonwebtoken:jjwt-jackson:0.11.5'
 	implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
 	implementation 'org.modelmapper:modelmapper:3.2.1'
+	implementation 'org.apache.logging.log4j:log4j-api:2.23.1'
+	implementation 'org.apache.logging.log4j:log4j-core:2.23.1'
 //  // Do not enable, breaks authentication
 //	implementation 'org.springframework.boot:spring-boot-starter-security:3.3.2'
 	compileOnly 'org.projectlombok:lombok:1.18.34'
