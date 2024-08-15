@@ -1,3 +1,5 @@
+import React from 'react';
+
 export const HomePage = () => {
 
   return (
@@ -5,7 +7,7 @@ export const HomePage = () => {
       <div className="card">
         {/* <div className="card-header">Your Todo Application</div> */}
         <div className="card-body">
-          Welcome to the Balanced Bytes
+          Welcome to the Balanced Bytes!
         </div>
       </div>
     </div>

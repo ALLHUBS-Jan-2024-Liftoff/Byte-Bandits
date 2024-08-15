@@ -2,19 +2,22 @@ import React, { useState } from "react";
 import axios from "axios";
 import Alert from 'react-bootstrap/Alert';
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../provider/authProvider";
 
 
-function LoginPage({ setAuthenticated }) {
+const LoginPage =() => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
   const [condition, setCondition] = useState("");
 
+  const { setToken } = useAuth();
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
+      console.log("Logging in...")
       const response = await axios.post(
         "http://localhost:8080/user/login",
         {
@@ -25,10 +28,14 @@ function LoginPage({ setAuthenticated }) {
           withCredentials: true,
         }
       );
-      setAuthenticated(true);
+
+      setToken(response.data.token);
       setCondition("success");
+      console.log("token in storage", localStorage.getItem("token"));
       setMessage(response.data.message);
-      navigate("/home");
+      navigate("/", {replace: true});
+      console.log("response", response, "response.data", response.data);
+
     } catch (error) {
       setCondition("danger");
       setMessage(error.response?.data?.message || "Login failed");

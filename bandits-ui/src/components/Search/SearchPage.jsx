@@ -4,7 +4,7 @@ import { ResultsTable } from './ResultsTable';
 
 import CustomizedTables from './RecipeResultsTable';
 
-export const SearchPage = () => {
+const SearchPage = () => {
 
   const [showResults, setShowResults] = useState(false);
   const [recipes, setRecipes] = useState([]);
@@ -81,3 +81,5 @@ export const SearchPage = () => {
 
   );
 }
+
+export default SearchPage;

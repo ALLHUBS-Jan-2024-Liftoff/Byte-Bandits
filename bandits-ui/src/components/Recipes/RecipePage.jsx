@@ -75,3 +75,5 @@ export const RecipePage = () => {
   );
 };
 
+export default RecipePage;
+
