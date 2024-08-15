@@ -1,16 +1,24 @@
+import React from 'react';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import Button from 'react-bootstrap/Button';
+import { useAuth } from "../../context/AuthContext";
 
-console.log(authenticated);
-export const BsNavBar = ( authenticated ) => {
+export const BsNavBar = () => {
+
+const { user, logout } = useAuth();
+
+  const handleLogout = () => {
+    logout();
+  };
+
   return (
     <>
       <Navbar bg="light" data-bs-theme="dark">
         <Container>
           <Navbar.Brand href="#home">Balanced Bytes</Navbar.Brand>
-          {!authenticated ? (
+          {!user ? (
             <>
               <Nav className="me-auto">
                 <Nav.Link href="/login">Log In</Nav.Link>
@@ -20,12 +28,12 @@ export const BsNavBar = ( authenticated ) => {
           ) : (
             <>
               <Nav className="me-auto">
-                <Nav.Link href="recipes">Saved Recipes</Nav.Link>
+                <Nav.Link href="/recipes">Saved Recipes</Nav.Link>
                 <Nav.Link href="/search">Find Recipes</Nav.Link>
-                <Nav.Link href="#pricing">Meal Plans</Nav.Link>
+                <Nav.Link href="#meals">Meal Plans</Nav.Link>
               </Nav>
               <Nav className="ms-auto">
-                <Button href="/logout" variant="outline-danger">Logout</Button>
+                <Button variant="outline-danger" onClick={handleLogout}>Logout</Button>
               </Nav>
             </>
           )}
