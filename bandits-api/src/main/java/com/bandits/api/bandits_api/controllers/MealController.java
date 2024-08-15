@@ -1,9 +1,7 @@
 package com.bandits.api.bandits_api.controllers;
 
 import com.bandits.api.bandits_api.models.Meal;
-import com.bandits.api.bandits_api.models.Recipe;
 import com.bandits.api.bandits_api.models.data.MealDTO;
-import com.bandits.api.bandits_api.models.data.RecipeDTO;
 import com.bandits.api.bandits_api.models.User;
 import com.bandits.api.bandits_api.repositories.MealRepository;
 import com.bandits.api.bandits_api.repositories.RecipeRepository;
@@ -51,17 +49,23 @@ public class MealController {
     }
 
     @PostMapping("/delete")
-    public void deleteMeal(@RequestParam Long mealId) {
+    public void deleteMeal(@RequestParam Integer mealId) {
         mealRepository.deleteById(mealId);
     }
 
     @PostMapping("/new")
-    public ResponseEntity<Map<String, String>> saveNewRecipe(HttpSession session, @RequestBody Meal meal) {
+    public ResponseEntity<Map<String, String>> saveNewRecipe(
+            HttpSession session, @RequestParam String uri, @RequestParam String mealType, @RequestParam String date) {
         User user = userController.getUserFromSession(session);
+        Meal newMeal = new Meal();
         Map<String, String> responseBody = new HashMap<>();
         if (user != null) {
-            meal.setUser(user);
-            mealRepository.save(meal);
+            newMeal.setUser(user);
+            System.out.println(uri);
+            newMeal.setRecipe(recipeRepository.findByUri(uri));
+            newMeal.setMealType(mealType);
+            newMeal.setDate(date);
+            mealRepository.save(newMeal);
             responseBody.put("message", "Meal Saved Successfully!");
             return ResponseEntity.status(HttpStatus.CREATED).body(responseBody);
         } else {

@@ -3,11 +3,10 @@ package com.bandits.api.bandits_api.models.data;
 import com.bandits.api.bandits_api.models.MealPlan;
 import com.bandits.api.bandits_api.models.Recipe;
 import com.bandits.api.bandits_api.models.User;
-import jakarta.persistence.*;
 
 public class MealDTO {
 
-    private Long id;
+    private Integer id;
 
     private Recipe recipe;
 
@@ -19,11 +18,11 @@ public class MealDTO {
 
     private String date;
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

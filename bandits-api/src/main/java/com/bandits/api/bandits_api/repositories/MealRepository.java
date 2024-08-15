@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface MealRepository extends JpaRepository<Meal, Long> {
+public interface MealRepository extends JpaRepository<Meal, Integer> {
 
     List<Meal> findByUser(User user);
 }

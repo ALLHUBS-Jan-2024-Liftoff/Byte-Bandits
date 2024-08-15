@@ -9,7 +9,7 @@ public class Meal {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private Integer id;
 
     @ManyToOne
     @JoinColumn(name = "recipe_id")
@@ -30,13 +30,13 @@ public class Meal {
     public Meal() {
     }
 
-    public Meal(Long id, Recipe recipe, String mealType) {
+    public Meal(Integer id, Recipe recipe, String mealType) {
         this.id = id;
         this.recipe = recipe;
         this.mealType = mealType;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 

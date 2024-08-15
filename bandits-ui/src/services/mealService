@@ -28,21 +28,37 @@ export const fetchMeals = async () => {
   }
 };
 
-export const addMeal = async (meal) => {
+
+export const addMeal = async (uri, mealType, date) => {
   try {
     // console.log("uri", uri, "label", label, "image", image, "source", source);
-    const response = await axios.post(`${LOCAL_API_BASE_URL}/api/meals/new`, meal,
-      {
-        headers: { 'content-type': 'application/json' },
-        withCredentials: true,
-      });
-      console.log("response.data", response.data);
-      return response.data;
+    await axios.post(`${LOCAL_API_BASE_URL}/api/meals/new`, null, {
+      params: { uri, mealType, date },
+      withCredentials: true,
+    });
+    console.log("Meal saved successfully!");
   } catch (error) {
     console.error("There was an error saving the meal!", error);
     throw error;
   }
 };
+
+// // Deprecated in favor of request params
+// export const addMeal = async (meal) => {
+//   try {
+//     // console.log("uri", uri, "label", label, "image", image, "source", source);
+//     const response = await axios.post(`${LOCAL_API_BASE_URL}/api/meals/new`, meal,
+//       {
+//         headers: { 'content-type': 'application/json' },
+//         withCredentials: true,
+//       });
+//       console.log("response.data", response.data);
+//       return response.data;
+//   } catch (error) {
+//     console.error("There was an error saving the meal!", error);
+//     throw error;
+//   }
+// };
 
 
 export const deleteRecipe = async (recipeId) => {

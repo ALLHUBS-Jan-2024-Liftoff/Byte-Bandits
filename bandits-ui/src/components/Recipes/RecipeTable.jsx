@@ -1,9 +1,9 @@
 import React from "react";
 import { RecipeRowItem } from "./RecipeRowItem";
 
-export const RecipeTable = ({ recipes, deleteRecipe, addRecipe }) => {
+export const RecipeTable = ({ recipes, deleteRecipe, addMeal }) => {
   return (
-    <table className="table table-hover">
+    <table className="table table-hover container-fluid">
       <thead>
         <tr>
           <th scope="col">#</th>
@@ -18,7 +18,7 @@ export const RecipeTable = ({ recipes, deleteRecipe, addRecipe }) => {
       </thead>
       <tbody>
         {recipes.map((recipe) => (
-          <RecipeRowItem key={recipes.indexOf(recipe)} recipe={recipe} recipes={recipes} deleteRecipe={deleteRecipe} addRecipe={addRecipe} />
+          <RecipeRowItem key={recipes.indexOf(recipe)} recipe={recipe} recipes={recipes} deleteRecipe={deleteRecipe} addMeal={addMeal} />
         ))}
       </tbody>
     </table>

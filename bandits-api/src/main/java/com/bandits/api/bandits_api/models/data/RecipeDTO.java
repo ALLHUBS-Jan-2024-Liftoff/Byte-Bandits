@@ -6,7 +6,7 @@ import lombok.Data;
 
 public class RecipeDTO {
 
-    private Long id;
+    private Integer id;
     private String uri;
     private String label;
 
@@ -19,11 +19,11 @@ public class RecipeDTO {
     private Integer carbs;
     private Integer protein;
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

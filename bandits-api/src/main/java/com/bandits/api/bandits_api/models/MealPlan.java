@@ -9,7 +9,7 @@ public class MealPlan {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private Integer id;
 
     // TODO: create user end of relationship
     @ManyToOne
@@ -24,14 +24,14 @@ public class MealPlan {
     public MealPlan() {
     }
 
-    public MealPlan(Long id, User user, List<Meal> meals, int numberOfDays) {
+    public MealPlan(Integer id, User user, List<Meal> meals, int numberOfDays) {
         this.id = id;
         this.user = user;
         this.meals = meals;
         this.numberOfDays = numberOfDays;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 

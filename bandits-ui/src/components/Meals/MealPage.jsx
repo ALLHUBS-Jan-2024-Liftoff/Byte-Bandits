@@ -26,6 +26,8 @@ export const RecipePage = () => {
     fetchSavedRecipes();
   }, []);
 
+  
+
   // useEffect(() => {
   //   // Fetch all recipes when the component mounts
   //   fetchRecipes()

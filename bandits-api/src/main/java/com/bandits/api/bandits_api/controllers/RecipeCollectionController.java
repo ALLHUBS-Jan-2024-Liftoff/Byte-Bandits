@@ -49,7 +49,7 @@ public class RecipeCollectionController {
     }
 
     @PostMapping("/delete")
-    public void deleteRecipe(@RequestParam Long recipeId) {
+    public void deleteRecipe(@RequestParam Integer recipeId) {
         recipeRepository.deleteById(recipeId);
     }
 
