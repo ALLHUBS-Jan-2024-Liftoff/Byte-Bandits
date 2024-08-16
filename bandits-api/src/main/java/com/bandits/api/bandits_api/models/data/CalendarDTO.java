@@ -22,7 +22,7 @@ public class CalendarDTO {
         this.id = id;
     }
 
-    public String getTitlel() {
+    public String getTitle() {
         return title;
     }
 

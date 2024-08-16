@@ -5,8 +5,6 @@ import { RecipeTable } from "./RecipeTable";
 import { NewRecipeForm } from "./NewRecipeForm";
 import axios from "axios";
 
-const LOCAL_API_BASE_URL = "http://localhost:8080";
-
 export const RecipePage = () => {
   const [showAddForm, setShowAddForm] = useState(false);
   const [recipes, setRecipes] = useState([]);

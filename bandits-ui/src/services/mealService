@@ -31,7 +31,7 @@ export const fetchMeals = async () => {
 export const fetchCalendarMeals = async () => {
   try {
     const response = await axios.get(`${LOCAL_API_BASE_URL}/api/calendar`, {withCredentials:true});
-    console.log("response", response);
+    console.log("response.data, from service", response.data);
     return response.data;
   } catch (error) {
     console.error("There was an error fetching the meals!", error);
