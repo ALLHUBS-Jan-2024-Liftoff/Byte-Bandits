@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { deleteRecipe, fetchRecipes } from "../../services/recipeService";
-import { addMeal } from "../../services/mealService";
 import { RecipeTable } from "./RecipeTable";
 import { NewRecipeForm } from "./NewRecipeForm";
 import axios from "axios";

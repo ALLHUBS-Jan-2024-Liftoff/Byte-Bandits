@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const LOCAL_API_BASE_URL = "http://localhost:8080";
+const LOCAL_API_RECIPE_URL = "http://localhost:8080/api/recipes";
 
 const RECIPE_SEARCH_BASE_URL = "https://api.edamam.com/api/recipes/v2?type=public";
 const RECIPE_SEARCH_APP_KEY = "f7b7c5856e28029b8e7ab08182ab9fe1"
@@ -18,7 +18,7 @@ export const searchRecipes = async (q) => {
 
 export const fetchRecipes = async () => {
   try {
-    const response = await axios.get(`${LOCAL_API_BASE_URL}/api/recipes`, {withCredentials:true});
+    const response = await axios.get(`${LOCAL_API_RECIPE_URL}`, {withCredentials:true});
     console.log("response", response);
     return response.data;
   } catch (error) {
@@ -31,7 +31,7 @@ export const addRecipe = async (recipe) => {
   try {
     // // Reveal the contents of the recipe object
     // console.log("recipe", recipe);
-    const response = await axios.post(`${LOCAL_API_BASE_URL}/api/recipes/new`, recipe,
+    const response = await axios.post(`${LOCAL_API_RECIPE_URL}/new`, recipe,
       {
         headers: { 'content-type': 'application/json' },
         withCredentials: true,
@@ -47,7 +47,7 @@ export const addRecipe = async (recipe) => {
 // export const addRecipe = async (uri, label, image, source, calories, fat, carbs, protein) => {
 //   try {
 //     // console.log("uri", uri, "label", label, "image", image, "source", source);
-//     const response = await axios.post(`${LOCAL_API_BASE_URL}/api/recipes/new`,
+//     const response = await axios.post(`${LOCAL_API_RECIPE_URL}/api/recipes/new`,
 //       {
 //         uri: uri,
 //         label: label,
@@ -73,7 +73,7 @@ export const addRecipe = async (recipe) => {
 
 // export const addRecipe = async (uri, label, image, source) => {
 //   try {
-//     const response = await axios.post(`${LOCAL_API_BASE_URL}/api/recipes/new`, null, {
+//     const response = await axios.post(`${LOCAL_API_RECIPE_URL}/api/recipes/new`, null, {
 //       params: { uri, label, image, source },
 //     });
 //     console.log("response.data", response.data);
@@ -86,7 +86,7 @@ export const addRecipe = async (recipe) => {
 
 export const deleteRecipe = async (recipeId) => {
   try {
-    await axios.post(`${LOCAL_API_BASE_URL}/api/recipes/delete`, null, {
+    await axios.post(`${LOCAL_API_RECIPE_URL}/delete`, null, {
       params: { recipeId },
       withCredentials: true,
     });

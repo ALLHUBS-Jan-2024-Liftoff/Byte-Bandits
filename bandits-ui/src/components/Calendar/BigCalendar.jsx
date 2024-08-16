@@ -8,18 +8,17 @@ import { fetchCalendarMeals } from '../../services/calendarService';
 const localizer = momentLocalizer(moment);
 
 export default function BigCal() {
+  const [events, setEvents] = React.useState([]);
 
-  // const [events, setEvents] = React.useState([]);
-
-  // useEffect(() => {
-  //   // Fetch all recipes when the component mounts
-  //   fetchCalendarMeals()
-  //     .then(setEvents)
-  //     .catch((error) => {
-  //       console.error("There was an error fetching the recipes!", error);
-  //     });
-  //     console.log("events, in useEffect", events);
-  // }, []);
+  useEffect(() => {
+    // Fetch all recipes when the component mounts
+    fetchCalendarMeals()
+      .then(setEvents)
+      .catch((error) => {
+        console.error("There was an error fetching the recipes!", error);
+      });
+      console.log("events, in useEffect", events);
+  }, []);
 
   return (
     <div className="App">

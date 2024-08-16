@@ -2,8 +2,8 @@ import React from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Button from "@mui/material/Button";
 import RestaurantIcon from '@mui/icons-material/Restaurant';
-import { addMeal } from '../../services/mealService';
-import MuiDatePicker from '../MealPlan/MuiDatePicker';
+import { addMeal } from '../../services/mealService.js';
+import MuiDatePicker from '../Calendar/MuiDatePicker';
 import Select from 'react-select';
 
 export const RecipeRowItem = ({ recipe, recipes, deleteRecipe }) => {
