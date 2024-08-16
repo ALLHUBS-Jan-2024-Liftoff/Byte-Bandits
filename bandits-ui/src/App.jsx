@@ -17,9 +17,7 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import "./App.css";
-import { Button } from "react-bootstrap";
-import BigCal from "./components/MealPlan/BigCalendar.jsx";
-import BasicCal from "./components/MealPlan/BasicCal.jsx";
+import { CalendarPage } from "./components/MealPlan/CalendarPage.jsx";
 
 
 // console.log(authenticated);
@@ -97,7 +95,7 @@ function App() {
                 />
                 <Route
                   path="/MealPlans"
-                  element={<BigCal />}
+                  element={<CalendarPage />}
                 />
                 <Route
                   path="/logout"

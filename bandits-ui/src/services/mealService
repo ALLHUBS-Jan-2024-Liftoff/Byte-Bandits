@@ -28,12 +28,22 @@ export const fetchMeals = async () => {
   }
 };
 
+export const fetchCalendarMeals = async () => {
+  try {
+    const response = await axios.get(`${LOCAL_API_BASE_URL}/api/calendar`, {withCredentials:true});
+    console.log("response", response);
+    return response.data;
+  } catch (error) {
+    console.error("There was an error fetching the meals!", error);
+    throw error;
+  }
+};
 
-export const addMeal = async (uri, mealType, date) => {
+export const addMeal = async (uri, label, mealType, date) => {
   try {
     // console.log("uri", uri, "label", label, "image", image, "source", source);
     await axios.post(`${LOCAL_API_BASE_URL}/api/meals/new`, null, {
-      params: { uri, mealType, date },
+      params: { uri, label, mealType, date },
       withCredentials: true,
     });
     console.log("Meal saved successfully!");
@@ -61,7 +71,7 @@ export const addMeal = async (uri, mealType, date) => {
 // };
 
 
-export const deleteRecipe = async (recipeId) => {
+export const deleteMeal = async (recipeId) => {
   try {
     await axios.post(`${LOCAL_API_BASE_URL}/api/meals/delete`, null, {
       params: { recipeId },

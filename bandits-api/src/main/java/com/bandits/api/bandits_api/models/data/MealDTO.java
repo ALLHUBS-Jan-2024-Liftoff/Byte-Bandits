@@ -8,6 +8,8 @@ public class MealDTO {
 
     private Integer id;
 
+    private String label;
+
     private Recipe recipe;
 
     private User user;
@@ -24,6 +26,14 @@ public class MealDTO {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getLabel() {
+        return label;
+    }
+
+    public void setLabel(String label) {
+        this.label = label;
     }
 
     public Recipe getRecipe() {
