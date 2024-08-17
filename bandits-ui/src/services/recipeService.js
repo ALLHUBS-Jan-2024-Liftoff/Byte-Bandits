@@ -44,49 +44,6 @@ export const addRecipe = async (recipe) => {
   }
 };
 
-<<<<<<< Updated upstream
-// export const addRecipe = async (uri, label, image, source, calories, fat, carbs, protein) => {
-//   try {
-//     // console.log("uri", uri, "label", label, "image", image, "source", source);
-//     const response = await axios.post(`${LOCAL_API_BASE_URL}/api/recipes/new`,
-//       {
-//         uri: uri,
-//         label: label,
-//         image: image,
-//         source: source,
-//         calories: calories,
-//         fat: fat,
-//         carbs: carbs,
-//         protein: protein
-//       },
-//       {
-//         headers: { 'content-type': 'application/json' },
-//         withCredentials: true,
-//       });
-//       console.log("response.data", response.data);
-//       return response.data;
-//   } catch (error) {
-//     console.error("There was an error saving the recipe!", error);
-//     throw error;
-//   }
-// };
-
-
-// export const addRecipe = async (uri, label, image, source) => {
-//   try {
-//     const response = await axios.post(`${LOCAL_API_BASE_URL}/api/recipes/new`, null, {
-//       params: { uri, label, image, source },
-//     });
-//     console.log("response.data", response.data);
-//     return (response);
-//   } catch (error) {
-//     console.error("There was an error creating the todo!", error);
-//     throw error;
-//   }
-// };
-
-=======
->>>>>>> Stashed changes
 export const deleteRecipe = async (recipeId) => {
   try {
     await axios.post(`${LOCAL_API_BASE_URL}/api/recipes/delete`, null, {

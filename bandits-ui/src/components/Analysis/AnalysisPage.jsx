@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { fetchRecipes } from "../../services/recipeService";
-import NutriChart from "../otherComponents/NutriChart";
+import NutriChart from "./NutriChart";
 
 export const AnalysisPage = () => {
   const [recipes, setRecipes] = useState([]);

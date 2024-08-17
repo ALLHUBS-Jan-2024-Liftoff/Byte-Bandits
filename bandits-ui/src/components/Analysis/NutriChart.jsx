@@ -783,10 +783,11 @@ export default function NutriChart() {
         label: 'Recommended Daily Intake (%)',
         min: 0,
         max: 100,
-      },
+     },
     ],
     width: 800,
     height: 600,
+    
     // sx: {
     //   [`.${axisClasses.left} .${axisClasses.label}`]: {
     //     transform: 'translate(-10px, 0)',
@@ -802,6 +803,7 @@ export default function NutriChart() {
       yAxis={[{ scaleType: 'band', dataKey: 'label' }]}
       series={[{ dataKey: 'quantity', valueFormatter }]}
       layout="horizontal"
+      grid={{ vertical: true }}
       {...chartSetting}
     />
   );
