@@ -44,6 +44,7 @@ export const addRecipe = async (recipe) => {
   }
 };
 
+<<<<<<< Updated upstream
 // export const addRecipe = async (uri, label, image, source, calories, fat, carbs, protein) => {
 //   try {
 //     // console.log("uri", uri, "label", label, "image", image, "source", source);
@@ -84,6 +85,8 @@ export const addRecipe = async (recipe) => {
 //   }
 // };
 
+=======
+>>>>>>> Stashed changes
 export const deleteRecipe = async (recipeId) => {
   try {
     await axios.post(`${LOCAL_API_BASE_URL}/api/recipes/delete`, null, {

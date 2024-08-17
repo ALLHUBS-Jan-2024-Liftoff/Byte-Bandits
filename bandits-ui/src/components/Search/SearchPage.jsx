@@ -27,8 +27,10 @@ export const SearchPage = () => {
         console.error("There was an error fetching the recipes!", error);
     });
     setShowResults(true);
-    // console.log("recipes:", recipes);
   }
+
+  console.log("recipes:", recipes);
+
 
   function createData(label, calories, fat, carbs, protein, uri, image, source) {
     return { label, calories, fat, carbs, protein, uri, image, source };
@@ -48,7 +50,7 @@ export const SearchPage = () => {
       let source = recipes[i].recipe.source;
       // console.log(recipes[i].recipe);
       rows.push(createData(label, calories, fat, carbs, protein, uri, image, source));
-      console.log("rows", i, rows[i]);
+      // console.log("rows", i, rows[i]);
       // console.log("rows", i, rows[i]);
       // return rows;
   }
