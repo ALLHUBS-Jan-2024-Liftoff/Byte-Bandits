@@ -18,6 +18,7 @@ import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import "./App.css";
 import { CalendarPage } from "./components/Calendar/CalendarPage.jsx";
+import { AnalysisPage } from "./components/Analysis/AnalysisPage.jsx";
 
 
 // console.log(authenticated);
@@ -45,7 +46,7 @@ function App() {
                   <Nav.Link as={Link} to="/recipes">Saved Recipes</Nav.Link>
                   <Nav.Link as={Link} to="/search">Find Recipes</Nav.Link>
                   <Nav.Link as={Link} to="/MealPlans">Meal Plans</Nav.Link>
-
+                  <Nav.Link as={Link} to="/analysis">Analysis</Nav.Link>
                 </Nav>
                 <Nav className="ms-auto">
                   <NavDropdown title="Profile" id="basic-nav-dropdown">
@@ -96,6 +97,10 @@ function App() {
                 <Route
                   path="/MealPlans"
                   element={<CalendarPage />}
+                />
+                <Route
+                  path="/analysis"
+                  element={<AnalysisPage />}
                 />
                 <Route
                   path="/logout"
