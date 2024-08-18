@@ -19,6 +19,7 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import "./App.css";
 import { CalendarPage } from "./components/Calendar/CalendarPage.jsx";
 import { AnalysisPage } from "./components/Analysis/AnalysisPage.jsx";
+import { MuiLoginPage } from "./components/User/MuiLoginPage.jsx";
 
 
 // console.log(authenticated);
@@ -76,7 +77,7 @@ function App() {
             />
             <Route
               path="/register"
-              element={<RegistrationPage />}
+              element={<MuiLoginPage />}
             />
 
             {/* Private Routes */}

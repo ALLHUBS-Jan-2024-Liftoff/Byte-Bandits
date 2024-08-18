@@ -7,12 +7,11 @@ export const registerUser = async (
   email,
   firstName,
   lastName,
-  password,
-  verifyPassword
+  password
 ) => {
   try {
-    const response = await axios.post(`${BASEAPIURL}/api/user/newUser`, null, {
-      params: { email, firstName, lastName, password, verifyPassword },
+    const response = await axios.post(`${BASEAPIURL}/api/user/register`, null, {
+      params: { email, firstName, lastName, password },
     });
     return response.data;
   } catch (error) {
