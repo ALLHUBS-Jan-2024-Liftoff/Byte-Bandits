@@ -27,7 +27,7 @@ export default function BigCal() {
         events={events}
         startAccessor={(event) => {return new Date(event.start) }}
         endAccessor={(event) => {return new Date(event.end) }}
-        style={{ height: 500 }}
+        style={{ height: 750 }}
       />
     </div>
   );
