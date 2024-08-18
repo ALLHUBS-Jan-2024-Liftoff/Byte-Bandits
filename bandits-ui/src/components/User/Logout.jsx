@@ -3,6 +3,9 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 function Logout({ setAuthenticated }) {
+
+  const navigate = useNavigate();
+
   const handleLogout = async () => {
 
     try {
@@ -11,9 +14,10 @@ function Logout({ setAuthenticated }) {
           withCredentials: true,
         });
       setAuthenticated(false);
-      navigate("/login");
+      // // Currently handled by controller
+      // navigate("/login");
     } catch (error) {
-      console.error("Logout failed");
+      console.error("Logout failed", error);
     }
   };
 

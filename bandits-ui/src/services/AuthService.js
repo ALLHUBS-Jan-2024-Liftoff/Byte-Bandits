@@ -1,10 +1,10 @@
 import axios from "axios";
 
-const BASEAPIURL = "http://localhost:8080";
+const LOCAL_API_USER_URL = "http://localhost:8080/api/user";
 
 export const login = async (email, password) => {
   try {
-    const response = await axios.post(`${BASEAPIURL}/api/user/login`, null, {
+    const response = await axios.post(`${LOCAL_API_USER_URL}/api/user/login`, null, {
       params: { email, password },
     });
 

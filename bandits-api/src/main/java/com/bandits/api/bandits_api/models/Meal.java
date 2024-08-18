@@ -23,6 +23,8 @@ public class Meal {
     @JoinColumn(name = "meal_id")
     private MealPlan mealPlan;
 
+    private String label;
+
     private String mealType;
 
     private String date;
@@ -46,6 +48,14 @@ public class Meal {
 
     public void setRecipe(Recipe recipe) {
         this.recipe = recipe;
+    }
+
+    public String getLabel() {
+        return label;
+    }
+
+    public void setLabel(String label) {
+        this.label = label;
     }
 
     public String getMealType() {
