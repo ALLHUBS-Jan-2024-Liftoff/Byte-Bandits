@@ -55,14 +55,14 @@ public class MealController {
 
     @PostMapping("/new")
     public ResponseEntity<Map<String, String>> saveNewRecipe(
-            HttpSession session, @RequestParam String uri, @RequestParam String mealType, @RequestParam String date) {
+            HttpSession session, @RequestParam String uri, @RequestParam String mealType, @RequestParam String date, @RequestParam String label) {
         User user = userController.getUserFromSession(session);
         Meal newMeal = new Meal();
         Map<String, String> responseBody = new HashMap<>();
         if (user != null) {
             newMeal.setUser(user);
-            System.out.println(uri);
             newMeal.setRecipe(recipeRepository.findByUri(uri));
+            newMeal.setLabel(label);
             newMeal.setMealType(mealType);
             newMeal.setDate(date);
             mealRepository.save(newMeal);

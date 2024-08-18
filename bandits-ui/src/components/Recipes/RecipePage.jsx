@@ -1,30 +1,21 @@
 import React, { useState, useEffect } from "react";
-import { deleteRecipe } from "../../services/recipeService";
-import { addMeal } from "../../services/mealService";
+import { deleteRecipe, fetchRecipes } from "../../services/recipeService";
 import { RecipeTable } from "./RecipeTable";
 import { NewRecipeForm } from "./NewRecipeForm";
 import axios from "axios";
-
-const LOCAL_API_BASE_URL = "http://localhost:8080";
 
 export const RecipePage = () => {
   const [showAddForm, setShowAddForm] = useState(false);
   const [recipes, setRecipes] = useState([]);
 
+
   useEffect(() => {
     // Fetch all recipes when the component mounts
-    const fetchSavedMeals = async () => {
-      try {
-        const response = await axios.get(`${LOCAL_API_BASE_URL}/api/recipes`, {withCredentials:true});
-        console.log("response", response.data);
-        setRecipes(response.data);
-      } catch (error) {
+    fetchRecipes()
+      .then(setRecipes)
+      .catch((error) => {
         console.error("There was an error fetching the recipes!", error);
-        throw error;
-      }
-    };
-
-    fetchSavedMeals();
+      });
   }, []);
 
   // useEffect(() => {
@@ -57,23 +48,12 @@ export const RecipePage = () => {
       });
   };
 
-  const handleAddMeal = (uri, mealType, date) => {
-    console.log("uri", uri, "mealType", mealType, "date", date);
-    addMeal(uri, mealType, date);
-      // .then((newRecipe) => {
-      //   setRecipes([...recipes, newRecipe]);
-      // })
-      // .catch((error) => {
-      //   console.error("There was an error saving the recipe!", error);
-      // });
-  };
-
   return (
     <div className="mt-5 px-0 container">
       <div className="card">
         <div className="card-header">Your Recipes</div>
         <div className="card-body">
-          <RecipeTable recipes={recipes} deleteRecipe={handleDeleteRecipe} addMeal={handleAddMeal} />
+          <RecipeTable recipes={recipes} deleteRecipe={handleDeleteRecipe} />
           <button
             onClick={() => setShowAddForm(!showAddForm)}
             className="btn btn-primary"

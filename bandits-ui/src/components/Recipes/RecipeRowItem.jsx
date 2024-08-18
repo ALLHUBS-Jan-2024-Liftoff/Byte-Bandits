@@ -2,24 +2,24 @@ import React from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Button from "@mui/material/Button";
 import RestaurantIcon from '@mui/icons-material/Restaurant';
-import MuiDatePicker from '../MealPlan/MuiDatePicker';
+import { addMeal } from '../../services/mealService.js';
+import MuiDatePicker from '../Calendar/MuiDatePicker';
 import Select from 'react-select';
 
-export const RecipeRowItem = ({ recipe, recipes, deleteRecipe, addMeal }) => {
+export const RecipeRowItem = ({ recipe, recipes, deleteRecipe }) => {
   const [date, setDate] = React.useState("");
   const [mealType, setMealType] = React.useState("");
 
-  // const MealPicker = (e) => {
-
-  //   const options = [
-  //     { value: 'breakfast', label: 'Breakfast' },
-  //     { value: 'lunch', label: 'Lunch' },
-  //     { value: 'dinner', label: 'Dinner' }
-  //   ];
-
-  //   return (
-  //     <Select options={options} value={mealType} onChange={(e) => console.log(e.target.value)} />
-  //   );
+  const handleAddMeal = (uri, label, mealType, date) => {
+    console.log("uri", uri, "label", label, "mealType", mealType, "date", date);
+    addMeal(uri, label, mealType, date);
+      // .then((newRecipe) => {
+      //   setRecipes([...recipes, newRecipe]);
+      // })
+      // .catch((error) => {
+      //   console.error("There was an error saving the recipe!", error);
+      // });
+  };
 
 
 return (
@@ -42,7 +42,7 @@ return (
       <input className="form-control container-sm" type="date" value={date} onChange={(e) => setDate(e.target.value)} />
     </td>
     <td>
-      <Button variant="outlined" color="success" size="medium" startIcon={<RestaurantIcon />} onClick={() => addMeal(recipe.uri, mealType, date)}>
+      <Button variant="outlined" color="success" size="medium" startIcon={<RestaurantIcon />} onClick={() => handleAddMeal(recipe.uri, recipe.label, mealType, date)}>
         Add
       </Button>
     </td>

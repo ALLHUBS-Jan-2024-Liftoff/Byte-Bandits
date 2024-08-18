@@ -63,7 +63,7 @@ export const RecipePage = () => {
       <div className="card">
         <div className="card-header">Your Saved Recipes</div>
         <div className="card-body">
-          <RecipeTable recipes={recipes} deleteRecipe={handleDeleteRecipe} />
+          <RecipeTable meals={meals} deleteMeal={handleDeleteMeal} />
           <button
             onClick={() => setShowAddForm(!showAddForm)}
             className="btn btn-primary"

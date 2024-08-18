@@ -6,9 +6,7 @@ import {
   Navigate,
   Link,
 } from "react-router-dom";
-import LoginPage from "./components/User/LoginPage";
 import HomePage from "./components/Home/HomePage";
-import RegistrationPage from "./components/User/RegistrationPage";
 import Logout from "./components/User/Logout";
 import { RecipePage } from "./components/Recipes/RecipePage";
 import { SearchPage } from "./components/Search/SearchPage";
@@ -17,9 +15,10 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import "./App.css";
-import { Button } from "react-bootstrap";
-import BigCal from "./components/MealPlan/BigCalendar.jsx";
-import BasicCal from "./components/MealPlan/BasicCal.jsx";
+import { CalendarPage } from "./components/Calendar/CalendarPage.jsx";
+import { AnalysisPage } from "./components/Analysis/AnalysisPage.jsx";
+import { MuiRegPage } from "./components/User/MuiRegPage.jsx";
+import { MuiLoginPage } from "./components/User/MuiLoginPage.jsx";
 
 
 // console.log(authenticated);
@@ -47,7 +46,7 @@ function App() {
                   <Nav.Link as={Link} to="/recipes">Saved Recipes</Nav.Link>
                   <Nav.Link as={Link} to="/search">Find Recipes</Nav.Link>
                   <Nav.Link as={Link} to="/MealPlans">Meal Plans</Nav.Link>
-
+                  <Nav.Link as={Link} to="/analysis">Analysis</Nav.Link>
                 </Nav>
                 <Nav className="ms-auto">
                   <NavDropdown title="Profile" id="basic-nav-dropdown">
@@ -73,11 +72,11 @@ function App() {
             {console.log("Routes", authenticated)}
             <Route
               path="/login"
-              element={<LoginPage setAuthenticated={setAuthenticated} />}
+              element={<MuiLoginPage setAuthenticated={setAuthenticated} />}
             />
             <Route
               path="/register"
-              element={<RegistrationPage />}
+              element={<MuiRegPage />}
             />
 
             {/* Private Routes */}
@@ -97,7 +96,11 @@ function App() {
                 />
                 <Route
                   path="/MealPlans"
-                  element={<BigCal />}
+                  element={<CalendarPage />}
+                />
+                <Route
+                  path="/analysis"
+                  element={<AnalysisPage />}
                 />
                 <Route
                   path="/logout"

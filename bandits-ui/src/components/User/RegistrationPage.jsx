@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Alert from 'react-bootstrap/Alert';
+
  
 
 function RegistrationPage() {
@@ -23,8 +24,6 @@ function RegistrationPage() {
           firstName: "John",
           lastName: "Doe",
           email: "john.doe@example.com",
-          phoneNumber: "1234567890",
-          address: "123 Main St",
         },
         {
           withCredentials: true,
