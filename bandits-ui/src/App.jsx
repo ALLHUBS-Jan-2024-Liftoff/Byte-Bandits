@@ -6,9 +6,7 @@ import {
   Navigate,
   Link,
 } from "react-router-dom";
-import LoginPage from "./components/User/LoginPage";
 import HomePage from "./components/Home/HomePage";
-import RegistrationPage from "./components/User/RegistrationPage";
 import Logout from "./components/User/Logout";
 import { RecipePage } from "./components/Recipes/RecipePage";
 import { SearchPage } from "./components/Search/SearchPage";
@@ -19,6 +17,7 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import "./App.css";
 import { CalendarPage } from "./components/Calendar/CalendarPage.jsx";
 import { AnalysisPage } from "./components/Analysis/AnalysisPage.jsx";
+import { MuiRegPage } from "./components/User/MuiRegPage.jsx";
 import { MuiLoginPage } from "./components/User/MuiLoginPage.jsx";
 
 
@@ -73,11 +72,11 @@ function App() {
             {console.log("Routes", authenticated)}
             <Route
               path="/login"
-              element={<LoginPage setAuthenticated={setAuthenticated} />}
+              element={<MuiLoginPage setAuthenticated={setAuthenticated} />}
             />
             <Route
               path="/register"
-              element={<MuiLoginPage />}
+              element={<MuiRegPage />}
             />
 
             {/* Private Routes */}

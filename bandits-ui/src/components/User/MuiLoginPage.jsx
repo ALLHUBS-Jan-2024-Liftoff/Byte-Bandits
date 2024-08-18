@@ -1,13 +1,11 @@
 import React from 'react';
-import SignUp  from './MuiLoginComp';
+import MuiLoginComp from './MuiLoginComp';
 
-export const MuiLoginPage = () => {
+export const MuiLoginPage = ({ setAuthenticated }) => {
 
   return (
     <div className="mt-5 px-0 container-fluid">
-      <SignUp />
+      <MuiLoginComp setAuthenticated={setAuthenticated} />
     </div>
   );
 }
-
-//Testing git
