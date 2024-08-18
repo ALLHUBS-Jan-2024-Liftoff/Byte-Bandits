@@ -49,7 +49,7 @@ public class RecipeCollectionController {
     }
 
     @PostMapping("/delete")
-    public void deleteRecipe(@RequestParam Long recipeId) {
+    public void deleteRecipe(@RequestParam Integer recipeId) {
         recipeRepository.deleteById(recipeId);
     }
 
@@ -60,7 +60,7 @@ public class RecipeCollectionController {
         if (user != null) {
             recipe.setUser(user);
             recipeRepository.save(recipe);
-            responseBody.put("message", "Recipe save successfully!");
+            responseBody.put("message", "Recipe Saved Successfully!");
             return ResponseEntity.status(HttpStatus.CREATED).body(responseBody);
         } else {
             responseBody.put("message", "There was a problem saving the recipe.");

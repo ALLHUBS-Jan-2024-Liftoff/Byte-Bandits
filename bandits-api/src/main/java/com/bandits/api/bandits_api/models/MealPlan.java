@@ -9,29 +9,29 @@ public class MealPlan {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private Integer id;
 
     // TODO: create user end of relationship
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToMany
-    private List<MealDay> mealDays;
+    @OneToMany(mappedBy = "mealPlan")
+    private List<Meal> meals;
 
     private int numberOfDays;
 
     public MealPlan() {
     }
 
-    public MealPlan(Long id, User user, List<MealDay> mealDays, int numberOfDays) {
+    public MealPlan(Integer id, User user, List<Meal> meals, int numberOfDays) {
         this.id = id;
         this.user = user;
-        this.mealDays = mealDays;
+        this.meals = meals;
         this.numberOfDays = numberOfDays;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -43,12 +43,12 @@ public class MealPlan {
         this.user = user;
     }
 
-    public List<MealDay> getMealDays() {
-        return mealDays;
+    public List<Meal> getMeals() {
+        return meals;
     }
 
-    public void setMealDays(List<MealDay> mealDays) {
-        this.mealDays = mealDays;
+    public void setMealDays(List<Meal> mealDays) {
+        this.meals = meals;
     }
 
     public int getNumberOfDays() {

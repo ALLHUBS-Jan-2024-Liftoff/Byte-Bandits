@@ -9,7 +9,7 @@ import java.util.List;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     private String username;
     private String pwHash;
@@ -66,7 +66,7 @@ public class User {
         return encoder.matches(password, pwHash);
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 

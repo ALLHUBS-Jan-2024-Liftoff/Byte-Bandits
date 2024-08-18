@@ -27,7 +27,7 @@ public class UserController {
     private static final String userSessionKey = "user";
 
     public User getUserFromSession(HttpSession session) {
-        Long userId = (Long) session.getAttribute(userSessionKey);
+        Integer userId = (Integer) session.getAttribute(userSessionKey);
         if (userId == null) {
             return null;
         }

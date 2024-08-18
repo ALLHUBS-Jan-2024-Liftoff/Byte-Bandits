@@ -1,43 +1,29 @@
-package com.bandits.api.bandits_api.models;
+package com.bandits.api.bandits_api.models.data;
 
-import jakarta.persistence.*;
+import com.bandits.api.bandits_api.models.MealPlan;
+import com.bandits.api.bandits_api.models.Recipe;
+import com.bandits.api.bandits_api.models.User;
 
-import java.util.List;
+public class MealDTO {
 
-@Entity
-public class Meal {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @ManyToOne
-    @JoinColumn(name = "recipe_id")
     private Recipe recipe;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToOne
-    @JoinColumn(name = "meal_id")
     private MealPlan mealPlan;
 
     private String mealType;
 
     private String date;
 
-    public Meal() {
-    }
-
-    public Meal(Integer id, Recipe recipe, String mealType) {
-        this.id = id;
-        this.recipe = recipe;
-        this.mealType = mealType;
-    }
-
     public Integer getId() {
         return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public Recipe getRecipe() {
@@ -46,14 +32,6 @@ public class Meal {
 
     public void setRecipe(Recipe recipe) {
         this.recipe = recipe;
-    }
-
-    public String getMealType() {
-        return mealType;
-    }
-
-    public void setMealType(String mealType) {
-        this.mealType = mealType;
     }
 
     public User getUser() {
@@ -70,6 +48,14 @@ public class Meal {
 
     public void setMealPlan(MealPlan mealPlan) {
         this.mealPlan = mealPlan;
+    }
+
+    public String getMealType() {
+        return mealType;
+    }
+
+    public void setMealType(String mealType) {
+        this.mealType = mealType;
     }
 
     public String getDate() {

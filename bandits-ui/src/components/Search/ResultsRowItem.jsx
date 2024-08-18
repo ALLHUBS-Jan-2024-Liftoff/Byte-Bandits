@@ -14,7 +14,7 @@ export const ResultsRowItem = ({ rows, recipe }) => {
       <td>{recipe.protein}</td>
       <td>
         <Button variant="outlined" color="success" size="small" startIcon={<RestaurantIcon />} onClick={() => addRecipe(recipe)}>
-          Add
+          Save
         </Button>
       </td>
     </tr>
