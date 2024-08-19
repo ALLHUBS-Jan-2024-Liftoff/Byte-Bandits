@@ -19,7 +19,7 @@ import { CalendarPage } from "./components/Calendar/CalendarPage.jsx";
 import { AnalysisPage } from "./components/Analysis/AnalysisPage.jsx";
 import { MuiRegPage } from "./components/User/MuiRegPage.jsx";
 import { MuiLoginPage } from "./components/User/MuiLoginPage.jsx";
-
+import AccountPage from "./components/User/AccountPage.jsx";
 
 // console.log(authenticated);
 function App() {
@@ -50,7 +50,7 @@ function App() {
                 </Nav>
                 <Nav className="ms-auto">
                   <NavDropdown title="Profile" id="basic-nav-dropdown">
-                    <NavDropdown.Item href="#action/3.1">Account</NavDropdown.Item>
+                    <NavDropdown.Item as={Link} to="/account">Account</NavDropdown.Item>
                     <NavDropdown.Item href="#action/3.2">
                       Help
                     </NavDropdown.Item>
@@ -105,6 +105,10 @@ function App() {
                 <Route
                   path="/logout"
                   element={<Logout setAuthenticated={setAuthenticated} />}
+                />
+                <Route
+                  path="/account"
+                  element={<AccountPage />}
                 />
               </>
             ) : (

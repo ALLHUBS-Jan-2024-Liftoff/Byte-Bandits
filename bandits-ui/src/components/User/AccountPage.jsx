@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import ImageUploadHandler from "./ImageUploadHandler";
+import { Link } from "react-router-dom";
+
+
 
 const AccountPage = () => {
   const [userData, setUserData] = useState({
@@ -18,7 +22,7 @@ const AccountPage = () => {
   });
 
   useEffect(() => {
-    // Replace with your actual API call
+    // Replace with  actual API call
     const fetchUserData = async () => {
       const response = await fetch('/api/user'); 
       setUserData(data);
@@ -26,7 +30,7 @@ const AccountPage = () => {
     fetchUserData();
   }, []);
 
-  // Handle input changes for user data
+  
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setUserData((prevData) => ({
@@ -35,7 +39,7 @@ const AccountPage = () => {
     }));
   };
 
-  // Handle input changes for password fields
+  
   const handlePasswordChange = (e) => {
     const { name, value } = e.target;
     setPassword((prevPassword) => ({
@@ -44,14 +48,14 @@ const AccountPage = () => {
     }));
   };
 
-  // Handle form submission for user data update
+  
   const handleUserDataSubmit = (e) => {
     e.preventDefault();
-    // Make API call to update user data
+    
     console.log('User data updated:', userData);
   };
 
-  // Handle form submission for password change
+  
   const handlePasswordSubmit = (e) => {
     e.preventDefault();
     if (password.newPassword !== password.confirmPassword) {
@@ -104,24 +108,7 @@ const AccountPage = () => {
             onChange={handleInputChange}
           />
         </div>
-        <div>
-          <label>Phone Number:</label>
-          <input
-            type="tel"
-            name="phoneNumber"
-            value={userData.phoneNumber}
-            onChange={handleInputChange}
-          />
-        </div>
-        <div>
-          <label>Address:</label>
-          <input
-            type="text"
-            name="address"
-            value={userData.address}
-            onChange={handleInputChange}
-          />
-        </div>
+        
         <button type="submit">Update Information</button>
       </form>
 
@@ -156,6 +143,9 @@ const AccountPage = () => {
         </div>
         <button type="submit">Change Password</button>
       </form>
+
+      <h2>Upload Profile Picture</h2>
+      <ImageUploadHandler />
     </div>
   );
 };
