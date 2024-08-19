@@ -26,6 +26,8 @@ dependencies {
 	implementation 'io.jsonwebtoken:jjwt-jackson:0.11.5'
 	implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
 	implementation 'org.modelmapper:modelmapper:3.2.1'
+	implementation("software.amazon.awssdk:s3:2.23.4") //aws
+	implementation 'io.github.cdimascio:java-dotenv:5.2.2' //env
 //  // Do not enable, breaks authentication
 //	implementation 'org.springframework.boot:spring-boot-starter-security:3.3.2'
 	compileOnly 'org.projectlombok:lombok:1.18.34'
