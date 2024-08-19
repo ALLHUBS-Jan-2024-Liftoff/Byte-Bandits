@@ -4,16 +4,19 @@ import Button from "@mui/material/Button";
 import RestaurantIcon from '@mui/icons-material/Restaurant';
 
 export const ResultsRowItem = ({ rows, recipe }) => {
+
+  console.log(recipe,"recipe transfer to basket button")
+  console.log(rows,"rows")
   return (
-    <tr key={rows.indexOf(recipe)}>
-      <th scope="row">{rows.indexOf(recipe) + 1}</th>
+    <tr key={rows}>
+      <th scope="row">{rows+1}</th>
       <td>{recipe.label}</td>
       <td>{recipe.calories}</td>
       <td>{recipe.fat}</td>
       <td>{recipe.carbs}</td>
       <td>{recipe.protein}</td>
       <td>
-        <Button variant="outlined" color="success" size="small" startIcon={<RestaurantIcon />} onClick={() => addRecipe(recipe)}>
+        <Button variant="outlined" color="success" size="small" startIcon={<RestaurantIcon />} onClick={() => addRecipe(rows)}>
           Save
         </Button>
       </td>
