@@ -785,7 +785,7 @@ export default function NutriChart() {
         max: 100,
      },
     ],
-    width: 800,
+    width: 340,
     height: 600,
     
     // sx: {

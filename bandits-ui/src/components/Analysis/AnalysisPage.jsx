@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { fetchRecipes } from "../../services/recipeService";
 import NutriChart from "./NutriChart";
+import Title from "@mui/material/Typography";
+import Card from "@mui/material/Card";
 
 export const AnalysisPage = () => {
   const [recipes, setRecipes] = useState([]);
@@ -15,17 +17,13 @@ export const AnalysisPage = () => {
   // }, []);
 
   return (
-    <div className="mt-5 px-0 container-fluid">
-      <div className="card">
-        <div className="card-header">Nutritional Analysis</div>
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}>
-          <NutriChart recipes={recipes} />
-        </div>
+    <React.Fragment>
+      <Card>
+      <div style={{ width: '100%', flexGrow: 20, overflow: 'visible' }}>
+        <NutriChart recipes={recipes} />
       </div>
-    </div>
+      </Card>
+    </React.Fragment>
   );
 };
+
