@@ -19,6 +19,8 @@ import { CalendarPage } from "./components/Calendar/CalendarPage.jsx";
 import { AnalysisPage } from "./components/Analysis/AnalysisPage.jsx";
 import { MuiRegPage } from "./components/User/MuiRegPage.jsx";
 import { MuiLoginPage } from "./components/User/MuiLoginPage.jsx";
+import Dashboard from "./components/Home/dashboard/Dashboard.jsx";
+import ScopedCssBaseline from '@mui/material/ScopedCssBaseline';
 
 
 // console.log(authenticated);
@@ -26,10 +28,12 @@ function App() {
   const [authenticated, setAuthenticated] = useState(true);
 
   return (
-
+<ScopedCssBaseline>    
     <Router>
-      <>
-        <Navbar bg="light" data-bs-theme="dark">
+
+     <>
+      <Dashboard />
+        {/* <Navbar bg="light" data-bs-theme="dark">
           <Container>
             <Navbar.Brand as={Link} to="home">Balanced Bytes</Navbar.Brand>
             {console.log("Navbar", authenticated)}
@@ -64,7 +68,7 @@ function App() {
               </>
             )}
           </Container>
-        </Navbar>
+        </Navbar> */}
       </>
       <div className="App">
         <header className="App-header">
@@ -117,7 +121,7 @@ function App() {
         </header>
       </div>
     </Router>
-
+    </ScopedCssBaseline>
   );
 }
 
