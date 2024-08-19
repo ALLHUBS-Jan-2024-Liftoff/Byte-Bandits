@@ -3,6 +3,8 @@ import axios from 'axios';
 
 function ImageUploadHandler() {
   const [image, setImage] = useState(null);
+  const [message, setMessage] = useState("");
+  const [condition, setCondition] = useState("");
 
   // Handle Image Change
   const handleImageChange = (e) => {
@@ -18,13 +20,23 @@ function ImageUploadHandler() {
 
     const type = image.type;
     const imageName = image.name;
+    const token = localStorage.getItem("token"); 
 
     try {
-      // Get the presigned URL
-      const response = await axios.post('http://localhost:8080/presignedurl', { type, name: imageName });
+      
+      const response = await axios.post(
+        'http://localhost:8080/presignedurl',
+        { type, name: imageName },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, 
+          },
+          withCredentials: true,
+        }
+      );
       const url = response.data;
 
-      // Upload the image to S3
+      
       await axios.put(
         url, 
         image, 
@@ -32,8 +44,12 @@ function ImageUploadHandler() {
       );
 
       console.log("Successfully uploaded!");
+      setCondition("success");
+      setMessage("Image uploaded successfully!");
     } catch (error) {
       console.error("Error during upload:", error);
+      setCondition("danger");
+      setMessage(error.response?.data?.message || "Upload failed");
     }
   };
 
@@ -42,6 +58,7 @@ function ImageUploadHandler() {
       <h1>Upload Image</h1>
       <input type="file" accept="image/*" onChange={handleImageChange} />
       <button onClick={handleUpload}>Add Image to S3</button>
+      {message && <p className={`message ${condition}`}>{message}</p>}
     </div>
   );
 }
