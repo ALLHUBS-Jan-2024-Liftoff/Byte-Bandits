@@ -32,9 +32,6 @@ public class User {
     public User() {
     }
 
-//    getUsername(), getPassword(), getFirstName(), getLastName().getEmail(), getPhoneNumber(), getAddress(),"basic");
-
-
     public User(String username, String password, String firstName, String lastName, String email, String role) {
         this.username = username;
         this.pwHash = encoder.encode(password);
