@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+
 import {
   BrowserRouter as Router,
   Route,
@@ -21,12 +23,28 @@ import { MuiRegPage } from "./components/User/MuiRegPage.jsx";
 import { MuiLoginPage } from "./components/User/MuiLoginPage.jsx";
 import AccountPage from "./components/User/AccountPage.jsx";
 
+const theme = createTheme({
+  components: {
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          backgroundColor: '#222222',
+          color:'#ffffff',
+          '&:hover': {
+            backgroundColor: 'green', 
+          },
+        },
+      },
+    },
+  },
+});
+
 // console.log(authenticated);
 function App() {
   const [authenticated, setAuthenticated] = useState(true);
 
   return (
-
+    <ThemeProvider theme={theme}>
     <Router>
       <>
         <Navbar bg="light" data-bs-theme="dark">
@@ -121,7 +139,7 @@ function App() {
         </header>
       </div>
     </Router>
-
+    </ThemeProvider>
   );
 }
 

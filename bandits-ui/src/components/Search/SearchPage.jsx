@@ -3,6 +3,7 @@ import { searchRecipes, addRecipe } from "../../services/recipeService";
 import { ResultsTable } from './ResultsTable';
 
 import CustomizedTables from './RecipeResultsTable';
+import RecipeCardViewA from './RecipeCardViewA';
 
 export const SearchPage = () => {
 
@@ -74,7 +75,8 @@ export const SearchPage = () => {
         <button type="submit" className="btn btn-primary">Search</button>
       </form>
       <div className="card-body">
-        {showResults && <ResultsTable rows={rows} />}
+        {showResults && <RecipeCardViewA recipes={recipes} />}
+        {/* {showResults && <ResultsTable rows={rows} />} */}
         {/* {showResults && <CustomizedTables rows={rows} />} */}
       </div>
     </div>
