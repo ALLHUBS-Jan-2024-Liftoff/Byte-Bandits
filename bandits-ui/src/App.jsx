@@ -20,6 +20,7 @@ import { AnalysisPage } from "./components/Analysis/AnalysisPage.jsx";
 import { MuiRegPage } from "./components/User/MuiRegPage.jsx";
 import { MuiLoginPage } from "./components/User/MuiLoginPage.jsx";
 import RecipeReviewCard from "./components/Meals/MealCard";
+import MealCardPage from "./components/Meals/MealCardPage";
 
 
 // console.log(authenticated);
@@ -97,7 +98,7 @@ function App() {
                 />
                 <Route
                   path="/MealPlans"
-                  element={<RecipeReviewCard />}
+                  element={<MealCardPage />}
                 />
                 <Route
                   path="/analysis"

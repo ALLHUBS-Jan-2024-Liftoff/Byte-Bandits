@@ -48,3 +48,8 @@ body {
 a.nav-link {
   margin: 0 1em;
 }
+
+#testCard {
+  margin-top: 2em;
+  gap: 2em;
+}

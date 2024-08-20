@@ -20,26 +20,36 @@ import AccordionUsage from './Accordian';
 import NutriChart from "../Analysis/NutriChart";
 import { pl } from 'date-fns/locale';
 
-// {/* <Typography variant="body2" color="text.secondary" sx={{
-//   py: 0,
-//   mb: -3,
-//   textAlign: 'left',
-// }}>
+{/* <Typography variant="body2" color="text.secondary" sx={{
+  py: 0,
+  mb: -3,
+  textAlign: 'left',
+}}>
 
-//   {ingredients.map((ingredient) => (
-//     <p>{ingredient}</p>
-//   ))}
+  {ingredients.map((ingredient) => (
+    <p>{ingredient}</p>
+  ))}
 
-// </Typography> */}
+</Typography> */}
 
 
-// const newRecipe = foundRecipes[0].hits[2].recipe;
-// console.log(newRecipe.images.THUMBNAIL.url)
+const newRecipe = foundRecipes[0].hits[2].recipe;
+console.log(newRecipe.images.THUMBNAIL.url)
 
-// const ingredients = newRecipe.ingredientLines;
+const ingredients = newRecipe.ingredientLines;
 
-// console.log(ingredients);
+console.log(ingredients);
 
+const ExpandMore = styled((props) => {
+  const { expand, ...other } = props;
+  return <IconButton {...other} />;
+})(({ theme, expand }) => ({
+  transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
+  marginLeft: 'auto',
+  transition: theme.transitions.create('transform', {
+    duration: theme.transitions.duration.shortest,
+  }),
+}));
 
 export default function RecipeReviewCard() {
   const [expanded, setExpanded] = React.useState(false);
@@ -49,12 +59,7 @@ export default function RecipeReviewCard() {
   };
 
   return (
-    <div className="m-30">
-    <Card sx={{
-      backgroundColor: 'rgba(133, 242, 252, 0.7)',
-      maxWidth: 345,
-      overflow: 'visible',
-      }}>
+    <Card sx={{ maxWidth: 345 }}>
       <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
@@ -66,14 +71,13 @@ export default function RecipeReviewCard() {
             <MoreVertIcon />
           </IconButton>
         }
-        title="Title"
-        subheader="September 14, 2016"
+        title={newRecipe.label}
+        subheader={`${parseFloat((newRecipe.calories.toFixed(2)))} Calories`}
       />
       <CardMedia
-        backgroundColor="rgba(0, 0, 0, 0.08)"
         component="img"
         height="194"
-        image="Lorem Ipsum"
+        image={newRecipe.images.SMALL.url}
         alt="Paella dish"
       />
       <CardContent>
@@ -88,7 +92,7 @@ export default function RecipeReviewCard() {
         </IconButton>
       </CardActions>
     </Card>
-    </div>
   );
 }
+
 

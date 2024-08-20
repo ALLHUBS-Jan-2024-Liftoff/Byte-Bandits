@@ -2,6 +2,7 @@ import * as React from 'react';
 import { BarChart } from '@mui/x-charts/BarChart';
 import { axisClasses } from '@mui/x-charts/ChartsAxis';
 import { max } from 'date-fns';
+import zIndex from '@mui/material/styles/zIndex';
 
 export default function NutriChart() {
 
@@ -401,7 +402,7 @@ export default function NutriChart() {
                 "unit": "%"
             },
             "FOLDFE": {
-                "label": "Folate equivalent (total)",
+                "label": "Folate",
                 "quantity": 14.590495,
                 "unit": "%"
             },
@@ -759,35 +760,24 @@ export default function NutriChart() {
     // console.log(`key: ${key}, value: ${obj[key]}`);
 
     if (typeof obj[key] === 'object' && obj[key] !== null) {
-            // iterate(obj[key])
-            // console.log("key", key);
-            // console.log(obj[key].label);
-            // console.log(obj[key].quantity);
-            // xAxisData.push(obj[key].label);
-            // seriesData.push(obj[key].quantity);
-            // console.log(obj[key]);
             chartData.push(obj[key]);
         }
-    })
-    // chartData.push(xAxisData, seriesData);
+    });
     return (chartData);
   }
 
   console.log(iterate(chartRecipe.recipe.totalDaily));
-  // let dataToChart = iterate(chartRecipe.recipe.totalDaily);
-  // console.log(dataToChart);
+
 
   const chartSetting = {
     xAxis: [
       {
-        label: 'Recommended Daily Intake (%)',
         min: 0,
         max: 100,
      },
     ],
-    width: 340,
+    width: 400,
     height: 600,
-    
     // sx: {
     //   [`.${axisClasses.left} .${axisClasses.label}`]: {
     //     transform: 'translate(-10px, 0)',
@@ -800,10 +790,12 @@ export default function NutriChart() {
   return (        
     <BarChart
       dataset={chartData}
+      margin={{ top: 5, right:35, bottom: 40, left: 93 }}
       yAxis={[{ scaleType: 'band', dataKey: 'label' }]}
       series={[{ dataKey: 'quantity', valueFormatter }]}
       layout="horizontal"
-      grid={{ vertical: true }}
+      grid={{ vertical: false }}
+        
       {...chartSetting}
     />
   );
