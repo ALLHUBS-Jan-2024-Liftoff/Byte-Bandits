@@ -78,7 +78,6 @@ const AccountPage = () => {
             name="username"
             value={userData.username}
             onChange={handleInputChange}
-            readOnly
           />
         </div>
         <div>
