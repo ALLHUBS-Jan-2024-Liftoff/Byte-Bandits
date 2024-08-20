@@ -51,6 +51,22 @@ const theme = createTheme({
   },
 });
 
+const theme = createTheme({
+  components: {
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          backgroundColor: '#222222',
+          color:'#ffffff',
+          '&:hover': {
+            backgroundColor: 'green', 
+          },
+        },
+      },
+    },
+  },
+});
+
 // console.log(authenticated);
 function App() {
   const [authenticated, setAuthenticated] = useState(true);
