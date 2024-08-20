@@ -1,11 +1,9 @@
 
 import React, { useState } from 'react';
-import { Card, CardContent, CardActions, Modal, IconButton, Typography, Box, CardMedia, Grid, List, ListItem, Button } from '@mui/material';
+import { Card, CardContent, CardActions, Modal, IconButton, Typography, Box, CardMedia, Grid, List, ListItem, Button, Link } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import CloseIcon from '@mui/icons-material/Close';
-import { Link } from 'react-router-dom';
 import { addRecipe } from "../../services/recipeService";
-
 
 // const CountMeals = (meals) => {
 //   console.log(meals, "meals")
@@ -22,7 +20,6 @@ const ExpandableModalCard = ({ title, img, expandedContent, link, cal, mealId, h
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  console.log(handleMealPlan,"basket button")
   return (
     <>
       <Card>
@@ -60,7 +57,7 @@ const ExpandableModalCard = ({ title, img, expandedContent, link, cal, mealId, h
           top: '50%',
           left: '50%',
           transform: 'translate(-50%, -50%)',
-          width: "50%",
+          width: "60%",
           bgcolor: 'background.paper',
           boxShadow: 24,
           p: 4,
@@ -83,14 +80,16 @@ const ExpandableModalCard = ({ title, img, expandedContent, link, cal, mealId, h
             src={img}
             alt={title}
             sx={{
-              width: '50%',
+              p:'2rem',
+              height:'max-content',
           }}/>
 
-          <List id="modal-description" variant="body2" sx={{ mt: 2 }}>
+          <List id="modal-description" variant="body2" sx={{ mt: 1 }}>
+            <ListItem><Typography variant="body1" color='#666666' fontSize='1.3rem'>Ingredients</Typography></ListItem>
               {expandedContent.map(x=>(
-                <ListItem sx={{ display: 'flex', justifyContent: 'flex-start' }}>{x.text}</ListItem>
+                <ListItem sx={{ display: 'flex', justifyContent: 'flex-start', py:'0.3rem'}}>{x.text}</ListItem>
                   ))}
-                  <ListItem><Link to={link} target="_blank" rel="noopener">Click here to view the full recipe</Link></ListItem>
+                  <ListItem><Link  href={link} target="_blank" rel="noopener" >Click here to view the full recipe</Link></ListItem>
             </List>
         </Box>
         </Box>
@@ -112,18 +111,14 @@ function RecipeCardViewA ({recipes}) {
   for (let i = 0; i < recipes.length; i++) {
       let label = recipes[i].recipe.label;
       let calories = parseFloat((recipes[i].recipe.calories).toFixed(2));
-      console.log("calories", typeof calories);
       let fat = parseFloat((recipes[i].recipe.totalNutrients.FAT.quantity).toFixed(2));
       let carbs = parseFloat((recipes[i].recipe.totalNutrients.CHOCDF.quantity).toFixed(2));
       let protein = parseFloat((recipes[i].recipe.totalNutrients.PROCNT.quantity).toFixed(2));
       let uri = recipes[i].recipe.uri;
       let image = recipes[i].recipe.image;
       let source = recipes[i].recipe.source;
-      // console.log(recipes[i].recipe);
       rows.push(createData(label, calories, fat, carbs, protein, uri, image, source));
-      console.log("rows", i, rows[i]);
-      // console.log("rows", i, rows[i]);
-      // return rows;
+
   }
 
   const [mealPlanBasket, setMealPlanBasket] = useState([]);

@@ -21,12 +21,11 @@ const CheckBoxGroup = ({labelFor,options,onChange,checkedItems}) => {
         // console.log(checkedState)
         const { name, checked } = event.target;
         onChange(name, checked);
-        console.log(name, checked)
       };
     
       return (
-          <FormGroup sx={{my:'1rem', display:'flex',flexDirection:'row'}}>
-            <FormLabel sx={{ flexBasis: '100%', fontSize:'1.3rem', color:'#222'}}>{labelFor}</FormLabel>
+          <FormGroup sx={{marginTop:'1rem', display:'flex',flexDirection:'row'}}>
+            <FormLabel sx={{ textAlign: 'left', flexBasis: '100%', fontSize:'1.3rem', color:'#222'}} tex>{labelFor}</FormLabel>
             {options.map((option) => (
               <FormControlLabel
                 key={option}

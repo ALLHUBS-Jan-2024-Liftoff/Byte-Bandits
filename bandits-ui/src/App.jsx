@@ -36,6 +36,18 @@ const theme = createTheme({
         },
       },
     },
+    MuiLink: {
+      styleOverrides: {
+        root: {
+          color: 'green', // Default link color
+          textDecoration: 'none', // Remove underline
+          '&:hover': {
+            color: 'black', // Hover color
+            textDecoration: 'underline', // Underline on hover
+          },
+        },
+      },
+    },
   },
 });
 

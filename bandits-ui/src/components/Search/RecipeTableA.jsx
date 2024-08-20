@@ -1,18 +1,23 @@
 import React, { useEffect } from 'react'
 import { useState } from 'react';
 import { Box, Button, Container, FormControl, FormGroup, Input, InputLabel, List, ListItem, ListItemText, MenuItem, OutlinedInput, Select, TextField, Typography } from '@mui/material';
-import { CloseFullscreen, Label } from '@mui/icons-material';
 import CheckBoxGroup from '../Checkbox/CheckboxGroup';
 import RecipeCardView from './RecipeCardViewA';
+import { searchRecipes, addRecipe } from "../../services/recipeService";
+import RecipeCardViewA from './RecipeCardViewA';
 
 function RecipeTableA() {
 
-    const [recipes, setRecipes] = useState([]); // Array instead of object
+
+
+    const [showResults, setShowResults] = useState(false);
+    const [recipes, setRecipes] = useState([]);
+
     const [txtIngredients, setTxtIngredients] = useState(''); 
 
     
-    const dietsList = ['kosher', 'vegan', 'vegetarian'];
-    const allergiesList = ['dairy-free', 'egg-free', 'soy-free'];
+    const dietsList = ['kosher', 'vegan', 'vegetarian','pescatarian','pork-free','low-Carb','low-Fat','high-Protein','keto'];
+    const allergiesList = ['dairy-free', 'egg-free', 'soy-free','fish-free','Wheat-free','sesame-free','peanut-free','Gluten-free'];
 
 
     const [diets, setDiets] = useState(
@@ -47,12 +52,6 @@ function RecipeTableA() {
         setTxtIngredients(event.target.value);
     };
 
-    const [selectedValue, setSelectedValue] = useState('');
-
-    const handleDropDownChange = (event) => {
-      setSelectedValue(event.target.value);
-    };
-
     const handleSubmit = (event) => {
         // Prevent default form submission
         event.preventDefault();
@@ -60,92 +59,51 @@ function RecipeTableA() {
         const ingredients = (txtIngredients.length < 2) ? 'null' : txtIngredients;
 
         
-        const selectedDietsArr = (diets.length == 0) ? '' : Object.keys(diets).filter((diet) => diets[diet]).map((diet) => `${diet}`);
-        const selectedAllergiesArr = (allergies.length == 0) ? '' : Object.keys(allergies).filter((allergy) => allergies[allergy]).map((allergy)=> `${allergy}`);
+        const selectedDietsArr = (diets.length == 0) ? '' : Object.keys(diets).filter((diet) => diets[diet]).map((diet) => `&health=${diet}`);
+        const selectedAllergiesArr = (allergies.length == 0) ? '' : Object.keys(allergies).filter((allergy) => allergies[allergy]).map((allergy)=> `&health=${allergy}`);
 
         //useEffect(() => {
-        let url = "";
-        let health = "";
-        console.log(ingredients,selectedDietsArr,selectedAllergiesArr, "list")
+        let query = "";
         if(selectedDietsArr.length > 0 || selectedAllergiesArr.length > 0){
             
-            url =ingredients
-            health = selectedDietsArr.concat(selectedAllergiesArr).join(',')
+            query =ingredients+selectedDietsArr.concat(selectedAllergiesArr).join('')
         }
         else{
-            url = ingredients
+            query = ingredients
         }
+        console.log(query,"query")
+        searchRecipes(query)
+        .then((response) => {
+          setRecipes(response.hits);
+        }).catch((error) => {
+          console.error("There was an error fetching the recipes!", error);
+      });
 
-            const fetchData = async () => {
-              const queryParams = new URLSearchParams();
-              queryParams.append('health',health);
-              queryParams.append('query', url);
-                const data = await fetch(`http://localhost:8080/search?${queryParams}`)
-               .then(response => response.json())
-               .then(response => {
-                   setRecipes(response.hits);
-                   console.log(response.hits);
-               }
-               )
-               .catch(err => console.error(err,"Error"));
-            }    
-            fetchData();
-         // }, []);
+      setShowResults(true);
+
     };
 
-
-    function GetRecipesHtml() {
-        recipes.map(recipe=>{
-            console.log(recipe.recipe.cuisineType)
-        })
-    }
-
-    const filterByMealTypeAndGroupByCusineType = recipes.filter(recipe=>recipe.recipe.mealType == selectedValue)
-                                                            .reduce((acc, rec) => {
-                              // Initialize the category if it doesn't exist in the accumulator
-                              if (!acc[rec.recipe.cuisineType]) {
-                              acc[rec.recipe.cuisineType] = [];
-                              }
-      // Add the item to the appropriate category
-      acc[rec.recipe.cuisineType].push(rec);
-      return acc;
-    }, {});
-
-    console.log(filterByMealTypeAndGroupByCusineType, 'group by type')
-  GetRecipesHtml();
   return (
     <>
-        <Typography variant='h1' sx={{fontSize:'2rem',py:'1rem', color:'#111', fontWeight:'bold'
+
+        <Box sx={{width:'100%', py:'2rem'}}>
+        <Typography variant='h1' sx={{fontSize:'1.5rem',p:'1rem 2rem', color:'#111', textAlign:'left', fontWeight:'bold'
         }}>Let's Create your meal plan</Typography>
-        <Box sx={{width:'100%'}}>
           <form onSubmit={handleSubmit}>
             <Container sx={{textTransform:'capitalize',display:'flex',flexDirection:'row', flexWrap: 'wrap'}}> 
-              <FormControl sx={{ flexBasis: '50%'}}>
-                <InputLabel htmlFor='txt-ingredients'>Ingredients</InputLabel>
-                  <OutlinedInput
+              <FormControl sx={{ flexBasis: '100%', justifyContent:'left', alignItems:'left'}}>
+                  <TextField
                     label="Ingredients"
                     id="txt-ingredients"
                     type="text"
                     value={txtIngredients}
                     onChange={handletxtIngredientsChange}
-                    required="true" sx={{width:'80%'}}/>
+                    sx={{width:'100%'}}/>
               </FormControl>
-              {/* <FormControl sx={{ flexBasis: '50%'}}>
-                <InputLabel htmlFor="select-meal-type">Meal Type</InputLabel>
-                  <Select
-                    value={selectedValue}
-                    onChange={handleDropDownChange}
-                    label="mealType"
-                    id="select-meal-type"
-                    required="true" sx={{width:'60%'}}
-                  >
-                    <MenuItem value={'breakfast'}>Breakfast</MenuItem>
-                    <MenuItem value={'lunch/dinner'}>Lunch</MenuItem>
-                    <MenuItem value={'lunch/dinner'}>Dinner</MenuItem>
-                  </Select>
-              </FormControl> */}
-              {/* <CheckBoxGroup options={dietsList} checkedItems={diets} onChange={handleDietsChange} labelFor='Dietery Option'/>
-              <CheckBoxGroup options={allergiesList} checkedItems={allergies} onChange={handleAllergiesChange} labelFor='Allergy Option'/> */}
+              <FormControl sx={{ flexBasis: '100%', justifyContent:'normal'}}>
+                <CheckBoxGroup options={dietsList} checkedItems={diets} onChange={handleDietsChange} labelFor='Dietery Option'/>
+                <CheckBoxGroup options={allergiesList} checkedItems={allergies} onChange={handleAllergiesChange} labelFor='Allergy Option'/>
+              </FormControl>
                 <FormGroup sx={{ flexBasis: '100%'}}>
                 <Button type="submit" sx={{ width:'15rem', background:'#555', color:'#fff','&:hover': {
                         backgroundColor: 'green', // Background color on hover
@@ -153,8 +111,8 @@ function RecipeTableA() {
                 </FormGroup>
             </Container>
             </form>
+            {showResults && <RecipeCardViewA recipes={recipes} />}
         </Box>
-        <RecipeCardView data={recipes} />
     </>
 
   )
