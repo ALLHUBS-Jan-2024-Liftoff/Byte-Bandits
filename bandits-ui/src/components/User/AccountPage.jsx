@@ -34,6 +34,15 @@ const AccountPage = () => {
     confirmPassword: '',
   });
 
+  // useEffect(() => {
+  //   // Replace with  actual API call
+  //   const fetchUserData = async () => {
+  //     const response = await fetch('/api/user'); 
+  //     setUserData(data);
+  //   };
+  //   fetchUserData();
+  // }, []);
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setUserData((prevData) => ({
