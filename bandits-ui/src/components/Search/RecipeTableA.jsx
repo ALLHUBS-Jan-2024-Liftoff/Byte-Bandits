@@ -17,7 +17,7 @@ function RecipeTableA() {
 
     
     const dietsList = ['kosher', 'vegan', 'vegetarian','Mediterranean','pescatarian','pork-free','DASH','paleo','keto-friendly'];
-    const allergiesList = ['dairy-free', 'egg-free', 'soy-free','fish-free','Wheat-free','sesame-free','peanut-free','Gluten-free'];
+    const allergiesList = ['dairy-free', 'egg-free', 'soy-free','fish-free','wheat-free','sesame-free','peanut-free','gluten-free'];
 
 
     const [diets, setDiets] = useState(
