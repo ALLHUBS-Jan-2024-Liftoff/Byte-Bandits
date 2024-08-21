@@ -2,7 +2,11 @@ import React, { useState } from "react";
 import axios from "axios";
 import Alert from 'react-bootstrap/Alert';
 import { useNavigate } from "react-router-dom";
+import CssBaseline from '@mui/material/CssBaseline';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 
+
+const defaultTheme = createTheme();
 
 function LoginPage({ setAuthenticated }) {
   const [username, setUsername] = useState("");
