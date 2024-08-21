@@ -16,7 +16,7 @@ function RecipeTableA() {
     const [txtIngredients, setTxtIngredients] = useState(''); 
 
     
-    const dietsList = ['kosher', 'vegan', 'vegetarian','pescatarian','pork-free','low-Carb','low-Fat','high-Protein','keto'];
+    const dietsList = ['kosher', 'vegan', 'vegetarian','Mediterranean','pescatarian','pork-free','DASH','paleo','keto'];
     const allergiesList = ['dairy-free', 'egg-free', 'soy-free','fish-free','Wheat-free','sesame-free','peanut-free','Gluten-free'];
 
 
