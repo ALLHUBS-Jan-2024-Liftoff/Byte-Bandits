@@ -22,6 +22,7 @@ import { AnalysisPage } from "./components/Analysis/AnalysisPage.jsx";
 import { MuiRegPage } from "./components/User/MuiRegPage.jsx";
 import { MuiLoginPage } from "./components/User/MuiLoginPage.jsx";
 import AccountPage from "./components/User/AccountPage.jsx";
+import ReviewMeal from "./components/Home/ReviewMeal.jsx";
 
 const theme = createTheme({
   components: {
@@ -44,22 +45,6 @@ const theme = createTheme({
           '&:hover': {
             color: 'black', // Hover color
             textDecoration: 'underline', // Underline on hover
-          },
-        },
-      },
-    },
-  },
-});
-
-const theme = createTheme({
-  components: {
-    MuiButton: {
-      styleOverrides: {
-        root: {
-          backgroundColor: '#222222',
-          color:'#ffffff',
-          '&:hover': {
-            backgroundColor: 'green', 
           },
         },
       },
@@ -143,6 +128,10 @@ function App() {
                 <Route
                   path="/MealPlans"
                   element={<CalendarPage />}
+                />
+                <Route
+                  path="/review"
+                  element={<ReviewMeal />}
                 />
                 <Route
                   path="/analysis"

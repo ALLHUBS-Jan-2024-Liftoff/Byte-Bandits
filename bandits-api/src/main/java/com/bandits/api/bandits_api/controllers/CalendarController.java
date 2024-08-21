@@ -1,14 +1,9 @@
 package com.bandits.api.bandits_api.controllers;
 
 import com.bandits.api.bandits_api.models.Meal;
-import com.bandits.api.bandits_api.models.Recipe;
 import com.bandits.api.bandits_api.models.data.CalendarDTO;
-import com.bandits.api.bandits_api.models.data.MealDTO;
-import com.bandits.api.bandits_api.models.data.RecipeDTO;
 import com.bandits.api.bandits_api.models.User;
-import com.bandits.api.bandits_api.repositories.MealPlanRepository;
 import com.bandits.api.bandits_api.repositories.MealRepository;
-import com.bandits.api.bandits_api.repositories.RecipeRepository;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeMap;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.http.HttpStatus;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -60,3 +53,5 @@ public class CalendarController {
         }
     }
 }
+
+

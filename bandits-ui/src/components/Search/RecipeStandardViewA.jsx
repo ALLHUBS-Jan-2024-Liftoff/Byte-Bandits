@@ -15,6 +15,7 @@ import React from 'react'
 
 function RecipeStandardViewA({data}) {
 
+  console.log(data)
   const [expanded, setExpanded] = React.useState(false);
 
   const handleExpandClick = () => {
@@ -25,40 +26,7 @@ function RecipeStandardViewA({data}) {
   return (
     <>
             <Box sx={{py:'3rem'}}>
-              <Grid container spacing={2}>
-              {data.map(rec=>(
-                  <Grid item xs={12} sm={3}>
 
-                    <Card>
-                      <CardHeader 
-                          title={rec.recipe.label} />
-                      <CardMedia 
-                          component="img"
-                          width="90%"
-                          image={rec.recipe.image} 
-                          alt={rec.recipe.label}/>
-                      <CardContent>
-                          <List>
-                            {rec.recipe.ingredients.map(x=>(
-                              <ListItem>{x.text}</ListItem>
-                            ))}
-                        </List>
-                      </CardContent>
-                    </Card>
-                    {/* <ListItemText>{rec.recipe.label}</ListItemText> */}
-                    {/* <img src={rec.recipe.image}></img>
-                    <Typography>Ingredients</Typography>
-                    <List>
-                        {rec.recipe.ingredients.map(x=>(
-                              <ListItem>{x.text}</ListItem>
-                      ))}
-                    </List> */}
-
-
-                    
-                  </Grid>
-              ))}
-              </Grid>
             </Box>
     </>
   )

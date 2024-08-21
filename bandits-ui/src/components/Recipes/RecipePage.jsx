@@ -38,6 +38,9 @@ export const RecipePage = () => {
   //     });
   // };
 
+
+  console.log(recipes,"recipes")
+
   const handleDeleteRecipe = (recipeId) => {
     deleteRecipe(recipeId)
       .then(() => {
