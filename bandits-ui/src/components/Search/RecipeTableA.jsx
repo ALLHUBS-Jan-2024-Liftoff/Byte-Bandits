@@ -66,7 +66,11 @@ function RecipeTableA() {
         let query = "";
         if(selectedDietsArr.length > 0 || selectedAllergiesArr.length > 0){
             
-            query =ingredients+selectedDietsArr.concat(selectedAllergiesArr).join('')
+            if(selectedDietsArr.length > 0)
+            {
+              query =ingredients+selectedDietsArr.concat(selectedAllergiesArr).join('')
+            }
+            query =ingredients+selectedAllergiesArr.join('')
         }
         else{
             query = ingredients
