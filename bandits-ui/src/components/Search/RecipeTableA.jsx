@@ -59,18 +59,15 @@ function RecipeTableA() {
         const ingredients = (txtIngredients.length < 2) ? 'null' : txtIngredients;
 
         
-        const selectedDietsArr = (diets.length == 0) ? '' : Object.keys(diets).filter((diet) => diets[diet]).map((diet) => `&health=${diet}`);
-        const selectedAllergiesArr = (allergies.length == 0) ? '' : Object.keys(allergies).filter((allergy) => allergies[allergy]).map((allergy)=> `&health=${allergy}`);
+        const selectedDietsArr = (diets.length == 0) ? [] : Object.keys(diets).filter((diet) => diets[diet]).map((diet) => `&health=${diet}`);
+        const selectedAllergiesArr = (allergies.length == 0) ? [] : Object.keys(allergies).filter((allergy) => allergies[allergy]).map((allergy)=> `&health=${allergy}`);
 
         //useEffect(() => {
         let query = "";
         if(selectedDietsArr.length > 0 || selectedAllergiesArr.length > 0){
             
-            if(selectedDietsArr.length > 0)
-            {
               query =ingredients+selectedDietsArr.concat(selectedAllergiesArr).join('')
-            }
-            query =ingredients+selectedAllergiesArr.join('')
+
         }
         else{
             query = ingredients
