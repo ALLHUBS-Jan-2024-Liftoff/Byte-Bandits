@@ -2,10 +2,83 @@ import axios from "axios";
 
 const LOCAL_API_MEAL_URL = "http://localhost:8080/api/meals";
 
-const RECIPE_SEARCH_BASE_URL = "https://api.edamam.com/api/recipes/v2?type=public";
-const RECIPE_SEARCH_APP_KEY = "f7b7c5856e28029b8e7ab08182ab9fe1"
+// Separate instance for public API requests
+const publicAxiosInstance = axios.create({
+  baseURL: "https://api.edamam.com/api/recipes/v2?type=public",
+});
+
+const RECIPE_SEARCH_APP_KEY = "f7b7c5856e28029b8e7ab08182ab9fe1";
 const RECIPE_SEARCH_APP_ID = "9cf8e5c7";
 
+// Axios instance for authenticated requests
+const axiosInstance = axios.create({
+  baseURL: LOCAL_API_MEAL_URL,
+  withCredentials: true,
+});
+
+axiosInstance.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      config.headers['Authorization'] = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
+export const fetchMeals = async () => {
+  try {
+    const response = await axiosInstance.get('/saved');
+    console.log("response", response);
+    return response.data;
+  } catch (error) {
+    console.error("There was an error fetching the meals!", error);
+    throw error;
+  }
+};
+
+export const addMeal = async (uri, label, mealType, date) => {
+  try {
+    await axiosInstance.post('/new', null, {
+      params: { uri, label, mealType, date },
+    });
+    console.log("Meal saved successfully!");
+  } catch (error) {
+    console.error("There was an error saving the meal!", error);
+    throw error;
+  }
+};
+
+export const deleteMeal = async (recipeId) => {
+  try {
+    await axiosInstance.post('/delete', null, {
+      params: { recipeId },
+    });
+  } catch (error) {
+    console.error("There was an error deleting the meal!", error);
+    throw error;
+  }
+};
+
+// Public API call for searching meals
+export const searchMeals = async (query) => {
+  try {
+    const response = await publicAxiosInstance.get('', {
+      params: {
+        app_id: RECIPE_SEARCH_APP_ID,
+        app_key: RECIPE_SEARCH_APP_KEY,
+        q: query,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("There was an error searching for meals!", error);
+    throw error;
+  }
+};
 // TODO: Implement the searchMeals function
 // export const searchRecipes = async (q) => {
 //   try {
@@ -16,7 +89,7 @@ const RECIPE_SEARCH_APP_ID = "9cf8e5c7";
 //     throw error;
 //   }
 // };
-
+/*
 export const fetchMeals = async () => {
   try {
     const response = await axios.get(`${LOCAL_API_MEAL_URL}/saved`, {withCredentials:true});
@@ -83,3 +156,4 @@ export const deleteMeal = async (recipeId) => {
     throw error;
   }
 };
+*/

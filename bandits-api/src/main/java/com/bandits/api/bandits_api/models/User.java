@@ -7,9 +7,10 @@ import java.util.List;
 
 @Entity
 public class User {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     private String username;
     private String pwHash;
@@ -29,24 +30,24 @@ public class User {
 
     private static final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
+    // Default constructor
     public User() {
     }
 
-//    getUsername(), getPassword(), getFirstName(), getLastName().getEmail(), getPhoneNumber(), getAddress(),"basic");
-
-
+    // Constructor for user registration
     public User(String username, String password, String firstName, String lastName, String email, String role) {
         this.username = username;
-        this.pwHash = encoder.encode(password);
+        this.pwHash = encoder.encode(password);  // Hash the password before storing
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.role = role;
     }
 
+    // Overloaded constructor with additional parameters
     public User(String username, String password, String firstName, String lastName, String email, String role, List<Recipe> recipes, List<Meal> meals, List<MealPlan> mealPlans) {
         this.username = username;
-        this.pwHash = encoder.encode(password);
+        this.pwHash = encoder.encode(password);  // Hash the password before storing
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -56,11 +57,13 @@ public class User {
         this.mealPlans = mealPlans;
     }
 
+    // Method to check if a provided password matches the stored password hash
     public boolean isMatchingPassword(String password) {
         return encoder.matches(password, pwHash);
     }
 
-    public Integer getId() {
+    // Getters and setters for all fields
+    public Long getId() {
         return id;
     }
 

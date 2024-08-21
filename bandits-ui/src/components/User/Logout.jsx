@@ -1,21 +1,21 @@
 import React from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
+//import { logout } from "../services/AuthService";
+import { logout } from "../../services/AuthService";
 
 function Logout({ setAuthenticated }) {
-
   const navigate = useNavigate();
 
   const handleLogout = async () => {
-
     try {
-      await axios.get("http://localhost:8080/user/logout",
-        {
-          withCredentials: true,
-        });
+      // Use the logout function from AuthService
+      await logout();
+
       setAuthenticated(false);
-      // // Currently handled by controller
-      // navigate("/login");
+      localStorage.removeItem("token");
+
+      // Redirect to login page
+      navigate("/login");
     } catch (error) {
       console.error("Logout failed", error);
     }

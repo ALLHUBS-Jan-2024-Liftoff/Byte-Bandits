@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import { uploadImage } from '../../services/imageService';
 
 function ImageUploadHandler() {
   const [image, setImage] = useState(null);
@@ -14,49 +14,34 @@ function ImageUploadHandler() {
   // Handle Image Upload
   const handleUpload = async () => {
     if (!image) {
-      console.log("No image uploaded");
+      setCondition("danger");
+      setMessage("Please select an image to upload.");
       return;
     }
 
-    const type = image.type;
-    const imageName = image.name;
-    const token = localStorage.getItem("token"); 
-
     try {
-      
-      const response = await axios.post(
-        'http://localhost:8080/presignedurl',
-        { type, name: imageName },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`, 
-          },
-          withCredentials: true,
-        }
-      );
-      const url = response.data;
-
-      
-      await axios.put(
-        url, 
-        image, 
-        { headers: { "Content-Type": type } }
-      );
-
-      console.log("Successfully uploaded!");
+      const responseMessage = await uploadImage(image);
       setCondition("success");
-      setMessage("Image uploaded successfully!");
+      setMessage(responseMessage);
+
+      // Reset the form after successful upload
+      setImage(null);
     } catch (error) {
       console.error("Error during upload:", error);
       setCondition("danger");
-      setMessage(error.response?.data?.message || "Upload failed");
+      setMessage(error.message || "Upload failed");
     }
   };
 
   return (
     <div className="form">
       <h1>Upload Image</h1>
-      <input type="file" accept="image/*" onChange={handleImageChange} />
+      <input 
+        type="file" 
+        accept="image/*" 
+        onChange={handleImageChange} 
+        value={image ? image.name : ""}
+      />
       <button onClick={handleUpload}>Add Image to S3</button>
       {message && <p className={`message ${condition}`}>{message}</p>}
     </div>

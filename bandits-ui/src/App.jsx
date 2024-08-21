@@ -20,13 +20,14 @@ import { AnalysisPage } from "./components/Analysis/AnalysisPage.jsx";
 import { MuiRegPage } from "./components/User/MuiRegPage.jsx";
 import { MuiLoginPage } from "./components/User/MuiLoginPage.jsx";
 import AccountPage from "./components/User/AccountPage.jsx";
-
+import AuthLight from "./components/otherComponents/AuthLight.jsx";
 // console.log(authenticated);
 function App() {
   const [authenticated, setAuthenticated] = useState(true);
 
   return (
 
+    
     <Router>
       <>
         <Navbar bg="light" data-bs-theme="dark">

@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import { fetchUserData, updateUserPassword, updateUserDetails } from "../../services/userService";
 import ImageUploadHandler from "./ImageUploadHandler";
-import { Link } from "react-router-dom";
-
-
+import AuthLight from "../otherComponents/AuthLight";
 
 const AccountPage = () => {
   const [userData, setUserData] = useState({
@@ -21,16 +19,20 @@ const AccountPage = () => {
     confirmPassword: '',
   });
 
+  const [isEditing, setIsEditing] = useState(false);
+
   useEffect(() => {
-    // Replace with  actual API call
-    const fetchUserData = async () => {
-      const response = await fetch('/api/user'); 
-      setUserData(data);
+    const getUserData = async () => {
+      try {
+        const data = await fetchUserData();
+        setUserData(data);
+      } catch (error) {
+        console.error("Error fetching user data", error);
+      }
     };
-    fetchUserData();
+    getUserData();
   }, []);
 
-  
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setUserData((prevData) => ({
@@ -39,7 +41,6 @@ const AccountPage = () => {
     }));
   };
 
-  
   const handlePasswordChange = (e) => {
     const { name, value } = e.target;
     setPassword((prevPassword) => ({
@@ -48,69 +49,91 @@ const AccountPage = () => {
     }));
   };
 
-  
-  const handleUserDataSubmit = (e) => {
+  const handleUserDataSubmit = async (e) => {
     e.preventDefault();
-    
-    console.log('User data updated:', userData);
+    try {
+      await updateUserDetails(userData);
+      console.log('User data updated successfully');
+      setIsEditing(false);
+    } catch (error) {
+      console.error('Error updating user data:', error);
+    }
   };
 
-  
-  const handlePasswordSubmit = (e) => {
+  const handlePasswordSubmit = async (e) => {
     e.preventDefault();
     if (password.newPassword !== password.confirmPassword) {
       console.error('Passwords do not match');
       return;
     }
-    
-    console.log('Password updated:', password);
+
+    try {
+      await updateUserPassword(password.currentPassword, password.newPassword);
+      console.log('Password updated successfully');
+    } catch (error) {
+      console.error('Error updating password:', error);
+    }
   };
 
   return (
     <div>
+      <AuthLight />
       <h1>Account Management</h1>
 
-      <form onSubmit={handleUserDataSubmit}>
-        <div>
-          <label>Username:</label>
-          <input
-            type="text"
-            name="username"
-            value={userData.username}
-            onChange={handleInputChange}
-            readOnly
-          />
-        </div>
-        <div>
-          <label>First Name:</label>
-          <input
-            type="text"
-            name="firstName"
-            value={userData.firstName}
-            onChange={handleInputChange}
-          />
-        </div>
-        <div>
-          <label>Last Name:</label>
-          <input
-            type="text"
-            name="lastName"
-            value={userData.lastName}
-            onChange={handleInputChange}
-          />
-        </div>
-        <div>
-          <label>Email:</label>
-          <input
-            type="email"
-            name="email"
-            value={userData.email}
-            onChange={handleInputChange}
-          />
-        </div>
-        
-        <button type="submit">Update Information</button>
-      </form>
+      <div>
+        <label>Username:</label>
+        <p>{userData.username}</p>
+      </div>
+
+      {isEditing ? (
+        <form onSubmit={handleUserDataSubmit}>
+          <div>
+            <label>First Name:</label>
+            <input
+              type="text"
+              name="firstName"
+              value={userData.firstName}
+              onChange={handleInputChange}
+            />
+          </div>
+          <div>
+            <label>Last Name:</label>
+            <input
+              type="text"
+              name="lastName"
+              value={userData.lastName}
+              onChange={handleInputChange}
+            />
+          </div>
+          <div>
+            <label>Email:</label>
+            <input
+              type="email"
+              name="email"
+              value={userData.email}
+              onChange={handleInputChange}
+            />
+          </div>
+          <button type="submit">Save Changes</button>
+          <button type="button" onClick={() => setIsEditing(false)}>Cancel</button>
+        </form>
+      ) : (
+        <>
+          <div>
+            <label>First Name:</label>
+            <p>{userData.firstName}</p>
+          </div>
+          <div>
+            <label>Last Name:</label>
+            <p>{userData.lastName}</p>
+          </div>
+          <div>
+            <label>Email:</label>
+            <p>{userData.email}</p>
+          </div>
+          <button onClick={() => setIsEditing(true)}>Edit Information</button>
+        </>
+      )}
 
       <h2>Change Password</h2>
       <form onSubmit={handlePasswordSubmit}>
