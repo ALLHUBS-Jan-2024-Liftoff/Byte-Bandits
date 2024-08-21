@@ -19,23 +19,24 @@ public class Meal {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToOne
-    @JoinColumn(name = "meal_id")
-    private MealPlan mealPlan;
-
     private String label;
 
     private String mealType;
 
     private String date;
 
+    private Integer rating;
+
     public Meal() {
     }
 
-    public Meal(Integer id, Recipe recipe, String mealType) {
-        this.id = id;
+    public Meal(Recipe recipe, User user, String label, String mealType, String date, Integer rating) {
         this.recipe = recipe;
+        this.user = user;
+        this.label = label;
         this.mealType = mealType;
+        this.date = date;
+        this.rating = rating;
     }
 
     public Integer getId() {
@@ -74,14 +75,6 @@ public class Meal {
         this.user = user;
     }
 
-    public MealPlan getMealPlan() {
-        return mealPlan;
-    }
-
-    public void setMealPlan(MealPlan mealPlan) {
-        this.mealPlan = mealPlan;
-    }
-
     public String getDate() {
         return date;
     }
@@ -89,4 +82,6 @@ public class Meal {
     public void setDate(String date) {
         this.date = date;
     }
+
+
 }

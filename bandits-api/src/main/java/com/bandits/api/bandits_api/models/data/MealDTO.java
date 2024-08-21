@@ -1,6 +1,5 @@
 package com.bandits.api.bandits_api.models.data;
 
-import com.bandits.api.bandits_api.models.MealPlan;
 import com.bandits.api.bandits_api.models.Recipe;
 import com.bandits.api.bandits_api.models.User;
 
@@ -13,8 +12,6 @@ public class MealDTO {
     private Recipe recipe;
 
     private User user;
-
-    private MealPlan mealPlan;
 
     private String mealType;
 
@@ -50,14 +47,6 @@ public class MealDTO {
 
     public void setUser(User user) {
         this.user = user;
-    }
-
-    public MealPlan getMealPlan() {
-        return mealPlan;
-    }
-
-    public void setMealPlan(MealPlan mealPlan) {
-        this.mealPlan = mealPlan;
     }
 
     public String getMealType() {

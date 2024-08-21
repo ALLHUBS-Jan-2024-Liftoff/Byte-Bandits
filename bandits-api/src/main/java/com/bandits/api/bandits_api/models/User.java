@@ -25,9 +25,6 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<Meal> meals;
 
-    @OneToMany(mappedBy = "user")
-    private List<MealPlan> mealPlans;
-
     private static final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
     // Default constructor
@@ -45,7 +42,7 @@ public class User {
     }
 
     // Overloaded constructor with additional parameters
-    public User(String username, String password, String firstName, String lastName, String email, String role, List<Recipe> recipes, List<Meal> meals, List<MealPlan> mealPlans) {
+    public User(String username, String password, String firstName, String lastName, String email, String role, List<Recipe> recipes, List<Meal> meals) {
         this.username = username;
         this.pwHash = encoder.encode(password);  // Hash the password before storing
         this.firstName = firstName;
@@ -54,7 +51,6 @@ public class User {
         this.role = role;
         this.recipes = recipes;
         this.meals = meals;
-        this.mealPlans = mealPlans;
     }
 
     // Method to check if a provided password matches the stored password hash
@@ -129,13 +125,5 @@ public class User {
 
     public void setMeals(List<Meal> meals) {
         this.meals = meals;
-    }
-
-    public List<MealPlan> getMealPlans() {
-        return mealPlans;
-    }
-
-    public void setMealPlans(List<MealPlan> mealPlans) {
-        this.mealPlans = mealPlans;
     }
 }
