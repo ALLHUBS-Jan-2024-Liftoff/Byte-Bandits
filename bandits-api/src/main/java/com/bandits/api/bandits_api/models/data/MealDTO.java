@@ -17,6 +17,8 @@ public class MealDTO {
 
     private String date;
 
+    private Integer rating;
+
     public Integer getId() {
         return id;
     }
@@ -63,5 +65,13 @@ public class MealDTO {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public Integer getRating() {
+        return rating;
+    }
+
+    public void setRating(Integer rating) {
+        this.rating = rating;
     }
 }
