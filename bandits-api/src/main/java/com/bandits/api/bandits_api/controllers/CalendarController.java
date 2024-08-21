@@ -6,7 +6,6 @@ import com.bandits.api.bandits_api.models.data.CalendarDTO;
 import com.bandits.api.bandits_api.models.data.MealDTO;
 import com.bandits.api.bandits_api.models.data.RecipeDTO;
 import com.bandits.api.bandits_api.models.User;
-import com.bandits.api.bandits_api.repositories.MealPlanRepository;
 import com.bandits.api.bandits_api.repositories.MealRepository;
 import com.bandits.api.bandits_api.repositories.RecipeRepository;
 import org.modelmapper.ModelMapper;

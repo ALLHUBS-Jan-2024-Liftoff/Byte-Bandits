@@ -42,7 +42,7 @@ function ImageUploadHandler() {
   };
 
   return (
-    <Paper elevation={6}>
+    <Paper elevation={0} sx={{ border: '1px solid #ccc' }}>
       <Box
         component="form"
         onChange={handleImageChange}
@@ -53,6 +53,7 @@ function ImageUploadHandler() {
           alignContent: 'center',
           minWidth: 275,
           maxWidth: '40vw',
+          marginBottom: 2,
         }}>
         <Typography variant="h5" paddingBottom={5}>
           Upload Profile Photo

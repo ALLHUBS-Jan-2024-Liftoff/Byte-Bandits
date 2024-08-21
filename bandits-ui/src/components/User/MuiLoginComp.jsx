@@ -62,6 +62,7 @@ export default function SignIn({ setAuthenticated }) {
         }
       );
       console.log("Logged in successfully", response.data);
+      localStorage.setItem('user', JSON.stringify(response.data));
       setAuthenticated(true);
       navigate("/home");
     } catch (error) {

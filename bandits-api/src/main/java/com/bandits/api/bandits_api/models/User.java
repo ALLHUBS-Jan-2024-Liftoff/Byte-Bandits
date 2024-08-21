@@ -24,16 +24,14 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<Meal> meals;
 
-    @OneToMany(mappedBy = "user")
-    private List<MealPlan> mealPlans;
+//    // MealPlan not currently in use, need to re-add constructor, setter, getter
+//    @OneToMany(mappedBy = "user")
+//    private List<MealPlan> mealPlans;
 
     private static final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
     public User() {
     }
-
-//    getUsername(), getPassword(), getFirstName(), getLastName().getEmail(), getPhoneNumber(), getAddress(),"basic");
-
 
     public User(String username, String password, String firstName, String lastName, String email, String role) {
         this.username = username;
@@ -44,7 +42,7 @@ public class User {
         this.role = role;
     }
 
-    public User(String username, String password, String firstName, String lastName, String email, String role, List<Recipe> recipes, List<Meal> meals, List<MealPlan> mealPlans) {
+    public User(String username, String password, String firstName, String lastName, String email, String role, List<Recipe> recipes, List<Meal> meals) {
         this.username = username;
         this.pwHash = encoder.encode(password);
         this.firstName = firstName;
@@ -53,7 +51,6 @@ public class User {
         this.role = role;
         this.recipes = recipes;
         this.meals = meals;
-        this.mealPlans = mealPlans;
     }
 
     public boolean isMatchingPassword(String password) {
@@ -126,13 +123,5 @@ public class User {
 
     public void setMeals(List<Meal> meals) {
         this.meals = meals;
-    }
-
-    public List<MealPlan> getMealPlans() {
-        return mealPlans;
-    }
-
-    public void setMealPlans(List<MealPlan> mealPlans) {
-        this.mealPlans = mealPlans;
     }
 }

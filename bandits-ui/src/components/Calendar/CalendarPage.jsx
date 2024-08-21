@@ -2,6 +2,7 @@ import React from 'react';
 import { useEffect } from 'react';
 import BigCal from './BigCalendar';
 import { fetchCalendarMeals } from '../../services/calendarService.js';
+import { getCurrentUser } from '../../services/AuthService.js';
 
 
 export const CalendarPage = () => {
@@ -30,6 +31,9 @@ export const CalendarPage = () => {
   //     });
   //     console.log("events, in useEffect", events);
   // }, []);
+  const newUser = getCurrentUser();
+  
+  console.log("newUser", newUser);
 
   console.log("events, in body", events);
 

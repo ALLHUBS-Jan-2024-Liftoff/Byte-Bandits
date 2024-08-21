@@ -19,9 +19,9 @@ public class Meal {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToOne
-    @JoinColumn(name = "meal_id")
-    private MealPlan mealPlan;
+//    @ManyToOne
+//    @JoinColumn(name = "meal_id")
+//    private MealPlan mealPlan;
 
     private String label;
 
@@ -74,13 +74,13 @@ public class Meal {
         this.user = user;
     }
 
-    public MealPlan getMealPlan() {
-        return mealPlan;
-    }
-
-    public void setMealPlan(MealPlan mealPlan) {
-        this.mealPlan = mealPlan;
-    }
+//    public MealPlan getMealPlan() {
+//        return mealPlan;
+//    }
+//
+//    public void setMealPlan(MealPlan mealPlan) {
+//        this.mealPlan = mealPlan;
+//    }
 
     public String getDate() {
         return date;

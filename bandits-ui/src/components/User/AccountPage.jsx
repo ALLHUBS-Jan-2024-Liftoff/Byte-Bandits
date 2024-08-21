@@ -12,8 +12,11 @@ import Container from '@mui/material/Container';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import { getCurrentUser } from "../../services/AuthService";
 
 const defaultTheme = createTheme();
+
+const newUser = getCurrentUser();
 
 const AccountPage = () => {
   const [userData, setUserData] = useState({
@@ -63,7 +66,7 @@ const AccountPage = () => {
 
   function UpdateUserInfo() {
     return (
-      <Paper elevation={6}>
+      <Paper elevation={0} sx={{ border: '1px solid #ccc' }}>
         <Box
           component="form"
           onSubmit={handleUserDataSubmit}
@@ -135,10 +138,10 @@ const AccountPage = () => {
       </Paper>
     );
   }
-
+  
   function UpdatePassword() {
     return (
-      <Paper elevation={6}>
+      <Paper elevation={0} sx={{ border: '1px solid #ccc', marginTop: 3 }}>
         <Box
           component="form"
           onSubmit={handlePasswordSubmit}
