@@ -22,6 +22,11 @@ function ReviewMeal() {
 
     return (
         <>
+        {(meals.length == 0) ? (
+            <Typography py={5}>No Recipes are avalilable in the meal plan for review.</Typography> 
+        ) :
+        (
+            <>
         <Typography variant='h3' sx={{p:'2rem'}}>Revew Recipes</Typography>
         <Container sx={{alignContent:"left", my:4}}>
                     {meals.map(x=>(
@@ -41,6 +46,8 @@ function ReviewMeal() {
                         </>
                     ))}
         </Container>
+        </>
+        )}
         </>
     );
 }
