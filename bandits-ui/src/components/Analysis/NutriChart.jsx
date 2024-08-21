@@ -3,6 +3,7 @@ import { BarChart } from '@mui/x-charts/BarChart';
 import { axisClasses } from '@mui/x-charts/ChartsAxis';
 import { max } from 'date-fns';
 
+
 export default function NutriChart() {
 
   let chartRecipe = {
@@ -773,7 +774,7 @@ export default function NutriChart() {
     return (chartData);
   }
 
-  console.log(iterate(chartRecipe.recipe.totalDaily));
+  // console.log(iterate(chartRecipe.recipe.totalDaily));
   // let dataToChart = iterate(chartRecipe.recipe.totalDaily);
   // console.log(dataToChart);
 

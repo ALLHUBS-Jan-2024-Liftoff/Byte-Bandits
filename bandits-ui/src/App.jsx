@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   BrowserRouter as Router,
   Route,
@@ -21,13 +21,28 @@ import { MuiRegPage } from "./components/User/MuiRegPage.jsx";
 import { MuiLoginPage } from "./components/User/MuiLoginPage.jsx";
 import AccountPage from "./components/User/AccountPage.jsx";
 import AuthLight from "./components/otherComponents/AuthLight.jsx";
-// console.log(authenticated);
+import PrivateRoute from "./services/PrivateRoute"; // Import PrivateRoute component
+
 function App() {
-  const [authenticated, setAuthenticated] = useState(true);
+  const [authenticated, setAuthenticated] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Check if user is already authenticated by checking the token in local storage
+    const token = localStorage.getItem("token");
+    console.log("Token", token);
+    if (token) {
+      setAuthenticated(true);
+    }
+    setLoading(false); // Set loading to false after authentication check
+  }, []);
+
+  if (loading) {
+    console.log("Loading", authenticated);
+    return <div>Loading...</div>; // Show a loading message or spinner
+  }
 
   return (
-
-    
     <Router>
       <>
         <Navbar bg="light" data-bs-theme="dark">
@@ -79,50 +94,70 @@ function App() {
               path="/register"
               element={<MuiRegPage />}
             />
-
-            {/* Private Routes */}
-            {authenticated ? (
-              <>
-                <Route
-                  path="/home"
-                  element={<HomePage />}
-                />
-                <Route
-                  path="/recipes"
-                  element={<RecipePage />}
-                />
-                <Route
-                  path="/search"
-                  element={<SearchPage />}
-                />
-                <Route
-                  path="/MealPlans"
-                  element={<CalendarPage />}
-                />
-                <Route
-                  path="/analysis"
-                  element={<AnalysisPage />}
-                />
-                <Route
-                  path="/logout"
-                  element={<Logout setAuthenticated={setAuthenticated} />}
-                />
-                <Route
-                  path="/account"
-                  element={<AccountPage />}
-                />
-              </>
-            ) : (
-              <Route
-                path="*"
-                element={<Navigate to="/login" replace />}
-              />
-            )}
+            <Route
+              path="/home"
+              element={
+                <PrivateRoute authenticated={authenticated}>
+                  <HomePage />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/recipes"
+              element={
+                <PrivateRoute authenticated={authenticated}>
+                  <RecipePage />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/search"
+              element={
+                <PrivateRoute authenticated={authenticated}>
+                  <SearchPage />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/MealPlans"
+              element={
+                <PrivateRoute authenticated={authenticated}>
+                  <CalendarPage />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/analysis"
+              element={
+                <PrivateRoute authenticated={authenticated}>
+                  <AnalysisPage />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/logout"
+              element={
+                <PrivateRoute authenticated={authenticated}>
+                  <Logout setAuthenticated={setAuthenticated} />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/account"
+              element={
+                <PrivateRoute authenticated={authenticated}>
+                  <AccountPage />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="*"
+              element={<Navigate to="/login" replace />}
+            />
           </Routes>
         </header>
       </div>
     </Router>
-
   );
 }
 

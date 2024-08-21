@@ -83,36 +83,36 @@ export const registerUser = async (email, firstName, lastName, password) => {
   }
 };
 
-export const loginUser = async (username, password) => {
-  try {
-    console.log("Logging in user...");
-    const response = await axiosInstance.post('/login', {
-      username,
-      password,
-    });
-    const { token, user } = response.data;
+// export const loginUser = async (username, password) => {
+//   try {
+//     console.log("Logging in user...");
+//     const response = await axiosInstance.post('/login', {
+//       username,
+//       password,
+//     });
+//     const { token, user } = response.data;
 
-    // Store token and user information in localStorage
-    console.log("Storing token in localStorage:", token);
-    localStorage.setItem("token", token);
-    localStorage.setItem("user", JSON.stringify(user));
+//     // Store token and user information in localStorage
+//     console.log("Storing token in localStorage:", token);
+//     localStorage.setItem("token", token);
+//     localStorage.setItem("user", JSON.stringify(user));
     
-    // Confirm the token is stored
-    const storedToken = localStorage.getItem("token");
-    console.log("Token stored in localStorage:", storedToken);
+//     // Confirm the token is stored
+//     const storedToken = localStorage.getItem("token");
+//     console.log("Token stored in localStorage:", storedToken);
     
-    if (!storedToken) {
-      console.error("Token was not successfully stored in localStorage.");
-    } else {
-      console.log("Token successfully stored and retrieved.");
-    }
+//     if (!storedToken) {
+//       console.error("Token was not successfully stored in localStorage.");
+//     } else {
+//       console.log("Token successfully stored and retrieved.");
+//     }
 
-    return user;
-  } catch (error) {
-    console.error("There was an error logging in the user!", error);
-    throw error;
-  }
-};
+//     return user;
+//   } catch (error) {
+//     console.error("There was an error logging in the user!", error);
+//     throw error;
+//   }
+// };
 
 // Update user details
 export const updateUserDetails = async (userData) => {

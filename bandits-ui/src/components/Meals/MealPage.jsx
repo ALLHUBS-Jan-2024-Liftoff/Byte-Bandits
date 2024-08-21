@@ -4,6 +4,7 @@ import { RecipeTable } from "./RecipeTable";
 import { NewRecipeForm } from "./NewRecipeForm";
 import axios from "axios";
 
+const YOUR_BEARER_TOKEN = localStorage.getItem('token');
 const LOCAL_API_BASE_URL = "http://localhost:8080";
 
 export const RecipePage = () => {
@@ -14,11 +15,17 @@ export const RecipePage = () => {
     // Fetch all recipes when the component mounts
     const fetchSavedRecipes = async () => {
       try {
-        const response = await axios.get(`${LOCAL_API_BASE_URL}/api/recipes`, {withCredentials:true});
+        const response = await axios.get(`${LOCAL_API_BASE_URL}/api/recipes`, {
+          headers: { 
+            'content-type': 'application/json',
+            'Authorization': `Bearer ${YOUR_BEARER_TOKEN}`
+          },
+          withCredentials:true
+        });
         console.log("response", response.data);
         setRecipes(response.data);
       } catch (error) {
-        console.error("There was an error fetching the recipes!", error);
+        console.error("There was an error fetching data for the calendar!", error);
         throw error;
       }
     };
@@ -54,7 +61,7 @@ export const RecipePage = () => {
         setRecipes(recipes.filter((recipe) => recipe.id !== recipeId));
       })
       .catch((error) => {
-        console.error("There was an error deleting the recipe!", error);
+        console.error("There was an error deleting the meal!", error);
       });
   };
 
