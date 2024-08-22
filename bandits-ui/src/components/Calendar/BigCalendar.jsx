@@ -12,14 +12,14 @@ export default function BigCal() {
   const [events, setEvents] = React.useState([]);
   const [recipeUris, setRecipeUris] = React.useState([]);
 
-  useEffect(() => {
-    // Fetch all meals when the component mounts
-    findRecipeByUri()
-      .then(setRecipeUris)
-      .catch((error) => {
-        console.error("There was an error fetching the meals", error);
-      });
-  }, []);
+  // useEffect(() => {
+  //   // Fetch all meals when the component mounts
+  //   findRecipeByUri()
+  //     .then(setRecipeUris)
+  //     .catch((error) => {
+  //       console.error("There was an error fetching the meals", error);
+  //     });
+  // }, []);
 
   useEffect(() => {
     // Fetch all meals when the component mounts
@@ -30,8 +30,7 @@ export default function BigCal() {
       });
   }, []);
 
-  console.log(events, "events");
-  console.log(recipeUris, "recipeUris");
+  console.log("EVENTS:", events.data);
 
   return (
     <div className="App">
@@ -40,7 +39,10 @@ export default function BigCal() {
         events={events}
         startAccessor={(event) => {return new Date(event.start) }}
         endAccessor={(event) => {return new Date(event.end) }}
-        style={{ height: 750 }}
+        style={{
+          height: 750,
+          paddingTop: 20,
+        }}
       />
     </div>
   );

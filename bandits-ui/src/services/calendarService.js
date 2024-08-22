@@ -11,7 +11,7 @@ export const fetchCalendarMeals = async () => {
         },
       withCredentials:true
     });
-    console.log("response.data, from service", response.data);
+    console.log("response.data, from calendar service", response.data);
     return response.data;
   } catch (error) {
     console.error("There was an error fetching the meals!", error);

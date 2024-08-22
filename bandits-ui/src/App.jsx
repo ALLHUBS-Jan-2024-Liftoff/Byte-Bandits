@@ -26,6 +26,7 @@ import AuthLight from "./components/otherComponents/AuthLight.jsx";
 import PrivateRoute from "./services/PrivateRoute"; // Import PrivateRoute component
 import ReviewMeal from "./components/Home/ReviewMeal.jsx";
 import Button from '@mui/material/Button';
+import NutriChart from "./components/Analysis/NutriChart.jsx";
 
 const theme = createTheme({
   components: {
@@ -181,7 +182,7 @@ function App() {
               path="/analysis"
               element={
                 <PrivateRoute authenticated={authenticated}>
-                  <AnalysisPage />
+                  <NutriChart />
                 </PrivateRoute>
               }
             />

@@ -19,28 +19,7 @@ export const RecipePage = () => {
       });
   }, []);
 
-  // useEffect(() => {
-  //   // Fetch all recipes when the component mounts
-  //   fetchRecipes()
-  //     .then(setRecipes)
-  //     .catch((error) => {
-  //       console.error("There was an error fetching the recipes!", error);
-  //     });
-  // }, []);
-
-  // const handleAddRecipe = (uri, label, image, source) => {
-  //   addRecipe(uri, label, image, source)
-  //     .then((newRecipe) => {
-  //       console.log("newRecipe", newRecipe);
-  //       setRecipes([...recipes, newRecipe]);
-  //     })
-  //     .catch((error) => {
-  //       console.error("There was an error creating the recipe!", error);
-  //     });
-  // };
-
-
-  console.log(recipes,"recipes");
+  // console.log(recipes,"recipes");
 
   const handleDeleteRecipe = (recipeId) => {
     deleteRecipe(recipeId)
@@ -57,7 +36,11 @@ export const RecipePage = () => {
       <div className="card">
         <div className="card-header">Your Recipes</div>
         <div className="card-body">
-          <RecipeTable recipes={recipes} deleteRecipe={handleDeleteRecipe} setRecipes={setRecipes} />
+          <RecipeTable
+          recipes={recipes}
+          deleteRecipe={handleDeleteRecipe}
+          setRecipes={setRecipes}
+          />
         </div>
       </div>
     </div>

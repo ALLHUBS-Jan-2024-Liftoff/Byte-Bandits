@@ -15,12 +15,7 @@ export const RecipeRowItem = ({ recipe, recipes, deleteRecipe, removeRecipe }) =
     addMeal(uri, label, mealType, date);
     removeRecipe(recipe.id);
     alert("Meal saved successfully!"); 
-      // .then((newRecipe) => {
-      //   setRecipes([...recipes, newRecipe]);
-      // })
-      // .catch((error) => {
-      //   console.error("There was an error saving the recipe!", error);
-      // });
+
   };
 
 

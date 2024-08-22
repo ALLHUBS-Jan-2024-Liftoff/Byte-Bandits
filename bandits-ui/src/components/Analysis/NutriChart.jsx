@@ -1,10 +1,13 @@
-import * as React from 'react';
+import React, {useEffect} from 'react';
 import { BarChart } from '@mui/x-charts/BarChart';
-import { axisClasses } from '@mui/x-charts/ChartsAxis';
-import { max } from 'date-fns';
+import { fetchCalendarMeals } from '../../services/calendarService';
+import { findRecipeByUri } from "../../services/recipeService";
+import { set } from 'date-fns';
 
 
 export default function NutriChart() {
+  const [events, setEvents] = React.useState([]);
+  const [eventRecipes, setEventRecipes] = React.useState([]);
 
   let chartRecipe = {
     "recipe": {
@@ -760,13 +763,7 @@ export default function NutriChart() {
     // console.log(`key: ${key}, value: ${obj[key]}`);
 
     if (typeof obj[key] === 'object' && obj[key] !== null) {
-            // iterate(obj[key])
-            // console.log("key", key);
-            // console.log(obj[key].label);
-            // console.log(obj[key].quantity);
-            // xAxisData.push(obj[key].label);
-            // seriesData.push(obj[key].quantity);
-            // console.log(obj[key]);
+
             chartData.push(obj[key]);
         }
     })
@@ -775,7 +772,7 @@ export default function NutriChart() {
   }
 
   // console.log(iterate(chartRecipe.recipe.totalDaily));
-  // let dataToChart = iterate(chartRecipe.recipe.totalDaily);
+  let dataToChart = iterate(chartRecipe.recipe.totalDaily);
   // console.log(dataToChart);
 
   const chartSetting = {
@@ -795,10 +792,62 @@ export default function NutriChart() {
     //   },
     // },
   };
-  
+
+
+
+  const currentEvents = events;
+  const uriObject = [];
+  for (let i = 0; i < currentEvents.length; i++) {
+    // console.log(encodeURIComponent(currentEvents[i].uri));
+    uriObject.push(encodeURIComponent(currentEvents[i].uri));
+  }
+  const queryString= uriObject.join('&uri=');
+
+  useEffect(() => {
+    // Fetch all meals when the component mounts
+    fetchCalendarMeals()
+      .then(setEvents)
+      .catch((error) => {
+        console.error("There was an error fetching the meals", error);
+      });
+  }, []);
+
+  useEffect(() => {
+    // Fetch all meals when the component mounts
+    findRecipeByUri(queryString)
+      .then(response => {
+        setEventRecipes(response);
+      })
+      .catch((error) => {
+        console.error("There was an error fetching by URI", error);
+      });
+  }, []);
+
+  // useEffect(() => {
+  //   // Fetch all meals when the component mounts
+  //   findRecipeByUri(queryString)
+  //     .then(response => {
+  //       setEventRecipes(response);
+  //     })
+  //     .catch((error) => {
+  //       console.error("There was an error fetching by URI", error);
+  //     });
+  // }, []);
+
+  // console.log("EVENT", eventRecipes[0]);
+  // console.log(Date(currentEvents[0].start));
+
+  // const calendarObject = {};
+  // for (let i = 0; i < currentEvents.length; i++) {
+  //   console.log(currentEvents[i].start);
+  // }
+
   const valueFormatter = value => `${parseFloat(value.toFixed(2))}%`
 
   return (        
+    <div className="mt-5 px-0 container-fluid">
+    <div className="card">
+      <div className="card-header">Nutritional Analysis</div>
     <BarChart
       dataset={chartData}
       yAxis={[{ scaleType: 'band', dataKey: 'label' }]}
@@ -807,5 +856,7 @@ export default function NutriChart() {
       grid={{ vertical: true }}
       {...chartSetting}
     />
+    </div>
+    </div>
   );
 }
