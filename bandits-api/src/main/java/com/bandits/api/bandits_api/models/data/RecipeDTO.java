@@ -19,6 +19,16 @@ public class RecipeDTO {
     private Integer carbs;
     private Integer protein;
 
+    public RecipeDTO() {
+    }
+
+    public RecipeDTO(Integer id, String uri, String label, String image) {
+        this.id = id;
+        this.uri = uri;
+        this.label = label;
+        this.image = image;
+    }
+
     public Integer getId() {
         return id;
     }
