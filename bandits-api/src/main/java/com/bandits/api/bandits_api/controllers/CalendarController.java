@@ -48,7 +48,7 @@ public class CalendarController {
 
         if (user != null) {
             // Finds all meals associated with the user
-            List<Meal> meals = mealRepository.findByUser(user);
+            List<Meal> meals = mealRepository.findByRecipeUserId(user.getId());
 
             // Creates custom mapping to return an object with properties for the calendar
             propertyMapper.addMapping(Meal::getLabel, CalendarDTO::setTitle);

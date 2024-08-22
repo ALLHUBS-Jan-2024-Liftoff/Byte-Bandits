@@ -29,7 +29,11 @@ public class Recipe {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany(mappedBy = "recipe")
+    @OneToMany(
+            cascade = CascadeType.ALL,
+            orphanRemoval = true,
+            mappedBy = "recipe"
+    )
     private List<Meal> meals;
 
     public Recipe() {

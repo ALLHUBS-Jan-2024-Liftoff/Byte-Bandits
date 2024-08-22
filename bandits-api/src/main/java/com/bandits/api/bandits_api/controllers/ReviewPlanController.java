@@ -37,7 +37,7 @@ public class ReviewPlanController {
         String username = jwtUtil.extractUsername(token); // Extract username from the token
 
         User user = userRepository.findByUsername(username);
-        Long userId = user.getId();
+        Integer userId = user.getId();
         List<ReviewDTO> reviewMeals = reviewService.getReviewByUserId(userId);
         return ResponseEntity.ok(reviewMeals);
     }

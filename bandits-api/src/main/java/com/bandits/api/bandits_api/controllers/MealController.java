@@ -44,8 +44,10 @@ public class MealController {
 
         User user = userRepository.findByUsername(username);
 
+        Integer userId = user.getId();
+
         if (user != null) {
-            List<Meal> meals = mealRepository.findByUser(user);
+            List<Meal> meals = mealRepository.findByRecipeUserId(userId);
             List<MealDTO> mealDTO = meals.stream()
                     .map(meal -> modelMapper.map(meal, MealDTO.class))
                     .collect(Collectors.toList());
@@ -72,7 +74,6 @@ public class MealController {
         Map<String, String> responseBody = new HashMap<>();
 
         if (user != null) {
-            newMeal.setUser(user);
             newMeal.setRecipe(recipeRepository.findByUri(uri));
             newMeal.setLabel(label);
             newMeal.setMealType(mealType);
