@@ -127,18 +127,21 @@ export const updateUserDetails = async (userData) => {
   }
 };
 
-// Update user password
-export const updateUserPassword = async (currentPassword, newPassword) => {
-  try {
-    console.log("Updating user password...");
-    const response = await axiosInstance.put('/password', {
-      currentPassword,
-      newPassword,
-    });
-    console.log("User password updated:", response.data);
-    return response.data;
-  } catch (error) {
-    console.error("There was an error updating the user password!", error);
-    throw error;
-  }
-};
+// // Update user password
+// export const updateUserPassword = async (currentPassword, newPassword) => {
+//   try {
+//     const requestBody = { currentPassword, newPassword };
+//     await axios.put(`${BASE_API_URL}/update-password`, requestBody, {
+//       headers: { 
+//         'content-type': 'application/json',
+//         'Authorization': `Bearer ${YOUR_BEARER_TOKEN}`
+//       },
+//       withCredentials: true,
+//     });
+//     console.log("User password updated:", response.data);
+//     return response.data;
+//   } catch (error) {
+//     console.error("There was an error updating the user password!", error);
+//     throw error;
+//   }
+// };

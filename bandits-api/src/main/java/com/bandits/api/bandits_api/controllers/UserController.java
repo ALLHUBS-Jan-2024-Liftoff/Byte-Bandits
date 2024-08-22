@@ -6,6 +6,7 @@ import com.bandits.api.bandits_api.models.User;
 import com.bandits.api.bandits_api.repositories.UserRepository;
 import com.bandits.api.bandits_api.security.JwtUtil;
 
+import com.bandits.api.bandits_api.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +14,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,6 +34,9 @@ public class UserController {
 
     @Autowired
     private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private UserService userService;
 
     @PostMapping(value = "/register")
     public ResponseEntity<Map<String, String>> processRegistrationForm(@RequestBody RegisterFormDTO registerFormDTO) {
@@ -89,4 +94,5 @@ public class UserController {
         // The client should simply discard the token.
         return ResponseEntity.ok("User successfully logged out. Please discard the token on the client side.");
     }
+
 }
