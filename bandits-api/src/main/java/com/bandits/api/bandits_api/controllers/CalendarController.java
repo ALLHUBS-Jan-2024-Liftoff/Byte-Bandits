@@ -54,6 +54,7 @@ public class CalendarController {
             propertyMapper.addMapping(Meal::getLabel, CalendarDTO::setTitle);
             propertyMapper.addMapping(Meal::getDate, CalendarDTO::setStart);
             propertyMapper.addMapping(Meal::getDate, CalendarDTO::setEnd);
+            propertyMapper.addMapping(src -> src.getRecipe().getUri(), CalendarDTO::setUri);
 
             // Stream the collected meals to the DTO with custom mapping
             List<CalendarDTO> calendarDTO = meals.stream()
