@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { deleteRecipe, fetchRecipes } from "../../services/recipeService";
 import { RecipeTable } from "./RecipeTable";
 import { NewRecipeForm } from "./NewRecipeForm";
+import { fetchUserData } from "../../services/userService";
 import axios from "axios";
 
 export const RecipePage = () => {
@@ -38,6 +39,9 @@ export const RecipePage = () => {
   //     });
   // };
 
+
+  console.log(recipes,"recipes");
+
   const handleDeleteRecipe = (recipeId) => {
     deleteRecipe(recipeId)
       .then(() => {
@@ -53,14 +57,7 @@ export const RecipePage = () => {
       <div className="card">
         <div className="card-header">Your Recipes</div>
         <div className="card-body">
-          <RecipeTable recipes={recipes} deleteRecipe={handleDeleteRecipe} />
-          <button
-            onClick={() => setShowAddForm(!showAddForm)}
-            className="btn btn-primary"
-          >
-            {showAddForm ? "Close Form" : "New Recipe"}
-          </button>
-          {showAddForm && <NewRecipeForm addRecipe={handleAddRecipe} />}
+          <RecipeTable recipes={recipes} deleteRecipe={handleDeleteRecipe} setRecipes={setRecipes} />
         </div>
       </div>
     </div>

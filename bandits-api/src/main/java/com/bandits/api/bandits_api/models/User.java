@@ -7,6 +7,7 @@ import java.util.List;
 
 @Entity
 public class User {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -21,45 +22,39 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<Recipe> recipes;
 
-    @OneToMany(mappedBy = "user")
-    private List<Meal> meals;
-
-    @OneToMany(mappedBy = "user")
-    private List<MealPlan> mealPlans;
-
     private static final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
+    // Default constructor
     public User() {
     }
 
-//    getUsername(), getPassword(), getFirstName(), getLastName().getEmail(), getPhoneNumber(), getAddress(),"basic");
-
-
+    // Constructor for user registration
     public User(String username, String password, String firstName, String lastName, String email, String role) {
         this.username = username;
-        this.pwHash = encoder.encode(password);
+        this.pwHash = encoder.encode(password);  // Hash the password before storing
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.role = role;
     }
 
-    public User(String username, String password, String firstName, String lastName, String email, String role, List<Recipe> recipes, List<Meal> meals, List<MealPlan> mealPlans) {
+    // Overloaded constructor with additional parameters
+    public User(String username, String password, String firstName, String lastName, String email, String role, List<Recipe> recipes) {
         this.username = username;
-        this.pwHash = encoder.encode(password);
+        this.pwHash = encoder.encode(password);  // Hash the password before storing
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.role = role;
         this.recipes = recipes;
-        this.meals = meals;
-        this.mealPlans = mealPlans;
     }
 
+    // Method to check if a provided password matches the stored password hash
     public boolean isMatchingPassword(String password) {
         return encoder.matches(password, pwHash);
     }
 
+    // Getters and setters for all fields
     public Integer getId() {
         return id;
     }
@@ -118,21 +113,5 @@ public class User {
 
     public void setRecipes(List<Recipe> recipes) {
         this.recipes = recipes;
-    }
-
-    public List<Meal> getMeals() {
-        return meals;
-    }
-
-    public void setMeals(List<Meal> meals) {
-        this.meals = meals;
-    }
-
-    public List<MealPlan> getMealPlans() {
-        return mealPlans;
-    }
-
-    public void setMealPlans(List<MealPlan> mealPlans) {
-        this.mealPlans = mealPlans;
     }
 }

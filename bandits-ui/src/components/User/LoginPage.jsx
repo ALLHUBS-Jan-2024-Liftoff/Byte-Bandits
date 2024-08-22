@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import axios from "axios";
 import Alert from 'react-bootstrap/Alert';
 import { useNavigate } from "react-router-dom";
-
+import { login } from "../services/AuthService";
 
 function LoginPage({ setAuthenticated }) {
   const [username, setUsername] = useState("");
@@ -15,25 +14,24 @@ function LoginPage({ setAuthenticated }) {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(
-        "http://localhost:8080/user/login",
-        {
-          username,
-          password,
-        },
-        {
-          withCredentials: true,
-        }
-      );
-      setAuthenticated(true);
-      setCondition("success");
-      setMessage(response.data.message);
-      navigate("/home");
+        const response = await login(username, password);
+
+        console.log("Token stored:", localStorage.getItem('token'));
+        setAuthenticated(true);
+        setCondition("success");
+        setMessage("Login successful!");
+        navigate("/home");
     } catch (error) {
-      setCondition("danger");
-      setMessage(error.response?.data?.message || "Login failed");
+        setCondition("danger");
+        setMessage(error.response?.data?.message || "Login failed");
     }
-  };
+};
+
+useEffect(() => {
+    const token = localStorage.getItem('token');
+    console.log("Checking token:", token);
+    setIsLoggedIn(!!token);
+}, []);
 
   return (
     <div className="container mt-5">

@@ -9,6 +9,8 @@ public class CalendarDTO {
 
     private String title;
 
+    private String uri;
+
     private String start;
 
     private String end;
@@ -28,6 +30,14 @@ public class CalendarDTO {
 
     public void setTitle(String label) {
         this.title = label;
+    }
+
+    public String getUri() {
+        return uri;
+    }
+
+    public void setUri(String uri) {
+        this.uri = uri;
     }
 
     public String getStart() {

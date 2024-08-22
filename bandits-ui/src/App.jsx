@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   BrowserRouter as Router,
   Route,
   Routes,
   Navigate,
   Link,
+  useNavigate,
 } from "react-router-dom";
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import HomePage from "./components/Home/HomePage";
 import Logout from "./components/User/Logout";
 import { RecipePage } from "./components/Recipes/RecipePage";
@@ -20,13 +22,78 @@ import { AnalysisPage } from "./components/Analysis/AnalysisPage.jsx";
 import { MuiRegPage } from "./components/User/MuiRegPage.jsx";
 import { MuiLoginPage } from "./components/User/MuiLoginPage.jsx";
 import AccountPage from "./components/User/AccountPage.jsx";
+import AuthLight from "./components/otherComponents/AuthLight.jsx";
+import PrivateRoute from "./services/PrivateRoute"; // Import PrivateRoute component
+import ReviewMeal from "./components/Home/ReviewMeal.jsx";
+import Button from '@mui/material/Button';
+import NutriChart from "./components/Analysis/NutriChart.jsx";
 
-// console.log(authenticated);
+const theme = createTheme({
+  components: {
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          backgroundColor: '#222222',
+          color:'#ffffff',
+          '&:hover': {
+            backgroundColor: 'green', 
+          },
+        },
+      },
+    },
+    MuiLink: {
+      styleOverrides: {
+        root: {
+          color: 'green', // Default link color
+          textDecoration: 'none', // Remove underline
+          '&:hover': {
+            color: 'black', // Hover color
+            textDecoration: 'underline', // Underline on hover
+          },
+        },
+      },
+    },
+  },
+});
+
 function App() {
-  const [authenticated, setAuthenticated] = useState(true);
+  const [authenticated, setAuthenticated] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Check if user is already authenticated by checking the token in local storage
+    const token = localStorage.getItem("token");
+    console.log("Token", token);
+    if (token) {
+      setAuthenticated(true);
+    }
+    // Set loading to false after authentication check
+    setLoading(false);
+  }, []);
+
+  if (loading) {
+    console.log("Loading", authenticated);
+    return <div>Loading...</div>; // Show a loading message or spinner
+  }
+
+  const handleLogout = async () => {
+    try {
+      // Use the logout function from AuthService
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+      setAuthenticated(false);
+  
+      console.log("Token: ", localStorage.getItem("token"));
+      // Redirect to login page
+      // window.location.reload(true);
+    } catch (error) {
+      console.error("Logout failed", error);
+    }
+  };
 
   return (
 
+    <ThemeProvider theme={theme}>
     <Router>
       <>
         <Navbar bg="light" data-bs-theme="dark">
@@ -47,17 +114,14 @@ function App() {
                   <Nav.Link as={Link} to="/search">Find Recipes</Nav.Link>
                   <Nav.Link as={Link} to="/MealPlans">Meal Plans</Nav.Link>
                   <Nav.Link as={Link} to="/analysis">Analysis</Nav.Link>
+                  <Nav.Link as={Link} to="/review">Review</Nav.Link>
                 </Nav>
                 <Nav className="ms-auto">
                   <NavDropdown title="Profile" id="basic-nav-dropdown">
                     <NavDropdown.Item as={Link} to="/account">Account</NavDropdown.Item>
-                    <NavDropdown.Item href="#action/3.2">
-                      Help
-                    </NavDropdown.Item>
-                    <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
                     <NavDropdown.Divider />
                     <NavDropdown.Item as={Link} to="/logout">
-                      Logout
+                      <Button onClick={handleLogout} variant="outline-danger">Logout</Button>
                     </NavDropdown.Item>
                   </NavDropdown>
                 </Nav>
@@ -78,50 +142,76 @@ function App() {
               path="/register"
               element={<MuiRegPage />}
             />
+            <Route
+              path="/home"
+              element={
+                <PrivateRoute authenticated={authenticated}>
+                  <HomePage />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/recipes"
+              element={
+                <PrivateRoute authenticated={authenticated}>
+                  <RecipePage />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/search"
+              element={
+                <PrivateRoute authenticated={authenticated}>
+                  <SearchPage />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/MealPlans"
+              element={
+                <PrivateRoute authenticated={authenticated}>
+                  <CalendarPage />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/review"
+              element={
+                <PrivateRoute authenticated={authenticated}>
+                  <ReviewMeal />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/analysis"
+              element={
+                <PrivateRoute authenticated={authenticated}>
+                  <NutriChart />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/logout"
+              element={<Navigate to="/login" replace />}
 
-            {/* Private Routes */}
-            {authenticated ? (
-              <>
-                <Route
-                  path="/home"
-                  element={<HomePage />}
-                />
-                <Route
-                  path="/recipes"
-                  element={<RecipePage />}
-                />
-                <Route
-                  path="/search"
-                  element={<SearchPage />}
-                />
-                <Route
-                  path="/MealPlans"
-                  element={<CalendarPage />}
-                />
-                <Route
-                  path="/analysis"
-                  element={<AnalysisPage />}
-                />
-                <Route
-                  path="/logout"
-                  element={<Logout setAuthenticated={setAuthenticated} />}
-                />
-                <Route
-                  path="/account"
-                  element={<AccountPage />}
-                />
-              </>
-            ) : (
-              <Route
-                path="*"
-                element={<Navigate to="/login" replace />}
-              />
-            )}
+            />
+            <Route
+              path="/account"
+              element={
+                <PrivateRoute authenticated={authenticated}>
+                  <AccountPage />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="*"
+              element={<Navigate to="/login" replace />}
+            />
           </Routes>
         </header>
       </div>
     </Router>
-
+    </ThemeProvider>
   );
 }
 

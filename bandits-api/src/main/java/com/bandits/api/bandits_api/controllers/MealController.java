@@ -5,11 +5,12 @@ import com.bandits.api.bandits_api.models.data.MealDTO;
 import com.bandits.api.bandits_api.models.User;
 import com.bandits.api.bandits_api.repositories.MealRepository;
 import com.bandits.api.bandits_api.repositories.RecipeRepository;
+import com.bandits.api.bandits_api.repositories.UserRepository;
+import com.bandits.api.bandits_api.security.JwtUtil;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import jakarta.servlet.http.HttpSession;
 import org.springframework.http.HttpStatus;
 
 import java.util.HashMap;
@@ -29,15 +30,24 @@ public class MealController {
     private RecipeRepository recipeRepository;
 
     @Autowired
-    private UserController userController;
+    private JwtUtil jwtUtil;
+
+    @Autowired
+    private UserRepository userRepository;
 
     ModelMapper modelMapper = new ModelMapper();
 
     @GetMapping("/saved")
-    public ResponseEntity<List<MealDTO>> getSavedMeals(HttpSession session) {
-        User user = userController.getUserFromSession(session);
+    public ResponseEntity<List<MealDTO>> getSavedMeals(@RequestHeader("Authorization") String authHeader) {
+        String token = authHeader.substring(7); // Remove "Bearer " from the token
+        String username = jwtUtil.extractUsername(token); // Extract username from the token
+
+        User user = userRepository.findByUsername(username);
+
+        Integer userId = user.getId();
+
         if (user != null) {
-            List<Meal> meals = mealRepository.findByUser(user);
+            List<Meal> meals = mealRepository.findByRecipeUserId(userId);
             List<MealDTO> mealDTO = meals.stream()
                     .map(meal -> modelMapper.map(meal, MealDTO.class))
                     .collect(Collectors.toList());
@@ -55,12 +65,15 @@ public class MealController {
 
     @PostMapping("/new")
     public ResponseEntity<Map<String, String>> saveNewRecipe(
-            HttpSession session, @RequestParam String uri, @RequestParam String mealType, @RequestParam String date, @RequestParam String label) {
-        User user = userController.getUserFromSession(session);
+            @RequestHeader("Authorization") String authHeader, @RequestParam String uri, @RequestParam String mealType, @RequestParam String date, @RequestParam String label) {
+        String token = authHeader.substring(7); // Remove "Bearer " from the token
+        String username = jwtUtil.extractUsername(token); // Extract username from the token
+
+        User user = userRepository.findByUsername(username);
         Meal newMeal = new Meal();
         Map<String, String> responseBody = new HashMap<>();
+
         if (user != null) {
-            newMeal.setUser(user);
             newMeal.setRecipe(recipeRepository.findByUri(uri));
             newMeal.setLabel(label);
             newMeal.setMealType(mealType);

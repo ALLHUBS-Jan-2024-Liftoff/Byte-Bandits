@@ -1,14 +1,17 @@
 package com.bandits.api.bandits_api.controllers;
 
+import com.bandits.api.bandits_api.models.Meal;
 import com.bandits.api.bandits_api.models.Recipe;
 import com.bandits.api.bandits_api.models.data.RecipeDTO;
 import com.bandits.api.bandits_api.models.User;
+import com.bandits.api.bandits_api.repositories.MealRepository;
 import com.bandits.api.bandits_api.repositories.RecipeRepository;
+import com.bandits.api.bandits_api.security.JwtUtil;
+import com.bandits.api.bandits_api.repositories.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import jakarta.servlet.http.HttpSession;
 import org.springframework.http.HttpStatus;
 
 import java.util.HashMap;
@@ -25,22 +28,38 @@ public class RecipeCollectionController {
     private RecipeRepository recipeRepository;
 
     @Autowired
-    private UserController userController;
+    private JwtUtil jwtUtil;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private MealRepository mealRepository;
 
     ModelMapper modelMapper = new ModelMapper();
 
     @GetMapping
-    public ResponseEntity<List<RecipeDTO>> getSavedRecipes(HttpSession session) {
-        User user = userController.getUserFromSession(session);
+    public ResponseEntity<List<RecipeDTO>> getSavedRecipes(@RequestHeader("Authorization") String authHeader) {
+        String token = authHeader.substring(7); // Remove "Bearer " from the token
+        String username = jwtUtil.extractUsername(token); // Extract username from the token
+
+        User user = userRepository.findByUsername(username);
+
         if (user != null) {
             List<Recipe> recipes = recipeRepository.findByUser(user);
-            List<RecipeDTO> recipeDTO = recipes.stream()
+            List<Integer> idFilter = mealRepository.findByRecipeUserId(user.getId())
+                    .stream().map(src -> src.getRecipe().getId()).toList();
+
+            List<Recipe> filteredRecipes = recipes.stream()
+                    .filter(recipe -> !idFilter.contains(recipe.getId()))
+                    .toList();
+
+            List<RecipeDTO> recipeDTO = filteredRecipes.stream()
                     .map(recipe -> modelMapper.map(recipe, RecipeDTO.class))
                     .collect(Collectors.toList());
-//            System.out.println("recipes: " + recipes.size());
-//            for (int i = 0; i < recipes.size(); i++) {
-//                System.out.println(recipes.get(i).getId());
-//            }
+            System.out.println("ID_FILTER" + idFilter);
+            System.out.println("FILTERED" + filteredRecipes);
+            System.out.println("ID" + user.getId());
             System.out.println(recipeDTO);
             return ResponseEntity.ok(recipeDTO);
         } else {
@@ -54,9 +73,14 @@ public class RecipeCollectionController {
     }
 
     @PostMapping("/new")
-    public ResponseEntity<Map<String, String>> saveNewRecipe(HttpSession session, @RequestBody Recipe recipe) {
-        User user = userController.getUserFromSession(session);
+    public ResponseEntity<Map<String, String>> saveNewRecipe(
+            @RequestHeader("Authorization") String authHeader, @RequestBody Recipe recipe) {
+        String token = authHeader.substring(7); // Remove "Bearer " from the token
+        String username = jwtUtil.extractUsername(token); // Extract username from the token
+
+        User user = userRepository.findByUsername(username);
         Map<String, String> responseBody = new HashMap<>();
+
         if (user != null) {
             recipe.setUser(user);
             recipeRepository.save(recipe);
@@ -68,7 +92,6 @@ public class RecipeCollectionController {
         }
     }
 }
-
 
 
 //public ResponseEntity<RecipeDTO> saveNewRecipe(HttpSession session, @RequestBody Recipe recipe) {
