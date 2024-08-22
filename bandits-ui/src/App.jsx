@@ -6,6 +6,7 @@ import {
   Navigate,
   Link,
 } from "react-router-dom";
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import HomePage from "./components/Home/HomePage";
 import Logout from "./components/User/Logout";
 import { RecipePage } from "./components/Recipes/RecipePage";
@@ -22,6 +23,35 @@ import { MuiLoginPage } from "./components/User/MuiLoginPage.jsx";
 import AccountPage from "./components/User/AccountPage.jsx";
 import AuthLight from "./components/otherComponents/AuthLight.jsx";
 import PrivateRoute from "./services/PrivateRoute"; // Import PrivateRoute component
+import ReviewMeal from "./components/Home/ReviewMeal.jsx";
+
+const theme = createTheme({
+  components: {
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          backgroundColor: '#222222',
+          color:'#ffffff',
+          '&:hover': {
+            backgroundColor: 'green', 
+          },
+        },
+      },
+    },
+    MuiLink: {
+      styleOverrides: {
+        root: {
+          color: 'green', // Default link color
+          textDecoration: 'none', // Remove underline
+          '&:hover': {
+            color: 'black', // Hover color
+            textDecoration: 'underline', // Underline on hover
+          },
+        },
+      },
+    },
+  },
+});
 
 function App() {
   const [authenticated, setAuthenticated] = useState(false);
@@ -34,7 +64,8 @@ function App() {
     if (token) {
       setAuthenticated(true);
     }
-    setLoading(false); // Set loading to false after authentication check
+    // Set loading to false after authentication check
+    setLoading(false);
   }, []);
 
   if (loading) {
@@ -43,6 +74,8 @@ function App() {
   }
 
   return (
+
+    <ThemeProvider theme={theme}>
     <Router>
       <>
         <Navbar bg="light" data-bs-theme="dark">
@@ -127,6 +160,10 @@ function App() {
               }
             />
             <Route
+              path="/review"
+              element={<ReviewMeal />}
+            />
+            <Route
               path="/analysis"
               element={
                 <PrivateRoute authenticated={authenticated}>
@@ -158,6 +195,7 @@ function App() {
         </header>
       </div>
     </Router>
+    </ThemeProvider>
   );
 }
 

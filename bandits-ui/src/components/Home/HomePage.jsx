@@ -1,4 +1,6 @@
 import React from 'react';
+import ReviewMeal from './ReviewMeal';
+import { Card } from '@mui/material';
 import AuthLight from '../otherComponents/AuthLight';
 export const HomePage = () => {
 

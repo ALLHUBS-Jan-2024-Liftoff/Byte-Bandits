@@ -1,7 +1,22 @@
 import React, { useEffect, useState } from "react";
-import { fetchUserData, updateUserPassword, updateUserDetails } from "../../services/userService";
+import axios from "axios";
 import ImageUploadHandler from "./ImageUploadHandler";
-import AuthLight from "../otherComponents/AuthLight";
+import { Link } from "react-router-dom";
+import { styled } from '@mui/material/styles';
+import Box from '@mui/material/Box';
+import Paper from '@mui/material/Paper';
+import Grid from '@mui/material/Grid';
+import { Typography } from "@mui/material";
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import Container from '@mui/material/Container';
+import CssBaseline from '@mui/material/CssBaseline';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import { getCurrentUser } from "../../services/AuthService";
+
+const defaultTheme = createTheme();
+
+const newUser = getCurrentUser();
 
 const AccountPage = () => {
   const [userData, setUserData] = useState({
@@ -19,19 +34,14 @@ const AccountPage = () => {
     confirmPassword: '',
   });
 
-  const [isEditing, setIsEditing] = useState(false);
-
-  useEffect(() => {
-    const getUserData = async () => {
-      try {
-        const data = await fetchUserData();
-        setUserData(data);
-      } catch (error) {
-        console.error("Error fetching user data", error);
-      }
-    };
-    getUserData();
-  }, []);
+  // useEffect(() => {
+  //   // Replace with  actual API call
+  //   const fetchUserData = async () => {
+  //     const response = await fetch('/api/user'); 
+  //     setUserData(data);
+  //   };
+  //   fetchUserData();
+  // }, []);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -49,128 +59,186 @@ const AccountPage = () => {
     }));
   };
 
-  const handleUserDataSubmit = async (e) => {
+  const handleUserDataSubmit = (e) => {
     e.preventDefault();
-    try {
-      await updateUserDetails(userData);
-      console.log('User data updated successfully');
-      setIsEditing(false);
-    } catch (error) {
-      console.error('Error updating user data:', error);
-    }
+    console.log('User data updated:', userData);
   };
 
-  const handlePasswordSubmit = async (e) => {
+  const handlePasswordSubmit = (e) => {
     e.preventDefault();
     if (password.newPassword !== password.confirmPassword) {
       console.error('Passwords do not match');
       return;
     }
-
-    try {
-      await updateUserPassword(password.currentPassword, password.newPassword);
-      console.log('Password updated successfully');
-    } catch (error) {
-      console.error('Error updating password:', error);
-    }
+    console.log('Password updated:', password);
   };
 
-  return (
-    <div>
-      <AuthLight />
-      <h1>Account Management</h1>
-
-      <div>
-        <label>Username:</label>
-        <p>{userData.username}</p>
-      </div>
-
-      {isEditing ? (
-        <form onSubmit={handleUserDataSubmit}>
-          <div>
-            <label>First Name:</label>
-            <input
-              type="text"
-              name="firstName"
-              value={userData.firstName}
-              onChange={handleInputChange}
-            />
-          </div>
-          <div>
-            <label>Last Name:</label>
-            <input
-              type="text"
-              name="lastName"
-              value={userData.lastName}
-              onChange={handleInputChange}
-            />
-          </div>
-          <div>
-            <label>Email:</label>
-            <input
-              type="email"
-              name="email"
-              value={userData.email}
-              onChange={handleInputChange}
-            />
-          </div>
-          <button type="submit">Save Changes</button>
-          <button type="button" onClick={() => setIsEditing(false)}>Cancel</button>
-        </form>
-      ) : (
-        <>
-          <div>
-            <label>First Name:</label>
-            <p>{userData.firstName}</p>
-          </div>
-          <div>
-            <label>Last Name:</label>
-            <p>{userData.lastName}</p>
-          </div>
-          <div>
-            <label>Email:</label>
-            <p>{userData.email}</p>
-          </div>
-          <button onClick={() => setIsEditing(true)}>Edit Information</button>
-        </>
-      )}
-
-      <h2>Change Password</h2>
-      <form onSubmit={handlePasswordSubmit}>
-        <div>
-          <label>Current Password:</label>
-          <input
-            type="password"
+  function UpdateUserInfo() {
+    return (
+      <Paper elevation={0} sx={{ border: '1px solid #ccc' }}>
+        <Box
+          component="form"
+          onSubmit={handleUserDataSubmit}
+          noValidate
+          sx={{
+            m: 1,
+            padding: 2,
+            alignContent: 'center',
+            minWidth: 275,
+            maxWidth: '40vw',
+          }}>
+          <Typography variant="h5" gutterBottom>
+            Personal Info
+          </Typography>
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            id="username"
+            label="Username"
+            name="username"
+            type="text"
+            value={userData.username}
+            autoComplete="username"
+            onChange={handleInputChange}
+            autoFocus
+          />
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            id="firstName"
+            label="First Name"
+            name="firstName"
+            type="text"
+            value={userData.firstName}
+            onChange={handleInputChange}
+          />
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            id="lastName"
+            label="Last Name"
+            name="lastName"
+            type="text"
+            value={userData.lastName}
+            onChange={handleInputChange}
+          />
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            id="email"
+            label="Email"
+            name="email"
+            type="text"
+            value={userData.email}
+            onChange={handleInputChange}
+          />
+          <Button
+            type="submit"
+            variant="contained"
+            sx={{ mt: 3, mb: 2 }}
+          >
+            Update Info
+          </Button>
+        </Box>
+      </Paper>
+    );
+  }
+  
+  function UpdatePassword() {
+    return (
+      <Paper elevation={0} sx={{ border: '1px solid #ccc', marginTop: 3 }}>
+        <Box
+          component="form"
+          onSubmit={handlePasswordSubmit}
+          noValidate
+          sx={{
+            m: 1,
+            padding: 2,
+            alignContent: 'center',
+            minWidth: 275,
+            maxWidth: '40vw',
+          }}>
+          <Typography variant="h5" gutterBottom>
+            Update Password
+          </Typography>
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            id="currentPassword"
+            label="Current Password"
             name="currentPassword"
+            type="password"
             value={password.currentPassword}
+            autoComplete="current-password"
             onChange={handlePasswordChange}
           />
-        </div>
-        <div>
-          <label>New Password:</label>
-          <input
-            type="password"
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            id="newPassword"
+            label="New Password"
             name="newPassword"
+            type="password"
             value={password.newPassword}
             onChange={handlePasswordChange}
           />
-        </div>
-        <div>
-          <label>Confirm New Password:</label>
-          <input
-            type="password"
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            id="confirmPassword"
+            label="Confirm New Password"
             name="confirmPassword"
+            type="password"
             value={password.confirmPassword}
             onChange={handlePasswordChange}
           />
-        </div>
-        <button type="submit">Change Password</button>
-      </form>
+          <Button
+            type="submit"
+            variant="contained"
+            sx={{ mt: 3, mb: 2 }}
+          >
+            Update Password
+          </Button>
+        </Box>
+      </Paper>
+    );
+  }
 
-      <h2>Upload Profile Picture</h2>
-      <ImageUploadHandler />
-    </div>
+  return (
+    <ThemeProvider theme={defaultTheme}>
+      <Container>
+        <Typography variant="h4" paddingY={4}>
+          Account Management
+        </Typography>
+        <Grid container spacing={1}>
+        <Grid item xs={12} md={6}>
+            <Box sx={{
+              padding: 1,
+              textAlign: 'center',
+            }}>
+              <ImageUploadHandler />
+              <UpdatePassword />
+            </Box>
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <Box sx={{
+              padding: 1,
+              textAlign: 'center',
+            }}>
+              <UpdateUserInfo />
+            </Box>
+          </Grid>
+        </Grid>
+      </Container>
+    </ThemeProvider>
   );
-};
+}
 
 export default AccountPage;

@@ -4,8 +4,10 @@ import com.bandits.api.bandits_api.models.Meal;
 import com.bandits.api.bandits_api.models.data.CalendarDTO;
 import com.bandits.api.bandits_api.models.User;
 import com.bandits.api.bandits_api.repositories.MealRepository;
+
 import com.bandits.api.bandits_api.repositories.UserRepository;
 import com.bandits.api.bandits_api.security.JwtUtil;
+
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeMap;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,3 +67,4 @@ public class CalendarController {
         }
     }
 }
+
