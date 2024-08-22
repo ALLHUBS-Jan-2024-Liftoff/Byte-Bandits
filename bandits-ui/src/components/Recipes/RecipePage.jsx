@@ -40,7 +40,7 @@ export const RecipePage = () => {
   // };
 
 
-  console.log(recipes,"recipes")
+  console.log(recipes,"recipes");
 
   const handleDeleteRecipe = (recipeId) => {
     deleteRecipe(recipeId)
@@ -57,7 +57,7 @@ export const RecipePage = () => {
       <div className="card">
         <div className="card-header">Your Recipes</div>
         <div className="card-body">
-          <RecipeTable recipes={recipes} deleteRecipe={handleDeleteRecipe} />
+          <RecipeTable recipes={recipes} deleteRecipe={handleDeleteRecipe} setRecipes={setRecipes} />
         </div>
       </div>
     </div>

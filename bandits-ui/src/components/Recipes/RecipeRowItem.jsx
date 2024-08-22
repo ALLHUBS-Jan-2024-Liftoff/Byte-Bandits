@@ -6,13 +6,15 @@ import { addMeal } from '../../services/mealService.js';
 import MuiDatePicker from '../Calendar/MuiDatePicker';
 import Select from 'react-select';
 
-export const RecipeRowItem = ({ recipe, recipes, deleteRecipe }) => {
+export const RecipeRowItem = ({ recipe, recipes, deleteRecipe, removeRecipe }) => {
   const [date, setDate] = React.useState("");
   const [mealType, setMealType] = React.useState("");
 
   const handleAddMeal = (uri, label, mealType, date) => {
     console.log("uri", uri, "label", label, "mealType", mealType, "date", date);
     addMeal(uri, label, mealType, date);
+    removeRecipe(recipe.id);
+    alert("Meal saved successfully!"); 
       // .then((newRecipe) => {
       //   setRecipes([...recipes, newRecipe]);
       // })
