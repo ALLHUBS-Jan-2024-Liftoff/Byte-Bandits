@@ -14,6 +14,7 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import Alert from '@mui/material/Alert';
 
 function Copyright(props) {
   return (
@@ -28,63 +29,77 @@ function Copyright(props) {
   );
 }
 
-// TODO remove, this demo shouldn't need to reset the theme.
-
 const defaultTheme = createTheme();
 
 export default function SignUp() {
   const [password, setPassword] = React.useState('');
   const [cPassword, setCPassword] = React.useState('');
+  const [email, setEmail] = React.useState('');
   const [showError, setShowError] = React.useState(false);
   const [helperText, setHelperText] = React.useState('');
   const [isCPasswordDirty, setIsCPasswordDirty] = React.useState(false);
-  const [signUpButton, setSignUpButton] = React.useState('');
+  const [signUpButton, setSignUpButton] = React.useState(false);
+  const [message, setMessage] = React.useState('');
+  const [alertType, setAlertType] = React.useState(''); // success or error
 
   const navigate = useNavigate();
 
   React.useEffect(() => {
     if (isCPasswordDirty) {
-        if (password === cPassword) {
-            setShowError(false);
-            setSignUpButton(true);
-            setHelperText(false);
-        } else {
-            setShowError(true)
-            setHelperText('Passwords do not match!');
-            setSignUpButton(true);
-        }
+      if (password === cPassword) {
+        setShowError(false);
+        setSignUpButton(true);
+        setHelperText('');
+      } else {
+        setShowError(true);
+        setHelperText('Passwords do not match!');
+        setSignUpButton(false);
+      }
     }
-}, [cPassword])
+  }, [cPassword, password, isCPasswordDirty]);
+
+  const validateEmail = (email) => {
+    // Learned this on the go.. but this is what it does Regex works by defining a pattern that specifies what you are trying to match in a string
+    const re = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return re.test(String(email).toLowerCase());
+  };
+
+  const handleEmailChange = (e) => {
+    setEmail(e.target.value);
+    if (!validateEmail(e.target.value)) {
+      setShowError(true);
+      setHelperText('Invalid email address');
+      setSignUpButton(false);
+    } else {
+      setShowError(false);
+      setHelperText('');
+      setSignUpButton(true);
+    }
+  };
 
   const handleCPassword = (e) => {
     setCPassword(e.target.value);
     setIsCPasswordDirty(true);
-  }
-
-  // const handleSubmit = (event) => {
-  //   event.preventDefault();
-  //   const data = new FormData(event.currentTarget);
-  //   console.log({
-  //     email: data.get('email'),
-  //     password: data.get('password'),
-  //   });
-  //   registerUser(data.get('email'), data.get('firstName'), data.get('lastName'), data.get('password'));
-  // };
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const data = new FormData(e.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+
+    if (!validateEmail(data.get('email'))) {
+      setShowError(true);
+      setHelperText('Invalid email address');
+      setSignUpButton(false);
+      return;
+    }
+
     try {
       const response = await axios.post(
         "http://localhost:8080/user/register",
         {
           username: data.get('username'),
           password: data.get('password'),
-          firstName: data.get('firstName'),  
+          firstName: data.get('firstName'),
           lastName: data.get('lastName'),
           email: data.get('email'),
         },
@@ -93,10 +108,15 @@ export default function SignUp() {
           withCredentials: true,
         }
       );
-      navigate("/login");
+      setAlertType('success');
+      setMessage("Registration successful! Redirecting to login...");
+      
+      setTimeout(() => {
+        navigate("/login");
+      }, 2000);
     } catch (error) {
-      console.log("User has NOT been registered, error: ", error);
-
+      setAlertType('error');
+      setMessage(error.response?.data?.message || "User has NOT been registered.");
     }
   };
 
@@ -159,6 +179,10 @@ export default function SignUp() {
                   label="Email Address"
                   name="email"
                   autoComplete="email"
+                  value={email}
+                  onChange={handleEmailChange}
+                  error={showError}
+                  helperText={helperText}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -202,10 +226,15 @@ export default function SignUp() {
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
-              disabled={signUpButton && showError}
+              disabled={!signUpButton || showError}
             >
               Sign Up
             </Button>
+            {message && (
+              <Alert severity={alertType} sx={{ mt: 2, mb: 2 }}>
+                {message}
+              </Alert>
+            )}
             <Grid container justifyContent="flex-end">
               <Grid item>
                 <Link href="#" variant="body2" onClick={() => navigate("/login")}>

@@ -66,20 +66,23 @@ export const fetchUserData = async () => {
   }
 };
 
-export const registerUser = async (email, firstName, lastName, password) => {
+export const registerUser = async (username, password, firstName, lastName, email) => {
   try {
-    console.log("Registering user...");
     const response = await axiosInstance.post('/register', {
-      email,
+      username,
+      password,
       firstName,
       lastName,
-      password,
+      email,
     });
     console.log("User registered:", response.data);
     return response.data;
   } catch (error) {
-    console.error("There was an error creating the user!", error);
-    throw error;
+    if (error.response && error.response.status === 409) {
+      throw new Error("Username is already taken.");
+    } else {
+      throw new Error("There was an error during registration. Please try again.");
+    }
   }
 };
 

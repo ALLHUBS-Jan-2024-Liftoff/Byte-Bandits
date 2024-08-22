@@ -71,7 +71,11 @@ export const login = async (username, password) => {
     return { token, message };
   } catch (error) {
     console.error("Login failed", error);
-    throw error;
+    if (error.response && error.response.status === 401) {
+      throw new Error("Invalid username or password.");
+    } else {
+      throw new Error("An unexpected error occurred. Please try again.");
+    }
   }
 };
 // Logout function to clear user session

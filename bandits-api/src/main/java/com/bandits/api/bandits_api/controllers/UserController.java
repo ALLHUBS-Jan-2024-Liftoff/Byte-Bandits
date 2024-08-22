@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Pattern;
+
 
 @RestController
 @RequestMapping("user")
@@ -33,10 +35,23 @@ public class UserController {
     @Autowired
     private AuthenticationManager authenticationManager;
 
+    private static final String EMAIL_REGEX = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
+    private static final String PASSWORD_REGEX = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=]).{8,}$";
+
     @PostMapping(value = "/register")
     public ResponseEntity<Map<String, String>> processRegistrationForm(@RequestBody RegisterFormDTO registerFormDTO) {
         Map<String, String> responseBody = new HashMap<>();
         try {
+            if (!Pattern.matches(EMAIL_REGEX, registerFormDTO.getEmail())) {
+                responseBody.put("message", "Invalid email format!");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseBody);
+            }
+
+            if (!Pattern.matches(PASSWORD_REGEX, registerFormDTO.getPassword())) {
+                responseBody.put("message", "Password must be at least 8 characters long, and include a number, an uppercase letter, a lowercase letter, and a special character.");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseBody);
+            }
+
             User existingUser = userRepository.findByUsername(registerFormDTO.getUsername());
             if (existingUser == null && !registerFormDTO.getUsername().isEmpty() && !registerFormDTO.getPassword().isEmpty()) {
                 User newUser = new User(registerFormDTO.getUsername(), registerFormDTO.getPassword(), registerFormDTO.getFirstName(), registerFormDTO.getLastName(), registerFormDTO.getEmail(), "basic");
@@ -60,13 +75,17 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(responseBody); // Fallback in case of an unknown issue
     }
 
+
     @PostMapping("/login")
     public ResponseEntity<Map<String, String>> processLoginForm(@RequestBody LoginFormDTO loginFormDTO) {
         Map<String, String> responseBody = new HashMap<>();
         try {
             // Authenticate the user
             Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(loginFormDTO.getUsername(), loginFormDTO.getPassword())
+                    new UsernamePasswordAuthenticationToken(
+                            loginFormDTO.getUsername(),
+                            loginFormDTO.getPassword()
+                    )
             );
 
             // Generate the JWT token
@@ -78,15 +97,13 @@ public class UserController {
             return ResponseEntity.ok(responseBody);
 
         } catch (AuthenticationException e) {
-            responseBody.put("message", "Username or Password is Invalid!");
+            responseBody.put("message", "Username or password is invalid!");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(responseBody);
         }
     }
 
     @GetMapping("/logout")
     public ResponseEntity<String> logout() {
-        // Since we're using JWTs, the "logout" process is stateless.
-        // The client should simply discard the token.
         return ResponseEntity.ok("User successfully logged out. Please discard the token on the client side.");
     }
 }

@@ -3,11 +3,13 @@ import Alert from 'react-bootstrap/Alert';
 import { useNavigate } from "react-router-dom";
 import { login } from "../services/AuthService";
 
+
 function LoginPage({ setAuthenticated }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
   const [condition, setCondition] = useState("");
+  const [error, setError] = useState(null);
 
   const navigate = useNavigate();
 
@@ -18,10 +20,12 @@ function LoginPage({ setAuthenticated }) {
 
         console.log("Token stored:", localStorage.getItem('token'));
         setAuthenticated(true);
+        setError(null)
         setCondition("success");
         setMessage("Login successful!");
         navigate("/home");
     } catch (error) {
+        setError("Login Faild, Please check your username and password.")
         setCondition("danger");
         setMessage(error.response?.data?.message || "Login failed");
     }
@@ -63,6 +67,7 @@ useEffect(() => {
         <Alert variant={condition}>
           {message}
         </Alert>}
+        {error && <Alert variant="danger">{error}</Alert>}
     </div>
   );
 }

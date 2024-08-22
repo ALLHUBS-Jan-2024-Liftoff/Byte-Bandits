@@ -14,6 +14,7 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useState } from 'react';
 
 
 function Copyright(props) {
@@ -34,17 +35,10 @@ function Copyright(props) {
 const defaultTheme = createTheme();
 
 export default function SignIn({ setAuthenticated }) {
-
+  const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
 
-  // const handleSubmit = (event) => {
-  //   event.preventDefault();
-  //   const data = new FormData(event.currentTarget);
-  //   console.log({
-  //     email: data.get('email'),
-  //     password: data.get('password'),
-  //   });
-  // };
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -69,6 +63,7 @@ export default function SignIn({ setAuthenticated }) {
       navigate("/home");
     } catch (error) {
       console.log("Login failed, error: ", error);
+      setErrorMessage(error.response?.data?.message || "Login failed. Please check your credentials.");
     }
   };
 
@@ -121,8 +116,13 @@ export default function SignIn({ setAuthenticated }) {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Sign In
+        Sign In
             </Button>
+            {errorMessage && (
+              <Typography color="error" align="center">
+                {errorMessage}
+              </Typography>
+            )}
             <Grid container>
               <Grid item xs>
                 <Link href="#" variant="body2">
@@ -140,5 +140,5 @@ export default function SignIn({ setAuthenticated }) {
         <Copyright sx={{ mt: 8, mb: 4 }} />
       </Container>
     </ThemeProvider>
-  );
+);
 }
