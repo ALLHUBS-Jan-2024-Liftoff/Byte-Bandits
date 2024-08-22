@@ -1,8 +1,10 @@
 package com.bandits.api.bandits_api.controllers;
 
+import com.bandits.api.bandits_api.models.Meal;
 import com.bandits.api.bandits_api.models.Recipe;
 import com.bandits.api.bandits_api.models.data.RecipeDTO;
 import com.bandits.api.bandits_api.models.User;
+import com.bandits.api.bandits_api.repositories.MealRepository;
 import com.bandits.api.bandits_api.repositories.RecipeRepository;
 import com.bandits.api.bandits_api.security.JwtUtil;
 import com.bandits.api.bandits_api.repositories.UserRepository;
@@ -31,6 +33,9 @@ public class RecipeCollectionController {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private MealRepository mealRepository;
+
     ModelMapper modelMapper = new ModelMapper();
 
     @GetMapping
@@ -42,9 +47,19 @@ public class RecipeCollectionController {
 
         if (user != null) {
             List<Recipe> recipes = recipeRepository.findByUser(user);
-            List<RecipeDTO> recipeDTO = recipes.stream()
+            List<Integer> idFilter = mealRepository.findByRecipeUserId(user.getId())
+                    .stream().map(src -> src.getRecipe().getId()).toList();
+
+            List<Recipe> filteredRecipes = recipes.stream()
+                    .filter(recipe -> !idFilter.contains(recipe.getId()))
+                    .toList();
+
+            List<RecipeDTO> recipeDTO = filteredRecipes.stream()
                     .map(recipe -> modelMapper.map(recipe, RecipeDTO.class))
                     .collect(Collectors.toList());
+            System.out.println("ID_FILTER" + idFilter);
+            System.out.println("FILTERED" + filteredRecipes);
+            System.out.println("ID" + user.getId());
             System.out.println(recipeDTO);
             return ResponseEntity.ok(recipeDTO);
         } else {

@@ -24,7 +24,7 @@ public class ReviewService {
 
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-    public List<ReviewDTO> getReviewByUserId(Long userId) {
+    public List<ReviewDTO> getReviewByUserId(Integer userId) {
         LocalDate today = LocalDate.now();
         long startOfTodayEpochDay = today.toEpochDay();
 
