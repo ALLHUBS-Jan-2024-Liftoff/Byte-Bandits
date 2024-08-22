@@ -58,13 +58,6 @@ export const RecipePage = () => {
         <div className="card-header">Your Recipes</div>
         <div className="card-body">
           <RecipeTable recipes={recipes} deleteRecipe={handleDeleteRecipe} />
-          <button
-            onClick={() => setShowAddForm(!showAddForm)}
-            className="btn btn-primary"
-          >
-            {showAddForm ? "Close Form" : "New Recipe"}
-          </button>
-          {showAddForm && <NewRecipeForm addRecipe={handleAddRecipe} />}
         </div>
       </div>
     </div>
