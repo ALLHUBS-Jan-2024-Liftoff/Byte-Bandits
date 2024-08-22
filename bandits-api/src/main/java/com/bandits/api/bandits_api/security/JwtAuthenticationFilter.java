@@ -15,6 +15,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 
 import java.io.IOException;
+import java.util.logging.Logger;
 
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
@@ -24,7 +25,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Autowired
     private UserDetailsService userDetailsService;
-
+    private static final Logger logger = Logger.getLogger(JwtAuthenticationFilter.class.getName());
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws ServletException, IOException {
@@ -35,15 +36,18 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String jwt = null;
 
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
-            jwt = authorizationHeader.substring(7); // Remove "Bearer " from the token
-            username = jwtUtil.extractUsername(jwt); // Extract username from the token
+            jwt = authorizationHeader.substring(7);
+            username = jwtUtil.extractUsername(jwt);
+            logger.info("JWT extracted: " + jwt);
+            logger.info("Username extracted: " + username);
         }
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
-
+            logger.info("UserDetails loaded: " + userDetails.getUsername());
             if (jwtUtil.validateToken(jwt, userDetails.getUsername())) {
+                logger.info("JWT is valid");
 
                 UsernamePasswordAuthenticationToken authenticationToken =
                         new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
@@ -51,6 +55,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+                logger.info("Authentication set in SecurityContextHolder");
+            } else {
+                logger.warning("JWT is invalid");
             }
         }
         chain.doFilter(request, response); // Proceed with the next filter in the chain

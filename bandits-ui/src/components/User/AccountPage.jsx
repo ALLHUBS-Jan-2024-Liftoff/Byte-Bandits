@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import ImageUploadHandler from "./ImageUploadHandler";
-import { Link } from "react-router-dom";
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
@@ -12,11 +11,8 @@ import Container from '@mui/material/Container';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import { getCurrentUser } from "../../services/AuthService";
 
 const defaultTheme = createTheme();
-
-const newUser = getCurrentUser();
 
 const AccountPage = () => {
   const [userData, setUserData] = useState({
@@ -26,6 +22,7 @@ const AccountPage = () => {
     email: '',
     phoneNumber: '',
     address: '',
+    profileImageUrl: '', // Add profileImageUrl to store the image URL
   });
 
   const [password, setPassword] = useState({
@@ -34,14 +31,19 @@ const AccountPage = () => {
     confirmPassword: '',
   });
 
-  // useEffect(() => {
-  //   // Replace with  actual API call
-  //   const fetchUserData = async () => {
-  //     const response = await fetch('/api/user'); 
-  //     setUserData(data);
-  //   };
-  //   fetchUserData();
-  // }, []);
+  useEffect(() => {
+    // Fetch user data including the profile image URL
+    const fetchUserData = async () => {
+      try {
+        const response = await axios.get('/api/user');
+        setUserData(response.data);
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+      }
+    };
+
+    fetchUserData();
+  }, []);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -62,6 +64,7 @@ const AccountPage = () => {
   const handleUserDataSubmit = (e) => {
     e.preventDefault();
     console.log('User data updated:', userData);
+    // Call your API to update the user data
   };
 
   const handlePasswordSubmit = (e) => {
@@ -71,6 +74,7 @@ const AccountPage = () => {
       return;
     }
     console.log('Password updated:', password);
+    // Call your API to update the password
   };
 
   function UpdateUserInfo() {
@@ -218,11 +222,18 @@ const AccountPage = () => {
           Account Management
         </Typography>
         <Grid container spacing={1}>
-        <Grid item xs={12} md={6}>
+          <Grid item xs={12} md={6}>
             <Box sx={{
               padding: 1,
               textAlign: 'center',
             }}>
+              {userData.profileImageUrl && (
+                <img 
+                  src={userData.profileImageUrl} 
+                  alt="Profile" 
+                  style={{ width: '150px', height: '150px', borderRadius: '50%' }} 
+                />
+              )}
               <ImageUploadHandler />
               <UpdatePassword />
             </Box>

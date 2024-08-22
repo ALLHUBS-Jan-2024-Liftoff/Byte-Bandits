@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { uploadImage } from '../../services/imageService';
 
 function ImageUploadHandler() {
   const [image, setImage] = useState(null);
   const [message, setMessage] = useState("");
   const [condition, setCondition] = useState("");
+  const fileInputRef = useRef(null);
 
   // Handle Image Change
   const handleImageChange = (e) => {
@@ -26,6 +27,7 @@ function ImageUploadHandler() {
 
       // Reset the form after successful upload
       setImage(null);
+      fileInputRef.current.value = ''; 
     } catch (error) {
       console.error("Error during upload:", error);
       setCondition("danger");
@@ -40,7 +42,7 @@ function ImageUploadHandler() {
         type="file" 
         accept="image/*" 
         onChange={handleImageChange} 
-        value={image ? image.name : ""}
+        ref={fileInputRef}
       />
       <button onClick={handleUpload}>Add Image to S3</button>
       {message && <p className={`message ${condition}`}>{message}</p>}
