@@ -1,13 +1,14 @@
 import React, { useState } from "react";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
 import Alert from 'react-bootstrap/Alert';
-
- 
+import { useNavigate } from "react-router-dom";
+import { register } from "../services/AuthService";
 
 function RegistrationPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [condition, setCondition] = useState("");
 
@@ -16,20 +17,8 @@ function RegistrationPage() {
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(
-        "http://localhost:8080/user/register",
-        {
-          username,
-          password,
-          firstName: "John",
-          lastName: "Doe",
-          email: "john.doe@example.com",
-        },
-        {
-          withCredentials: true,
-        }
-      );
-      setMessage(response.data.message);
+      const responseMessage = await register(username, password, firstName, lastName, email);
+      setMessage(responseMessage.message);
       setCondition("success");
       navigate("/login");
     } catch (error) {
@@ -60,6 +49,36 @@ function RegistrationPage() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="Password"
+          />
+        </div>
+        <div className="mb-3">
+          <label className="form-label">First Name</label>
+          <input
+            type="text"
+            className="form-control"
+            value={firstName}
+            onChange={(e) => setFirstName(e.target.value)}
+            placeholder="First Name"
+          />
+        </div>
+        <div className="mb-3">
+          <label className="form-label">Last Name</label>
+          <input
+            type="text"
+            className="form-control"
+            value={lastName}
+            onChange={(e) => setLastName(e.target.value)}
+            placeholder="Last Name"
+          />
+        </div>
+        <div className="mb-3">
+          <label className="form-label">Email</label>
+          <input
+            type="email"
+            className="form-control"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Email"
           />
         </div>
         <button type="submit" className="btn btn-primary">Register</button>

@@ -1,11 +1,10 @@
 package com.bandits.api.bandits_api;
 
-import com.bandits.api.bandits_api.controllers.UserController;
 import com.bandits.api.bandits_api.models.User;
 import com.bandits.api.bandits_api.repositories.UserRepository;
+import com.bandits.api.bandits_api.security.JwtUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -16,10 +15,10 @@ import java.util.List;
 public class AuthenticationFilter implements HandlerInterceptor {
 
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
     @Autowired
-    UserController userController;
+    private JwtUtil jwtUtil;
 
     private static final List<String> whitelist = Arrays.asList("/user/login", "/user/register", "/user/logout");
 
@@ -39,27 +38,26 @@ public class AuthenticationFilter implements HandlerInterceptor {
 
         // Don't require sign-in for whitelisted pages
         if (isWhitelisted(request.getRequestURI())) {
-            // returning true indicates that the request may proceed
-            return true;
+            return true; // Allow the request to proceed
         }
 
-        HttpSession session = request.getSession();
-        User user = userController.getUserFromSession(session);
+        // Extract the JWT token from the Authorization header
+        String authHeader = request.getHeader("Authorization");
+        if (authHeader != null && authHeader.startsWith("Bearer ")) {
+            String token = authHeader.substring(7); // Remove "Bearer " from the token
+            String username = jwtUtil.extractUsername(token);
 
-        // The user is logged in
-        if (user != null) {
-            return true;
+            if (username != null) {
+                User user = userRepository.findByUsername(username);
+
+                if (user != null && jwtUtil.validateToken(token, user.getUsername())) {
+                    return true; // Allow the request to proceed if the token is valid
+                }
+            }
         }
 
-        // The user is NOT logged in
-        if (request.getMethod().equals("OPTIONS")) {
-            // For preflight requests, respond with the necessary CORS headers
-            response.setStatus(HttpServletResponse.SC_OK);
-            return true;
-        } else {
-            // For other requests, respond with a CORS error
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            return false;
-        }
+        // If the user is not authenticated or token is invalid, respond with an unauthorized status
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        return false; // Block the request
     }
 }

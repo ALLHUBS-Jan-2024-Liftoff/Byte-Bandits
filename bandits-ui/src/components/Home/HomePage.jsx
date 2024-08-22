@@ -1,11 +1,12 @@
 import React from 'react';
 import ReviewMeal from './ReviewMeal';
 import { Card } from '@mui/material';
-
+import AuthLight from '../otherComponents/AuthLight';
 export const HomePage = () => {
 
   return (
     <div className="mt-5 container">
+       <AuthLight />
       <div className="card">
         {/* <div className="card-header">Your Todo Application</div> */}
         <div className="card-body">
