@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const LOCAL_API_IMAGE_URL = "http://localhost:8080/api/s3/presignedurl";
+const LOCAL_API_URL = "http://localhost:8080/api/s3";
 
 export const uploadImage = async (image) => {
   const type = image.type;
@@ -8,32 +8,25 @@ export const uploadImage = async (image) => {
   const token = localStorage.getItem("token");
 
   try {
-    // Get the presigned URL from the backend
-    const response = await axios.post(
-      LOCAL_API_IMAGE_URL,
-      { type, name: imageName },
+    //  Get the presigned URL from the backend
+    const presignedUrlResponse = await axios.post(
+      `${LOCAL_API_URL}/presignedurl`,
+      { name: imageName, type: type },
       {
         headers: {
           Authorization: `Bearer ${token}`,
         },
-        withCredentials: true,
       }
     );
 
-    const { url, key } = response.data; // Assuming the response contains both URL and key
+    const presignedUrl = presignedUrlResponse.data.url;
 
     // Upload the image to S3 using the presigned URL
-    await axios.put(
-      url,
-      image,
-      {
-        headers: {
-          "Content-Type": type,
-        },
-      }
-    );
+    await axios.put(presignedUrl, image, {
+      headers: { "Content-Type": type },
+    });
 
-    return `Image uploaded successfully! File key: ${key}`;
+    return "Image uploaded successfully!";
   } catch (error) {
     console.error("Error during image upload:", error);
     throw new Error(error.response?.data?.message || "Image upload failed");
