@@ -2,9 +2,11 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import Button from 'react-bootstrap/Button';
+import { useNavigate } from 'react-router-dom';
 
 console.log(authenticated);
 export const BsNavBar = ( authenticated ) => {
+
   return (
     <>
       <Navbar bg="light" data-bs-theme="dark">
@@ -25,7 +27,7 @@ export const BsNavBar = ( authenticated ) => {
                 <Nav.Link href="#pricing">Meal Plans</Nav.Link>
               </Nav>
               <Nav className="ms-auto">
-                <Button href="/logout" variant="outline-danger">Logout</Button>
+                <Button onClick={handleLogout} variant="outline-danger">Loout</Button>
               </Nav>
             </>
           )}

@@ -4,8 +4,11 @@ import moment from "moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { useEffect } from 'react';
 import { fetchCalendarMeals } from '../../services/calendarService';
+import { fetchMeals } from '../../services/mealService';
 
 const localizer = momentLocalizer(moment);
+
+console.log(fetchMeals());
 
 export default function BigCal() {
   const [events, setEvents] = React.useState([]);

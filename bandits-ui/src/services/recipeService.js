@@ -22,8 +22,9 @@ export const fetchRecipes = async () => {
   try {
     console.log("FETCHING RECIPES WITH TOKEN:", YOUR_BEARER_TOKEN);
     const response = await axios.get(`${LOCAL_API_RECIPE_URL}`, {
-      headers: {
-      'Authorization': `Bearer ${YOUR_BEARER_TOKEN}`
+      headers: { 
+        'content-type': 'application/json',
+        'Authorization': `Bearer ${YOUR_BEARER_TOKEN}`
       },
       withCredentials: true
     });

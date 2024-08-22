@@ -21,7 +21,10 @@ import { MuiRegPage } from "./components/User/MuiRegPage.jsx";
 import { MuiLoginPage } from "./components/User/MuiLoginPage.jsx";
 import AccountPage from "./components/User/AccountPage.jsx";
 import AuthLight from "./components/otherComponents/AuthLight.jsx";
-import PrivateRoute from "./services/PrivateRoute"; // Import PrivateRoute component
+import PrivateRoute from "./services/PrivateRoute";
+
+import Button from 'react-bootstrap/Button';
+import MealCardPage from "./components/Meals/MealCardPage.jsx";
 
 function App() {
   const [authenticated, setAuthenticated] = useState(false);
@@ -41,6 +44,11 @@ function App() {
     console.log("Loading", authenticated);
     return <div>Loading...</div>; // Show a loading message or spinner
   }
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    setAuthenticated(false);
+  };
 
   return (
     <Router>
@@ -63,6 +71,7 @@ function App() {
                   <Nav.Link as={Link} to="/search">Find Recipes</Nav.Link>
                   <Nav.Link as={Link} to="/MealPlans">Meal Plans</Nav.Link>
                   <Nav.Link as={Link} to="/analysis">Analysis</Nav.Link>
+                  <Nav.Link as={Link} to="/cardtest">Card Test</Nav.Link>
                 </Nav>
                 <Nav className="ms-auto">
                   <NavDropdown title="Profile" id="basic-nav-dropdown">
@@ -72,8 +81,8 @@ function App() {
                     </NavDropdown.Item>
                     <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
                     <NavDropdown.Divider />
-                    <NavDropdown.Item as={Link} to="/logout">
-                      Logout
+                    <NavDropdown.Item as={Link} to="#">
+                      <Button onClick={handleLogout} variant="outline-danger">Logout</Button>
                     </NavDropdown.Item>
                   </NavDropdown>
                 </Nav>
@@ -134,13 +143,17 @@ function App() {
                 </PrivateRoute>
               }
             />
-            <Route
-              path="/logout"
+                        <Route
+              path="/cardtest"
               element={
                 <PrivateRoute authenticated={authenticated}>
-                  <Logout setAuthenticated={setAuthenticated} />
+                  <MealCardPage />
                 </PrivateRoute>
               }
+            />
+            <Route
+              path="/logout"
+              element={<Navigate to="/login" replace />}
             />
             <Route
               path="/account"

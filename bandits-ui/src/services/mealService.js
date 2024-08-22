@@ -40,7 +40,7 @@ export const fetchMeals = async () => {
       },
       withCredentials:true
     });
-    console.log("response", response);
+    console.log("response from fetchMeals:", response.data);
     return response.data;
   } catch (error) {
     console.error("There was an error fetching the meals!", error);

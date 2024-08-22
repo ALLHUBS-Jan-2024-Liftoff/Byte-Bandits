@@ -61,9 +61,9 @@ export default function SignIn({ setAuthenticated }) {
           withCredentials: true,
         }
       );
-      console.log("Logged in successfully", response);
       const token = response.data.token; // Assuming the token is in the response data
-      localStorage.setItem('token', token); // Store the token in local storage
+      console.log("Received token:", token);
+      localStorage.setItem('token', token);
       console.log("Stored token:", localStorage.getItem('token')); // Confirm the token is stored
       setAuthenticated(true);
       navigate("/home");
