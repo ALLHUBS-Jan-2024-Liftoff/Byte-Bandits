@@ -11,8 +11,6 @@ public class MealDTO {
 
     private Recipe recipe;
 
-    private User user;
-
     private String mealType;
 
     private String date;
@@ -43,13 +41,6 @@ public class MealDTO {
         this.recipe = recipe;
     }
 
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
 
     public String getMealType() {
         return mealType;

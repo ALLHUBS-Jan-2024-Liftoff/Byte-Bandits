@@ -67,6 +67,7 @@ export default function SignIn({ setAuthenticated }) {
       console.log("Stored token:", localStorage.getItem('token')); // Confirm the token is stored
       setAuthenticated(true);
       navigate("/home");
+      window.location.reload(true);
     } catch (error) {
       console.log("Login failed, error: ", error);
     }

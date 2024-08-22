@@ -5,6 +5,9 @@ Call loginUser(username, password) to log in a user and store their JWT token.
 
 */
 import axios from "axios";
+import { logout } from "./AuthService";
+import { getCurrentUser } from "./AuthService";
+
 
 const BASE_API_URL = "http://localhost:8080/api/user";
 
@@ -83,37 +86,6 @@ export const registerUser = async (email, firstName, lastName, password) => {
   }
 };
 
-// export const loginUser = async (username, password) => {
-//   try {
-//     console.log("Logging in user...");
-//     const response = await axiosInstance.post('/login', {
-//       username,
-//       password,
-//     });
-//     const { token, user } = response.data;
-
-//     // Store token and user information in localStorage
-//     console.log("Storing token in localStorage:", token);
-//     localStorage.setItem("token", token);
-//     localStorage.setItem("user", JSON.stringify(user));
-    
-//     // Confirm the token is stored
-//     const storedToken = localStorage.getItem("token");
-//     console.log("Token stored in localStorage:", storedToken);
-    
-//     if (!storedToken) {
-//       console.error("Token was not successfully stored in localStorage.");
-//     } else {
-//       console.log("Token successfully stored and retrieved.");
-//     }
-
-//     return user;
-//   } catch (error) {
-//     console.error("There was an error logging in the user!", error);
-//     throw error;
-//   }
-// };
-
 // Update user details
 export const updateUserDetails = async (userData) => {
   try {
@@ -140,5 +112,21 @@ export const updateUserPassword = async (currentPassword, newPassword) => {
   } catch (error) {
     console.error("There was an error updating the user password!", error);
     throw error;
+  }
+};
+
+export const handleLogout = async () => {
+  try {
+    // Use the logout function from AuthService
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    setAuthenticated(false);
+
+    console.log("Token: ", localStorage.getItem("token"));
+    console.log("User: ", localStorage.getItem("user"));
+    // Redirect to login page
+    navigate("/login");
+  } catch (error) {
+    console.error("Logout failed", error);
   }
 };

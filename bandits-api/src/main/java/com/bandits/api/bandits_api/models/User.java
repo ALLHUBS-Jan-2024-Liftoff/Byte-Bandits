@@ -10,7 +10,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     private String username;
     private String pwHash;
@@ -21,9 +21,6 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     private List<Recipe> recipes;
-
-    @OneToMany(mappedBy = "user")
-    private List<Meal> meals;
 
     private static final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
@@ -42,7 +39,7 @@ public class User {
     }
 
     // Overloaded constructor with additional parameters
-    public User(String username, String password, String firstName, String lastName, String email, String role, List<Recipe> recipes, List<Meal> meals) {
+    public User(String username, String password, String firstName, String lastName, String email, String role, List<Recipe> recipes) {
         this.username = username;
         this.pwHash = encoder.encode(password);  // Hash the password before storing
         this.firstName = firstName;
@@ -50,7 +47,6 @@ public class User {
         this.email = email;
         this.role = role;
         this.recipes = recipes;
-        this.meals = meals;
     }
 
     // Method to check if a provided password matches the stored password hash
@@ -59,7 +55,7 @@ public class User {
     }
 
     // Getters and setters for all fields
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -117,13 +113,5 @@ public class User {
 
     public void setRecipes(List<Recipe> recipes) {
         this.recipes = recipes;
-    }
-
-    public List<Meal> getMeals() {
-        return meals;
-    }
-
-    public void setMeals(List<Meal> meals) {
-        this.meals = meals;
     }
 }

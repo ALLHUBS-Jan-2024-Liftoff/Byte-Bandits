@@ -5,6 +5,7 @@ import {
   Routes,
   Navigate,
   Link,
+  useNavigate,
 } from "react-router-dom";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import HomePage from "./components/Home/HomePage";
@@ -24,6 +25,8 @@ import AccountPage from "./components/User/AccountPage.jsx";
 import AuthLight from "./components/otherComponents/AuthLight.jsx";
 import PrivateRoute from "./services/PrivateRoute"; // Import PrivateRoute component
 import ReviewMeal from "./components/Home/ReviewMeal.jsx";
+import Button from '@mui/material/Button';
+import NutriChart from "./components/Analysis/NutriChart.jsx";
 
 const theme = createTheme({
   components: {
@@ -73,6 +76,21 @@ function App() {
     return <div>Loading...</div>; // Show a loading message or spinner
   }
 
+  const handleLogout = async () => {
+    try {
+      // Use the logout function from AuthService
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+      setAuthenticated(false);
+  
+      console.log("Token: ", localStorage.getItem("token"));
+      // Redirect to login page
+      // window.location.reload(true);
+    } catch (error) {
+      console.error("Logout failed", error);
+    }
+  };
+
   return (
 
     <ThemeProvider theme={theme}>
@@ -96,17 +114,14 @@ function App() {
                   <Nav.Link as={Link} to="/search">Find Recipes</Nav.Link>
                   <Nav.Link as={Link} to="/MealPlans">Meal Plans</Nav.Link>
                   <Nav.Link as={Link} to="/analysis">Analysis</Nav.Link>
+                  <Nav.Link as={Link} to="/review">Review</Nav.Link>
                 </Nav>
                 <Nav className="ms-auto">
                   <NavDropdown title="Profile" id="basic-nav-dropdown">
                     <NavDropdown.Item as={Link} to="/account">Account</NavDropdown.Item>
-                    <NavDropdown.Item href="#action/3.2">
-                      Help
-                    </NavDropdown.Item>
-                    <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
                     <NavDropdown.Divider />
                     <NavDropdown.Item as={Link} to="/logout">
-                      Logout
+                      <Button onClick={handleLogout} variant="outline-danger">Logout</Button>
                     </NavDropdown.Item>
                   </NavDropdown>
                 </Nav>
@@ -167,17 +182,14 @@ function App() {
               path="/analysis"
               element={
                 <PrivateRoute authenticated={authenticated}>
-                  <AnalysisPage />
+                  <NutriChart />
                 </PrivateRoute>
               }
             />
             <Route
               path="/logout"
-              element={
-                <PrivateRoute authenticated={authenticated}>
-                  <Logout setAuthenticated={setAuthenticated} />
-                </PrivateRoute>
-              }
+              element={<Navigate to="/login" replace />}
+
             />
             <Route
               path="/account"
