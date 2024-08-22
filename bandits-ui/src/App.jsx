@@ -176,7 +176,11 @@ function App() {
             />
             <Route
               path="/review"
-              element={<ReviewMeal />}
+              element={
+                <PrivateRoute authenticated={authenticated}>
+                  <ReviewMeal />
+                </PrivateRoute>
+              }
             />
             <Route
               path="/analysis"

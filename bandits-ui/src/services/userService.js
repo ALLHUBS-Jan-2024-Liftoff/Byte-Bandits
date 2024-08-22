@@ -99,7 +99,7 @@ export const updateUserDetails = async (userData) => {
   }
 };
 
-// Update user password
+
 export const updateUserPassword = async (currentPassword, newPassword) => {
   try {
     console.log("Updating user password...");
@@ -130,3 +130,4 @@ export const handleLogout = async () => {
     console.error("Logout failed", error);
   }
 };
+

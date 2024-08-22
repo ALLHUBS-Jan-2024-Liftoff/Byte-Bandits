@@ -13,6 +13,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { getCurrentUser } from "../../services/AuthService";
+import { updateUserPassword } from '../../services/ReviewService';
 
 const defaultTheme = createTheme();
 
@@ -51,10 +52,10 @@ const AccountPage = () => {
     }));
   };
 
-  const handlePasswordChange = (e) => {
-    const { name, value } = e.target;
-    setPassword((prevPassword) => ({
-      ...prevPassword,
+  const handlePasswordChange = (event) => {
+    const { name, value } = event.target;
+    setPassword((prevState) => ({
+      ...prevState,
       [name]: value,
     }));
   };
@@ -66,93 +67,26 @@ const AccountPage = () => {
 
   const handlePasswordSubmit = (e) => {
     e.preventDefault();
-    if (password.newPassword !== password.confirmPassword) {
-      console.error('Passwords do not match');
-      return;
-    }
-    console.log('Password updated:', password);
+    // if (password.newPassword !== password.confirmPassword) {
+    //   console.error('Passwords do not match');
+    //   return;
+    // }
+    // updateUserPassword(password.currentPassword,password.newPassword)
+    updateUserPassword(password.currentPassword, password.confirmPassword)
   };
 
-  function UpdateUserInfo() {
-    return (
-      <Paper elevation={0} sx={{ border: '1px solid #ccc' }}>
-        <Box
-          component="form"
-          onSubmit={handleUserDataSubmit}
-          noValidate
-          sx={{
-            m: 1,
-            padding: 2,
-            alignContent: 'center',
-            minWidth: 275,
-            maxWidth: '40vw',
-          }}>
-          <Typography variant="h5" gutterBottom>
-            Personal Info
-          </Typography>
-          <TextField
-            margin="normal"
-            required
-            fullWidth
-            id="username"
-            label="Username"
-            name="username"
-            type="text"
-            value={userData.username}
-            autoComplete="username"
-            onChange={handleInputChange}
-            autoFocus
-          />
-          <TextField
-            margin="normal"
-            required
-            fullWidth
-            id="firstName"
-            label="First Name"
-            name="firstName"
-            type="text"
-            value={userData.firstName}
-            onChange={handleInputChange}
-          />
-          <TextField
-            margin="normal"
-            required
-            fullWidth
-            id="lastName"
-            label="Last Name"
-            name="lastName"
-            type="text"
-            value={userData.lastName}
-            onChange={handleInputChange}
-          />
-          <TextField
-            margin="normal"
-            required
-            fullWidth
-            id="email"
-            label="Email"
-            name="email"
-            type="text"
-            value={userData.email}
-            onChange={handleInputChange}
-          />
-          <Button
-            type="submit"
-            variant="contained"
-            sx={{ mt: 3, mb: 2 }}
-          >
-            Update Info
-          </Button>
-        </Box>
-      </Paper>
-    );
-  }
-  
+  // function UpdateUserInfo() {
+  //   return (
+
+  //   );
+  // }
+
   function UpdatePassword() {
     return (
       <Paper elevation={0} sx={{ border: '1px solid #ccc', marginTop: 3 }}>
         <Box
           component="form"
+          action="post"
           onSubmit={handlePasswordSubmit}
           noValidate
           sx={{
@@ -165,6 +99,7 @@ const AccountPage = () => {
           <Typography variant="h5" gutterBottom>
             Update Password
           </Typography>
+          <TextField type="text" name="username" value="user@example.com" sx={{ display: 'none' }} autoComplete="username" />
           <TextField
             margin="normal"
             required
@@ -186,6 +121,7 @@ const AccountPage = () => {
             name="newPassword"
             type="password"
             value={password.newPassword}
+            autoComplete="new-password"
             onChange={handlePasswordChange}
           />
           <TextField
@@ -197,6 +133,7 @@ const AccountPage = () => {
             name="confirmPassword"
             type="password"
             value={password.confirmPassword}
+            autoComplete="confirm-password"
             onChange={handlePasswordChange}
           />
           <Button
@@ -218,13 +155,65 @@ const AccountPage = () => {
           Account Management
         </Typography>
         <Grid container spacing={1}>
-        <Grid item xs={12} md={6}>
+          <Grid item xs={12} md={6}>
             <Box sx={{
               padding: 1,
               textAlign: 'center',
             }}>
               <ImageUploadHandler />
-              <UpdatePassword />
+              <Paper elevation={0} sx={{ border: '1px solid #ccc' }}>
+                <Box
+                  component="form"
+                  onSubmit={handlePasswordSubmit}
+                  noValidate
+                  sx={{
+                    m: 1,
+                    padding: 2,
+                    alignContent: 'center',
+                    minWidth: 275,
+                    maxWidth: '40vw',
+                  }}>
+                  <Typography variant="h5" gutterBottom>
+                    Personal Info
+                  </Typography>
+                  <TextField
+                    label="Current Password"
+                    type="password"
+                    name="currentPassword"
+                    value={password.currentPassword}
+                    onChange={handlePasswordChange}
+                    fullWidth
+                    margin="normal"
+                  />
+
+                  <TextField
+                    label="New Password"
+                    type="password"
+                    name="newPassword"
+                    value={password.newPassword}
+                    onChange={handlePasswordChange}
+                    fullWidth
+                    margin="normal"
+                  />
+
+                  <TextField
+                    label="Confirm Password"
+                    type="password"
+                    name="confirmPassword"
+                    value={password.confirmPassword}
+                    onChange={handlePasswordChange}
+                    fullWidth
+                    margin="normal"
+                  />
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    sx={{ mt: 3, mb: 2 }}
+                  >
+                    Update Info
+                  </Button>
+                </Box>
+              </Paper>
             </Box>
           </Grid>
           <Grid item xs={12} md={6}>
@@ -232,7 +221,7 @@ const AccountPage = () => {
               padding: 1,
               textAlign: 'center',
             }}>
-              <UpdateUserInfo />
+              {/* <UpdateUserInfo /> */}
             </Box>
           </Grid>
         </Grid>
