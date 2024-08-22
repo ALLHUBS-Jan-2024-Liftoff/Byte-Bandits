@@ -60,6 +60,7 @@ export const addMeal = async (uri, label, mealType, date) => {
       withCredentials: true,
     });
     console.log("Meal saved successfully!");
+    alert("Meal saved successfully!");
   } catch (error) {
     console.error("There was an error saving the meal!", error);
     throw error;

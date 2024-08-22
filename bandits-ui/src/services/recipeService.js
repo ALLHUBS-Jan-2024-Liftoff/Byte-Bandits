@@ -71,6 +71,7 @@ export const deleteRecipe = async (recipeId) => {
   } catch (error) {
     console.error("There was an error deleting the recipe!", error);
     console.log("Token attached to request:", YOUR_BEARER_TOKEN);
+    console.log("recipeId", recipeId);
     throw error;
   }
 };

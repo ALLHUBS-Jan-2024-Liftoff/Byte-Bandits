@@ -31,18 +31,22 @@ return (
     <td>{recipe.carbs}</td>
     <td>{recipe.protein}</td>
     <td>
-    <select className="btn btn-outline-info" aria-label="Default select example" onChange={(e) => setMealType(e.target.value)}>
-  <option value="DEFAULT">Meal Type</option>
-  <option value="breakfast">Breakfast</option>
-  <option value="lunch">Lunch</option>
-  <option value="dinner">Dinner</option>
-</select>
+      <select className="btn btn-outline-info" aria-label="Default select example" onChange={(e) => setMealType(e.target.value)}>
+        <option value="DEFAULT">Meal Type</option>
+        <option value="breakfast">Breakfast</option>
+        <option value="lunch">Lunch</option>
+        <option value="dinner">Dinner</option>
+      </select>
     </td>
     <td>
       <input className="form-control container-sm" type="date" value={date} onChange={(e) => setDate(e.target.value)} />
     </td>
     <td>
-      <Button variant="outlined" color="success" size="medium" startIcon={<RestaurantIcon />} onClick={() => handleAddMeal(recipe.uri, recipe.label, mealType, date)}>
+      <Button variant="outlined" color="success" size="medium" startIcon={<RestaurantIcon />} onClick={() => {
+        handleAddMeal(recipe.uri, recipe.label, mealType, date);
+        setMealType("");
+        setDate("");
+      }}>
         Add
       </Button>
     </td>
