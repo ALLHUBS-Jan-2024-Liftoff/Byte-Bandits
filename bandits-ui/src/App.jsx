@@ -96,6 +96,7 @@ function App() {
                   <Nav.Link as={Link} to="/search">Find Recipes</Nav.Link>
                   <Nav.Link as={Link} to="/MealPlans">Meal Plans</Nav.Link>
                   <Nav.Link as={Link} to="/analysis">Analysis</Nav.Link>
+                  <Nav.Link as={Link} to="/review">Review</Nav.Link>
                 </Nav>
                 <Nav className="ms-auto">
                   <NavDropdown title="Profile" id="basic-nav-dropdown">
