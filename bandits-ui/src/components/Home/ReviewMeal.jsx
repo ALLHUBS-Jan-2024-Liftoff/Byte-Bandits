@@ -27,7 +27,7 @@ function ReviewMeal() {
         ) :
         (
             <>
-        <Typography variant='h3' sx={{p:'2rem'}}>Revew Recipes</Typography>
+        <Typography variant='h3' sx={{p:'2rem'}}>Review Recipes</Typography>
         <Container sx={{alignContent:"left", my:4}}>
                     {meals.map(x=>(
                         <>
