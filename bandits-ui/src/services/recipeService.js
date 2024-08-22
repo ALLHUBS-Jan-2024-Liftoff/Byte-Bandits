@@ -1,5 +1,7 @@
 import axios from "axios";
 
+const YOUR_BEARER_TOKEN = localStorage.getItem('token');
+
 const LOCAL_API_RECIPE_URL = "http://localhost:8080/api/recipes";
 
 const RECIPE_SEARCH_BASE_URL = "https://api.edamam.com/api/recipes/v2?type=public";
@@ -18,7 +20,13 @@ export const searchRecipes = async (q) => {
 
 export const fetchRecipes = async () => {
   try {
-    const response = await axios.get(`${LOCAL_API_RECIPE_URL}`, {withCredentials:true});
+    console.log("FETCHING RECIPES WITH TOKEN:", YOUR_BEARER_TOKEN);
+    const response = await axios.get(`${LOCAL_API_RECIPE_URL}`, {
+      headers: {
+      'Authorization': `Bearer ${YOUR_BEARER_TOKEN}`
+      },
+      withCredentials: true
+    });
     console.log("response", response);
     return response.data;
   } catch (error) {
@@ -33,8 +41,11 @@ export const addRecipe = async (recipe) => {
     // console.log("recipe", recipe);
     const response = await axios.post(`${LOCAL_API_RECIPE_URL}/new`, recipe,
       {
-        headers: { 'content-type': 'application/json' },
-        withCredentials: true,
+      headers: { 
+        'content-type': 'application/json',
+        'Authorization': `Bearer ${YOUR_BEARER_TOKEN}`
+      },
+      withCredentials: true,
       });
       console.log("response.data", response.data);
       return response.data;
@@ -88,8 +99,12 @@ export const deleteRecipe = async (recipeId) => {
   try {
     await axios.post(`${LOCAL_API_RECIPE_URL}/delete`, null, {
       params: { recipeId },
+      headers: {
+      'Authorization': `Bearer ${YOUR_BEARER_TOKEN}`
+      },
       withCredentials: true,
     });
+    console.log("Recipe deleted!");
   } catch (error) {
     console.error("There was an error deleting the recipe!", error);
     throw error;

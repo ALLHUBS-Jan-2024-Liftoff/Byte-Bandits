@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { deleteRecipe, fetchRecipes } from "../../services/recipeService";
 import { RecipeTable } from "./RecipeTable";
 import { NewRecipeForm } from "./NewRecipeForm";
+import { fetchUserData } from "../../services/userService";
 import axios from "axios";
 
 export const RecipePage = () => {
