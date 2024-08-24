@@ -64,15 +64,54 @@ export default function SignUp() {
     e.preventDefault();
     const data = new FormData(e.currentTarget);
     
+    // Validate all required fields
+    const username = data.get('username');
+    const password = data.get('password');
+    const firstName = data.get('firstName');
+    const lastName = data.get('lastName');
+    const email = data.get('email');
+    const verifyPassword = data.get('verifyPassword');
+  
+    if (!firstName) {
+      setBackendError("First Name is required.");
+      return;
+    }
+    if (!lastName) {
+      setBackendError("Last Name is required.");
+      return;
+    }
+    if (!username) {
+      setBackendError("Username is required.");
+      return;
+    }
+    if (!email) {
+      setBackendError("Email is required.");
+      return;
+    }
+    if (!password) {
+      setBackendError("Password is required.");
+      return;
+    }
+    if (password !== verifyPassword) {
+      setBackendError("Passwords do not match.");
+      return;
+    }
+  
+    // Additional Password Validation (e.g., length, complexity)
+    if (password.length < 6 || !/[A-Z]/.test(password) || !/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
+      setBackendError("Password must be at least 6 characters long, include one uppercase letter, and one symbol.");
+      return;
+    }
+  
     try {
       const response = await axios.post(
         "http://localhost:8080/user/register",
         {
-          username: data.get('username'),
-          password: data.get('password'),
-          firstName: data.get('firstName'),
-          lastName: data.get('lastName'),
-          email: data.get('email'),
+          username,
+          password,
+          firstName,
+          lastName,
+          email,
         },
         {
           headers: { 'content-type': 'application/json' },

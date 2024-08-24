@@ -37,9 +37,11 @@ axiosInstance.interceptors.response.use(
     return Promise.reject(error);
   }
 );
+
+// Updated register function to use axiosInstance and consistent error handling
 export const register = async (username, password, firstName, lastName, email) => {
   try {
-    const response = await axios.post(`${LOCAL_API_USER_URL}/register`, {
+    const response = await axiosInstance.post('/register', {
       username,
       password,
       firstName,
@@ -48,10 +50,10 @@ export const register = async (username, password, firstName, lastName, email) =
     });
     return response.data;
   } catch (error) {
+    console.error("Error during registration:", error);
     throw error;
   }
 };
-
 
 // Login function
 export const login = async (username, password) => {
@@ -74,6 +76,7 @@ export const login = async (username, password) => {
     throw error;
   }
 };
+
 // Logout function to clear user session
 export const logout = () => {
   localStorage.removeItem("token");

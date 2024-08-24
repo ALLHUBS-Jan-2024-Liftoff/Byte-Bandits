@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Alert from 'react-bootstrap/Alert';
 import { useNavigate } from "react-router-dom";
-import { register } from "../services/AuthService";
+import { register } from "../services/AuthService";  // Ensure the import path is correct
 
 function RegistrationPage() {
   const [username, setUsername] = useState("");
@@ -14,9 +14,27 @@ function RegistrationPage() {
 
   const navigate = useNavigate();
 
+  // Function to validate the password
+  const isValidPassword = (password) => {
+    return (
+      password.length > 6 &&
+      /[A-Z]/.test(password) && // checks for an uppercase letter
+      /[!@#$%^&*(),.?":{}|<>]/.test(password) // checks for a symbol
+    );
+  };
+
+  // Function to validate the email
+  const isValidEmail = (email) => {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  };
+
   const handleRegister = async (e) => {
     e.preventDefault();
-  
+    if (!username || !password || !firstName || !lastName || !email) {
+      setMessage("All fields are required.");
+      setCondition("danger");
+      return;
+    }
     // Validate the password
     if (!isValidPassword(password)) {
       setMessage("Password must be more than 6 characters, include one uppercase letter, and one symbol.");
@@ -59,6 +77,7 @@ function RegistrationPage() {
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             placeholder="Username"
+            required
           />
         </div>
         <div className="mb-3">
@@ -69,6 +88,7 @@ function RegistrationPage() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="Password"
+            required
           />
         </div>
         <div className="mb-3">
@@ -79,6 +99,7 @@ function RegistrationPage() {
             value={firstName}
             onChange={(e) => setFirstName(e.target.value)}
             placeholder="First Name"
+            required
           />
         </div>
         <div className="mb-3">
@@ -89,6 +110,7 @@ function RegistrationPage() {
             value={lastName}
             onChange={(e) => setLastName(e.target.value)}
             placeholder="Last Name"
+            required
           />
         </div>
         <div className="mb-3">
@@ -99,14 +121,16 @@ function RegistrationPage() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="Email"
+            required
           />
         </div>
         <button type="submit" className="btn btn-primary">Register</button>
       </form>
-      {message &&
+      {message && (
         <Alert variant={condition}>
           {message}
-        </Alert>}
+        </Alert>
+      )}
     </div>
   );
 }
