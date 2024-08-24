@@ -1,5 +1,6 @@
 package com.bandits.api.bandits_api.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -20,6 +21,7 @@ public class User {
     private String role;
 
     @OneToMany(mappedBy = "user")
+    @JsonManagedReference
     private List<Recipe> recipes;
 
     private static final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();

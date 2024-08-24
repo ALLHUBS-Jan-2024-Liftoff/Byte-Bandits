@@ -1,5 +1,6 @@
 package com.bandits.api.bandits_api.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.validation.constraints.NotNull;
@@ -27,6 +28,7 @@ public class Recipe {
     @NotNull
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @JsonManagedReference
     private User user;
 
     @OneToMany(

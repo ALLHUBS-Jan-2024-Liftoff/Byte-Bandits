@@ -16,13 +16,33 @@ function RegistrationPage() {
 
   const handleRegister = async (e) => {
     e.preventDefault();
+  
+    // Validate the password
+    if (!isValidPassword(password)) {
+      setMessage("Password must be more than 6 characters, include one uppercase letter, and one symbol.");
+      setCondition("danger");
+      return; 
+    }
+  
+    // Validate the email
+    if (!isValidEmail(email)) {
+      setMessage("Please enter a valid email address.");
+      setCondition("danger");
+      return; 
+    }
+  
     try {
       const responseMessage = await register(username, password, firstName, lastName, email);
       setMessage(responseMessage.message);
       setCondition("success");
       navigate("/login");
     } catch (error) {
-      setMessage(error.response?.data?.message || "User has NOT been registered");
+      // Capture and display backend error messages
+      if (error.response && error.response.data && error.response.data.message) {
+        setMessage(error.response.data.message);
+      } else {
+        setMessage("An error occurred during registration. Please try again.");
+      }
       setCondition("danger");
     }
   };

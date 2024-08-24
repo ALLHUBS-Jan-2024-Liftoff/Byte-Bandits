@@ -69,10 +69,11 @@ export const fetchUserData = async () => {
   }
 };
 
-export const registerUser = async (email, firstName, lastName, password) => {
+export const registerUser = async (username, email, firstName, lastName, password) => {
   try {
     console.log("Registering user...");
     const response = await axiosInstance.post('/register', {
+      username,  
       email,
       firstName,
       lastName,

@@ -28,8 +28,6 @@ function Copyright(props) {
   );
 }
 
-// TODO remove, this demo shouldn't need to reset the theme.
-
 const defaultTheme = createTheme();
 
 export default function SignUp() {
@@ -39,6 +37,7 @@ export default function SignUp() {
   const [helperText, setHelperText] = React.useState('');
   const [isCPasswordDirty, setIsCPasswordDirty] = React.useState(false);
   const [signUpButton, setSignUpButton] = React.useState('');
+  const [backendError, setBackendError] = React.useState('');  // State for backend error messages
 
   const navigate = useNavigate();
 
@@ -54,37 +53,24 @@ export default function SignUp() {
             setSignUpButton(true);
         }
     }
-}, [cPassword])
+  }, [cPassword])
 
   const handleCPassword = (e) => {
     setCPassword(e.target.value);
     setIsCPasswordDirty(true);
   }
 
-  // const handleSubmit = (event) => {
-  //   event.preventDefault();
-  //   const data = new FormData(event.currentTarget);
-  //   console.log({
-  //     email: data.get('email'),
-  //     password: data.get('password'),
-  //   });
-  //   registerUser(data.get('email'), data.get('firstName'), data.get('lastName'), data.get('password'));
-  // };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     const data = new FormData(e.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    
     try {
       const response = await axios.post(
         "http://localhost:8080/user/register",
         {
           username: data.get('username'),
           password: data.get('password'),
-          firstName: data.get('firstName'),  
+          firstName: data.get('firstName'),
           lastName: data.get('lastName'),
           email: data.get('email'),
         },
@@ -95,8 +81,11 @@ export default function SignUp() {
       );
       navigate("/login");
     } catch (error) {
-      console.log("User has NOT been registered, error: ", error);
-
+      if (error.response && error.response.data && error.response.data.message) {
+        setBackendError(error.response.data.message);
+      } else {
+        setBackendError("An error occurred during registration. Please try again.");
+      }
     }
   };
 
@@ -206,6 +195,11 @@ export default function SignUp() {
             >
               Sign Up
             </Button>
+            {backendError && ( // Display backend error message
+              <Typography variant="body2" color="error" align="center">
+                {backendError}
+              </Typography>
+            )}
             <Grid container justifyContent="flex-end">
               <Grid item>
                 <Link href="#" variant="body2" onClick={() => navigate("/login")}>

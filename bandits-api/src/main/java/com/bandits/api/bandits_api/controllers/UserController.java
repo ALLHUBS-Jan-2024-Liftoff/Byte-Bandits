@@ -17,9 +17,11 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import com.bandits.api.bandits_api.models.data.UserDTO;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Logger;
 
 @RestController
 @RequestMapping("user")
@@ -37,6 +39,8 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    private static final Logger logger = Logger.getLogger(UserController.class.getName());
 
     @PostMapping(value = "/register")
     public ResponseEntity<Map<String, String>> processRegistrationForm(@RequestBody RegisterFormDTO registerFormDTO) {
@@ -87,10 +91,60 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(responseBody);
         }
     }
+    // Current Endpoint - AccountPage.jsx useEffect fetchUserData -L.A
+    @GetMapping("/current")
+    public ResponseEntity<UserDTO> getCurrentUser(Authentication authentication) {
+        if (authentication == null || !authentication.isAuthenticated()) {
+            logger.warning("Authentication is null or not authenticated");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        org.springframework.security.core.userdetails.User userDetails =
+                (org.springframework.security.core.userdetails.User) authentication.getPrincipal();
 
+
+        User user = userRepository.findByUsername(userDetails.getUsername());
+        if (user == null) {
+            logger.warning("No user found in authentication principal");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+
+        // Convert User to UserDTO
+        UserDTO userDTO = new UserDTO(user.getId(), user.getUsername(), user.getFirstName(), user.getLastName(), user.getEmail());
+
+        logger.info("Current user: " + userDTO.getUsername());
+        return ResponseEntity.ok(userDTO);
+    }
+    @PutMapping("/update")
+    public ResponseEntity<UserDTO> updateUser(@RequestBody UserDTO userDTO, Authentication authentication) {
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        // Get the authenticated user's username
+        org.springframework.security.core.userdetails.User userDetails =
+                (org.springframework.security.core.userdetails.User) authentication.getPrincipal();
+
+        // Find the user in the database
+        User user = userRepository.findByUsername(userDetails.getUsername());
+        if (user == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+
+        // Update the user's information
+        user.setFirstName(userDTO.getFirstName());
+        user.setLastName(userDTO.getLastName());
+        user.setEmail(userDTO.getEmail());
+
+        // Save the updated user information
+        userRepository.save(user);
+
+        // Convert the updated User entity back to a UserDTO
+        UserDTO updatedUserDTO = new UserDTO(user.getId(), user.getUsername(), user.getFirstName(), user.getLastName(), user.getEmail());
+
+        return ResponseEntity.ok(updatedUserDTO);
+    }
     @GetMapping("/logout")
     public ResponseEntity<String> logout() {
-        // Since we're using JWTs, the "logout" process is stateless.
         // The client should simply discard the token.
         return ResponseEntity.ok("User successfully logged out. Please discard the token on the client side.");
     }
