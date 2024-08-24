@@ -81,10 +81,10 @@ export const findRecipeByUri = async (queryString) => {
   try {
     const response = await axios.get(
       `${RECIPE_SEARCH_BASE_URL}/by-uri?&app_key=${RECIPE_SEARCH_APP_KEY}&app_id=${RECIPE_SEARCH_APP_ID}&uri=${queryString}`);
-    console.log("Recipes retrieved by URI!", response.data); 
+    console.log("URI Service SUCCESS", response.data); 
     return response.data;
   } catch (error) {
-    console.error("There was an error fetching the recipes by URI!", error);
+    console.error("URI Service ERROR:", error);
     throw error;
   }
 };

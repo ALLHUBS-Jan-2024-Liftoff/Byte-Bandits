@@ -19,7 +19,7 @@ export const RecipeTable = ({ recipes, deleteRecipe, setRecipes }) => {
           <th scope="col">Protein</th>
           <th scope="col">Meal Type</th>
           <th scope="col">Select Date</th>
-          <th scope="col">Add to Meal</th>
+          <th scope="col">Add to Calendar</th>
           <th scope="col">Delete from Collection</th>
         </tr>
       </thead>
