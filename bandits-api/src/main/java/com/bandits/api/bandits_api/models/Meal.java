@@ -9,33 +9,51 @@ public class Meal {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private Integer id;
 
     @ManyToOne
     @JoinColumn(name = "recipe_id")
     private Recipe recipe;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    private String label;
 
-    @ManyToMany
-    private List<MealDay> mealDays;
+    private String mealType;
 
-    private int rating;
+    private String date;
 
+    private Integer rating;
 
+    private String review;
 
     public Meal() {
     }
 
-    public Meal(Long id, Recipe recipe, int rating) {
-        this.id = id;
+    public Meal(Recipe recipe, String label, String mealType, String date, Integer rating, String review) {
         this.recipe = recipe;
+        this.label = label;
+        this.mealType = mealType;
+        this.date = date;
+        this.rating = rating;
+        this.review = review;
+    }
+
+    public Integer getRating() {
+        return rating;
+    }
+
+    public void setRating(Integer rating) {
         this.rating = rating;
     }
 
-    public Long getId() {
+    public String getReview() {
+        return review;
+    }
+
+    public void setReview(String review) {
+        this.review = review;
+    }
+
+    public Integer getId() {
         return id;
     }
 
@@ -47,11 +65,29 @@ public class Meal {
         this.recipe = recipe;
     }
 
-    public int getRating() {
-        return rating;
+    public String getLabel() {
+        return label;
     }
 
-    public void setRating(int rating) {
-        this.rating = rating;
+    public void setLabel(String label) {
+        this.label = label;
     }
+
+    public String getMealType() {
+        return mealType;
+    }
+
+    public void setMealType(String mealType) {
+        this.mealType = mealType;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+
 }

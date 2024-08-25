@@ -17,8 +17,8 @@ export const ResultsTable = ({ rows }) => {
         </tr>
       </thead>
       <tbody>
-        {rows.map((row) => (
-          <ResultsRowItem key={rows.indexOf(row)} rows={rows} recipe={row} />
+        {rows.map((row,idx) => (
+          <ResultsRowItem rows={idx} recipe={row} />
         ))}
       </tbody>
     </table>

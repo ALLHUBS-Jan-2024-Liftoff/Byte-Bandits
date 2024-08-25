@@ -1,6 +1,7 @@
 package com.bandits.api.bandits_api.models;
 
 import jakarta.persistence.*;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.validation.constraints.NotNull;
 
 import java.util.List;
@@ -9,7 +10,7 @@ import java.util.List;
 public class Recipe {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     private String uri;
     private String label;
@@ -28,13 +29,17 @@ public class Recipe {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany(mappedBy = "recipe")
+    @OneToMany(
+            cascade = CascadeType.ALL,
+            orphanRemoval = true,
+            mappedBy = "recipe"
+    )
     private List<Meal> meals;
 
     public Recipe() {
     }
 
-    public Recipe(Long id, String uri, String label, String image, String source, Integer calories, Integer fat, Integer carbs, Integer protein, User user, List<Meal> meals) {
+    public Recipe(Integer id, String uri, String label, String image, String source, Integer calories, Integer fat, Integer carbs, Integer protein, User user, List<Meal> meals) {
         this.id = id;
         this.uri = uri;
         this.label = label;
@@ -48,12 +53,8 @@ public class Recipe {
         this.meals = meals;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getUri() {
