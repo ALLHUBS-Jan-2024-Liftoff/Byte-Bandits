@@ -57,10 +57,11 @@ export default function NutriChart() {
   useEffect(() => {
     // Build URI String for API call
     const queryString = uriBuilder(events);
+    console.log("URI String: ", queryString);
     findRecipeByUri(queryString)
       .then(response => {
-        console.log("findRecipeByUri: ", response.json());
-        setEventRecipes(response.json());
+        console.log("findRecipeByUri: ", response);
+        setEventRecipes(response);
       })
       .catch((error) => {
         console.error("findRecipeByUri ERROR: ", error);

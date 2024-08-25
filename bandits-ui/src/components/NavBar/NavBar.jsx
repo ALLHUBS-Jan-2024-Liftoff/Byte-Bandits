@@ -6,20 +6,38 @@ console.log(authenticated);
 export const NavBar = ( authenticated ) => {
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-light">
+    <Navbar bg="light" data-bs-theme="dark">
+    <Container>
+      <Navbar.Brand as={Link} to="home">Balanced Bytes</Navbar.Brand>
+      {console.log("Navbar", authenticated)}
       {!authenticated ? (
-          <>
-            <Link to="/login">Login</Link>
-            <Link to="/register">Register</Link>
-          </>
-        ) : (
-          <>
-            <Link to="/recipes">Recipes</Link>
-            <Link to="/recipes/new">Find Recipes</Link>
-            <Link to="#MealPlans">Meal Plans</Link>
-            <Link to="/logout">Logout</Link>
-          </>
-        )}
-    </nav>
+        <>
+          <Nav className="me-auto">
+            <Nav.Link as={Link} to="/login">Log In</Nav.Link>
+            <Nav.Link as={Link} to="/register">Register</Nav.Link>
+          </Nav>
+        </>
+      ) : (
+        <>
+          <Nav className="me-auto">
+            <Nav.Link as={Link} to={"/recipes"}>Saved Recipes</Nav.Link>
+            <Nav.Link as={Link} to="/search">Find Recipes</Nav.Link>
+            <Nav.Link as={Link} to="/MealPlans">Meal Plans</Nav.Link>
+            <Nav.Link as={Link} to="/analysis">Analysis</Nav.Link>
+            <Nav.Link as={Link} to="/review">Review</Nav.Link>
+          </Nav>
+          <Nav className="ms-auto">
+            <NavDropdown title="Profile" id="basic-nav-dropdown">
+              <NavDropdown.Item as={Link} to="/account">Account</NavDropdown.Item>
+              <NavDropdown.Divider />
+              <NavDropdown.Item as={Link} to="#">
+                <Button onClick={handleLogout} variant="outline-danger">Logout</Button>
+              </NavDropdown.Item>
+            </NavDropdown>
+          </Nav>
+        </>
+      )}
+    </Container>
+  </Navbar>
   );
 };
