@@ -2,21 +2,13 @@ import React, {useEffect} from 'react';
 import { BarChart } from '@mui/x-charts/BarChart';
 import { fetchCalendarMeals } from '../../services/calendarService';
 import { findRecipeByUri } from "../../services/recipeService";
-import { testRecipe } from './testRecipe';
 import { set } from 'date-fns';
 
 
 export default function NutriChart() {
   const [events, setEvents] = React.useState([]);
   const [eventRecipes, setEventRecipes] = React.useState([]);
-
-  
-
-  let xAxisData = [];
-  let seriesData = [];
-  let chartData = [];
-  let dataPoint = [];
-  let xAxisObj = {};
+  const [chartData, setChartData] = React.useState([]);
     
   const iterate = (obj) => {
     Object.keys(obj).forEach(key => {
@@ -31,8 +23,6 @@ export default function NutriChart() {
     // chartData.push(xAxisData, seriesData);
     return (chartData);
   }
-
-  let dataToChart = iterate(testRecipe.recipe.totalDaily);
 
   const uriBuilder = (events) => {
     const currentEvents = events;
@@ -55,18 +45,23 @@ export default function NutriChart() {
   }, []);
 
   useEffect(() => {
-    // Build URI String for API call
-    const queryString = uriBuilder(events);
-    console.log("URI String: ", queryString);
-    findRecipeByUri(queryString)
+    // Fetch all meals when the component mounts
+    fetchCalendarMeals()
+      .then(events => {
+        setEvents(events);
+        // Build URI String for API call
+        const queryString = uriBuilder(events);
+        console.log("URI String: ", queryString);
+        return findRecipeByUri(queryString);
+      })
       .then(response => {
-        console.log("findRecipeByUri: ", response);
-        setEventRecipes(response);
+        console.log("findRecipeByUri: ", response.hits);
+        setEventRecipes(response.hits);
       })
       .catch((error) => {
-        console.error("findRecipeByUri ERROR: ", error);
+        console.error("There was an error fetching the meals or recipes", error);
       });
-  }, [events]);
+  }, []);
 
   const chartSetting = {
     xAxis: [
@@ -82,6 +77,18 @@ export default function NutriChart() {
 
   const valueFormatter = value => `${parseFloat(value.toFixed(2))}%`
 
+  const handleSelectChange = (event) => {
+    const selectedRecipe = event.target.value;
+    const selectedRecipeData = eventRecipes.find(recipe => recipe.recipe.label === selectedRecipe);
+    const selectedRecipeTotalDaily = selectedRecipeData.recipe.totalDaily;
+    console.log("Selected Recipe: ", selectedRecipe);
+    const newChartData = iterate(selectedRecipeTotalDaily);
+    console.log("New Chart Data: ", newChartData);
+    setChartData(newChartData);
+  };
+
+  console.log("Rendering NutriChart with data: ", chartData);
+
   return (
     <div className="mt-5 px-0 container-fluid">
       <div className="card">
@@ -90,8 +97,17 @@ export default function NutriChart() {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
+          flexDirection: 'column', // Add this line to change the direction of flex items
         }}>
+          <select onChange={handleSelectChange}>
+            {eventRecipes.map((recipe, index) => (
+              <option key={index} value={recipe.recipe.label}>
+                {recipe.recipe.label}
+              </option>
+            ))}
+          </select>
           <BarChart
+            key={chartData}
             dataset={chartData}
             yAxis={[{ scaleType: 'band', dataKey: 'label' }]}
             series={[{ dataKey: 'quantity', valueFormatter }]}

@@ -5,7 +5,7 @@ const YOUR_BEARER_TOKEN = localStorage.getItem('token');
 const LOCAL_API_RECIPE_URL = "http://localhost:8080/api/recipes";
 
 const RECIPE_SEARCH_BASE_URL = "https://api.edamam.com/api/recipes/v2?type=public";
-const RECIPE_SEARCH_BY_URI_BASE_URL = "https://api.edamam.com/api/recipes/v2/by-uri?type=public&uri=";
+const RECIPE_SEARCH_BY_URI_BASE_URL = "https://api.edamam.com/api/recipes/v2/by-uri?type=public";
 
 const RECIPE_SEARCH_APP_KEY = "f7b7c5856e28029b8e7ab08182ab9fe1"
 const RECIPE_SEARCH_APP_ID = "9cf8e5c7";
@@ -80,7 +80,7 @@ export const deleteRecipe = async (recipeId) => {
 export const findRecipeByUri = async (queryString) => {
   try {
     const response = await axios.get(
-      `${RECIPE_SEARCH_BY_URI_BASE_URL}&app_key=${RECIPE_SEARCH_APP_KEY}&app_id=${RECIPE_SEARCH_APP_ID}${queryString}`); 
+      `${RECIPE_SEARCH_BY_URI_BASE_URL}&app_key=${RECIPE_SEARCH_APP_KEY}&app_id=${RECIPE_SEARCH_APP_ID}&uri=${queryString}`); 
     return response.data;
   } catch (error) {
     console.error("There was an error fetching the recipes!", error);
