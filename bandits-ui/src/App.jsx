@@ -33,7 +33,7 @@ function App() {
   const [authenticated, setAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
   const [pages, setPages] = useState(['Recipes', 'MealPlans', 'Search', 'Analysis', 'Review']);
-  const [settings, setSettings] = useState(['Account', 'Logout']);  
+  const [settings, setSettings] = useState(['Account', 'Logout']);
 
   useEffect(() => {
     // Check if user is already authenticated by checking the token in local storage
@@ -57,7 +57,7 @@ function App() {
       localStorage.removeItem("token");
       localStorage.removeItem("user");
       setAuthenticated(false);
-  
+
       console.log("Token: ", localStorage.getItem("token"));
       // Redirect to login page
       // window.location.reload(true);
@@ -70,7 +70,42 @@ function App() {
 
     <Router>
       <>
-        <ResponsiveAppBar pages={pages} settings={settings} />
+        <Navbar bg="light" data-bs-theme="dark">
+          <Container>
+            <Navbar.Brand as={Link} to="home">Balanced Bytes</Navbar.Brand>
+            {console.log("Navbar", authenticated)}
+            {!authenticated ? (
+              <>
+                <Nav className="me-auto">
+                  <Nav.Link as={Link} to="/login">Log In</Nav.Link>
+                  <Nav.Link as={Link} to="/register">Register</Nav.Link>
+                </Nav>
+              </>
+            ) : (
+              <>
+                <Nav className="me-auto">
+                  <Nav.Link as={Link} to="/recipes">Saved Recipes</Nav.Link>
+                  <Nav.Link as={Link} to="/search">Find Recipes</Nav.Link>
+                  <Nav.Link as={Link} to="/MealPlans">Meal Plans</Nav.Link>
+                  <Nav.Link as={Link} to="/analysis">Analysis</Nav.Link>
+                </Nav>
+                <Nav className="ms-auto">
+                  <NavDropdown title="Profile" id="basic-nav-dropdown">
+                    <NavDropdown.Item href="#action/3.1">Account</NavDropdown.Item>
+                    <NavDropdown.Item href="#action/3.2">
+                      Help
+                    </NavDropdown.Item>
+                    <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
+                    <NavDropdown.Divider />
+                    <NavDropdown.Item as={Link} to="/logout">
+                      Logout
+                    </NavDropdown.Item>
+                  </NavDropdown>
+                </Nav>
+              </>
+            )}
+          </Container>
+        </Navbar>
       </>
       <div className="App">
         <header className="App-header">
