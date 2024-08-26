@@ -28,37 +28,6 @@ import ReviewMeal from "./components/Home/ReviewMeal.jsx";
 import Button from '@mui/material/Button';
 import NutriChart from "./components/Analysis/NutriChart.jsx";
 
-const theme = createTheme({
-  components: {
-    MuiButton: {
-      styleOverrides: {
-        root: {
-          backgroundColor: '#222222',
-          color: '#ffffff',
-          '&:hover': {
-            backgroundColor: 'green',
-          },
-          '&.Mui-disabled': {
-            color: '#fff',  // Styles for the disabled button state
-          },
-        },
-      },
-    },
-    MuiLink: {
-      styleOverrides: {
-        root: {
-          color: 'green', // Default link color
-          textDecoration: 'none', // Remove underline
-          '&:hover': {
-            color: 'black', // Hover color
-            textDecoration: 'underline', // Underline on hover
-          },
-        },
-      },
-    },
-  },
-});
-
 function App() {
   const [authenticated, setAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -96,7 +65,6 @@ function App() {
 
   return (
 
-    <ThemeProvider theme={theme}>
     <Router>
       <>
         <Navbar bg="light" data-bs-theme="dark">
@@ -214,7 +182,6 @@ function App() {
         </header>
       </div>
     </Router>
-    </ThemeProvider>
   );
 }
 
