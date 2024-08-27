@@ -3,6 +3,7 @@ import { uploadImage } from '../../services/imageService';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
 
 function ImageUploadHandler() {
   const [image, setImage] = useState(null);
@@ -49,6 +50,9 @@ function ImageUploadHandler() {
           minWidth: 275,
           maxWidth: '40vw',
         }}>
+        <Typography variant="h5" gutterBottom>
+          Profile Image
+        </Typography>
         <input
           type="file"
           accept="image/*"
