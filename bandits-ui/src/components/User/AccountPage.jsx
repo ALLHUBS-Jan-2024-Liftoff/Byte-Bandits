@@ -13,7 +13,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { getCurrentUser } from "../../services/AuthService";
-import { updateUserPassword } from '../../services/ReviewService';
+
 
 const defaultTheme = createTheme();
 
@@ -25,15 +25,14 @@ const AccountPage = () => {
     firstName: '',
     lastName: '',
     email: '',
-    phoneNumber: '',
-    address: '',
+   profilePictureUrl: '',
   });
+  const [currentPassword, setCurrentPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmNewPassword, setConfirmNewPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
 
-  const [password, setPassword] = useState({
-    currentPassword: '',
-    newPassword: '',
-    confirmPassword: '',
-  });
 
   // useEffect will fetch the current user data and populate the users data from the backend In :UserController /current
   const fetchUserData = async () => {
@@ -48,12 +47,15 @@ const AccountPage = () => {
         }
       });
       console.log('User Data:', response.data);
-        const { username, firstName, lastName, email } = response.data;
+        const { username, firstName, lastName, email,  } = response.data;
+
+        const profilePictureUrl = `https://test-presign-tutorial.s3.amazonaws.com/${username}.jpg`;
       setUserData({
         username,
         firstName,
         lastName,
         email,
+        profilePictureUrl,
       });
     } catch (error) {
       console.error('Error fetching user data:', error);
@@ -86,6 +88,9 @@ const AccountPage = () => {
   
     try {
       const token = localStorage.getItem('token'); 
+      if(!token){
+        setErrorMessage("User is not authenthicated. Please log in again.");
+      }
       const response = await axios.put('http://localhost:8080/user/update', userData, {
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -102,15 +107,41 @@ const AccountPage = () => {
     }
   };
 
-  const handlePasswordSubmit = (e) => {
+  const handlePasswordSubmit = async (e) => {
     e.preventDefault();
-    if (password.newPassword !== password.confirmPassword){
-      console.error('Passwords do not match');
-      return;
-    }
-    updateUserPassword(password.currentPassword, password.confirmPassword)
-  };
+    setErrorMessage('');
+    setSuccessMessage('');
 
+    // Validate new password match
+    if (newPassword !== confirmNewPassword) {
+        setErrorMessage('Passwords do not match');
+        return;
+    }
+
+    try {
+        const token = localStorage.getItem('token');
+        const response = await axios.put(`http://localhost:8080/user/update-password/${userData.username}`, {
+            currentPassword,
+            newPassword
+        }, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        });
+
+        setSuccessMessage("Password successfully changed.");
+        setCurrentPassword('');
+        setNewPassword('');
+        setConfirmNewPassword('');
+    } catch (error) {
+        if (error.response && error.response.data && error.response.data.message) {
+            setErrorMessage(error.response.data.message);
+        } else {
+            setErrorMessage("An error occurred. Please try again.");
+        }
+    }
+};
   return (
     <ThemeProvider theme={defaultTheme}>
       <Container>
@@ -123,7 +154,14 @@ const AccountPage = () => {
               padding: 1,
               textAlign: 'center',
             }}>
-              <ImageUploadHandler />
+               <ImageUploadHandler />
+              {userData.profilePictureUrl && (
+                <img 
+                  src={userData.profilePictureUrl} 
+                  alt="Profile" 
+                  style={{ width: '150px', height: '150px', borderRadius: '50%' }}
+                />
+              )}
               <Paper elevation={0} sx={{ border: '1px solid #ccc', padding: 2 }}>
                 <Typography variant="h5" gutterBottom>
                   Personal Info
@@ -136,7 +174,7 @@ const AccountPage = () => {
                     onChange={handleInputChange}
                     fullWidth
                     margin="normal"
-                    InputProps={{ readOnly: true }} // Username is read-only
+                    InputProps={{ readOnly: true }} // Username is read-only, because users will not be able to update the username (rightnow)
                   />
                   <TextField
                     label="First Name"
@@ -191,9 +229,9 @@ const AccountPage = () => {
                     label="Current Password"
                     name="currentPassword"
                     type="password"
-                    value={password.currentPassword}
+                    value={currentPassword}
                     autoComplete="current-password"
-                    onChange={handlePasswordChange}
+                    onChange={(e) => setCurrentPassword(e.target.value)}
                   />
                   <TextField
                     margin="normal"
@@ -203,9 +241,9 @@ const AccountPage = () => {
                     label="New Password"
                     name="newPassword"
                     type="password"
-                    value={password.newPassword}
+                    value={newPassword}
                     autoComplete="new-password"
-                    onChange={handlePasswordChange}
+                    onChange={(e) => setNewPassword(e.target.value)}
                   />
                   <TextField
                     margin="normal"
@@ -215,10 +253,21 @@ const AccountPage = () => {
                     label="Confirm New Password"
                     name="confirmPassword"
                     type="password"
-                    value={password.confirmPassword}
+                    value={confirmNewPassword}
                     autoComplete="confirm-password"
-                    onChange={handlePasswordChange}
-                  />
+                    onChange={(e) => setConfirmNewPassword(e.target.value)}
+                    />
+                    {errorMessage && (
+                      <Typography variant="body2" color="error" align="center">
+                        {errorMessage}
+                      </Typography>
+                    )}
+                    {successMessage && (
+                      <Typography variant="body2" color="primary" align="center">
+                        {successMessage}
+                      </Typography>
+                    )}
+
                   <Button
                     type="submit"
                     variant="contained"

@@ -1,37 +1,67 @@
 import axios from 'axios';
 
-const LOCAL_API_IMAGE_URL = "http://localhost:8080/presignedurl";
+const LOCAL_API_IMAGE_URL = "http://localhost:8080/s3/presignedurl";
 
-export const uploadImage = async (image) => {
-  const type = image.type;
-  const imageName = image.name;
+// Function to get a presigned URL from the backend
+export const getPresignedUrl = async (fileType, fileName) => {
   const token = localStorage.getItem("token");
 
   try {
-    // Get the presigned URL from the backend
+    // Request the presigned URL from the backend
     const response = await axios.post(
       LOCAL_API_IMAGE_URL,
-      { type, name: imageName },
+      { type: fileType, name: fileName },
       {
         headers: {
           Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
         },
         withCredentials: true,
       }
     );
 
-    const url = response.data;
+    return response.data; // The presigned URL
+  } catch (error) {
+    console.error("Error getting presigned URL:", error);
+    if (error.response) {
+      console.error("Response data:", error.response.data);
+      console.error("Response status:", error.response.status);
+      console.error("Response headers:", error.response.headers);
+    } else if (error.request) {
+      console.error("Request data:", error.request);
+    } else {
+      console.error("Error message:", error.message);
+    }
+    throw new Error("Failed to get presigned URL");
+  }
+};
 
-    // Upload the image to S3
-    await axios.put(
-      url,
-      image,
-      { headers: { "Content-Type": type } }
-    );
+// Function to upload an image to S3 using the presigned URL
+export const uploadImage = async (image) => {
+  const type = image.type;
+  const imageName = image.name;
+
+  try {
+    // Step 1: Get the presigned URL from the backend
+    const presignedUrl = await getPresignedUrl(type, imageName);
+
+    // Step 2: Upload the image to S3 using the presigned URL
+    await axios.put(presignedUrl, image, {
+      headers: { "Content-Type": type },
+    });
 
     return "Image uploaded successfully!";
   } catch (error) {
     console.error("Error during image upload:", error);
-    throw new Error(error.response?.data?.message || "Image upload failed");
+    if (error.response) {
+      console.error("Response data:", error.response.data);
+      console.error("Response status:", error.response.status);
+      console.error("Response headers:", error.response.headers);
+    } else if (error.request) {
+      console.error("Request data:", error.request);
+    } else {
+      console.error("Error message:", error.message);
+    }
+    throw new Error("Image upload failed");
   }
 };

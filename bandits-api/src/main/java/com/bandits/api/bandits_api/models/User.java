@@ -20,6 +20,10 @@ public class User {
     private String email;
     private String role;
 
+
+
+    private String profilePictureUrl;
+
     @OneToMany(mappedBy = "user")
     @JsonManagedReference
     private List<Recipe> recipes;
@@ -101,6 +105,9 @@ public class User {
         this.email = email;
     }
 
+    public String getProfilePictureUrl() { return profilePictureUrl; }
+
+    public void setProfilePictureUrl(String profilePictureUrl) { this.profilePictureUrl = profilePictureUrl; }
     public String getRole() {
         return role;
     }

@@ -3,6 +3,7 @@ package com.bandits.api.bandits_api.controllers;
 import com.bandits.api.bandits_api.models.data.LoginFormDTO;
 import com.bandits.api.bandits_api.models.data.RegisterFormDTO;
 import com.bandits.api.bandits_api.models.User;
+import com.bandits.api.bandits_api.models.data.UpdatePasswordDTO;
 import com.bandits.api.bandits_api.repositories.UserRepository;
 import com.bandits.api.bandits_api.security.JwtUtil;
 
@@ -91,6 +92,7 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(responseBody);
         }
     }
+
     // Current Endpoint - AccountPage.jsx useEffect fetchUserData -L.A
     @GetMapping("/current")
     public ResponseEntity<UserDTO> getCurrentUser(Authentication authentication) {
@@ -109,11 +111,27 @@ public class UserController {
         }
 
         // Convert User to UserDTO
-        UserDTO userDTO = new UserDTO(user.getId(), user.getUsername(), user.getFirstName(), user.getLastName(), user.getEmail());
+        UserDTO userDTO = new UserDTO(user.getId(), user.getUsername(), user.getFirstName(), user.getLastName(), user.getEmail(), user.getProfilePictureUrl());
 
         logger.info("Current user: " + userDTO.getUsername());
         return ResponseEntity.ok(userDTO);
     }
+
+    @PutMapping("/update-password/{username}")
+    public ResponseEntity<?> updatePassword(@PathVariable String username, @RequestBody UpdatePasswordDTO updatePasswordDTO) {
+        System.out.println("Received update password request for username: " + username);
+        System.out.println("Current Password: " + updatePasswordDTO.getCurrentPassword());
+        System.out.println("New Password: " + updatePasswordDTO.getNewPassword());
+
+        try {
+            userService.updatePassword(username, updatePasswordDTO);
+            return ResponseEntity.ok("Password successfully updated");
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
+
+
     @PutMapping("/update")
     public ResponseEntity<UserDTO> updateUser(@RequestBody UserDTO userDTO, Authentication authentication) {
         if (authentication == null || !authentication.isAuthenticated()) {
@@ -139,14 +157,41 @@ public class UserController {
         userRepository.save(user);
 
         // Convert the updated User entity back to a UserDTO
-        UserDTO updatedUserDTO = new UserDTO(user.getId(), user.getUsername(), user.getFirstName(), user.getLastName(), user.getEmail());
+        UserDTO updatedUserDTO = new UserDTO(user.getId(), user.getUsername(), user.getFirstName(), user.getLastName(), user.getEmail(), user.getProfilePictureUrl());
 
         return ResponseEntity.ok(updatedUserDTO);
     }
+
+
     @GetMapping("/logout")
     public ResponseEntity<String> logout() {
         // The client should simply discard the token.
         return ResponseEntity.ok("User successfully logged out. Please discard the token on the client side.");
     }
 
+    @GetMapping("/profile")
+    public ResponseEntity<UserDTO> getProfile(Authentication authentication) {
+        String username = authentication.getName();
+        User user = userRepository.findByUsername(username);
+
+        if (user != null) {
+            // Construct the URL dynamically
+            String profilePictureUrl = "https://test-presign-tutorial.s3.amazonaws.com/" + username + ".jpg";
+
+
+            // String profilePictureUrl = s3Config.generatePresignedUrl(username + "/profile-picture.jpg");
+
+            UserDTO userDTO = new UserDTO(
+                    user.getId(),
+                    user.getUsername(),
+                    user.getFirstName(),
+                    user.getLastName(),
+                    user.getEmail(),
+                    profilePictureUrl  // Generate URL dynamically
+            );
+            return ResponseEntity.ok(userDTO);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
 }

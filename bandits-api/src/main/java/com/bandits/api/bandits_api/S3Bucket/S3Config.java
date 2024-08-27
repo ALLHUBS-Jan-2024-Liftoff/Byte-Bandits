@@ -1,6 +1,7 @@
 package com.bandits.api.bandits_api.S3Bucket;
 
 import io.github.cdimascio.dotenv.Dotenv;
+import org.springframework.stereotype.Component;
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
 import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
 import software.amazon.awssdk.regions.Region;
@@ -11,6 +12,7 @@ import software.amazon.awssdk.services.s3.presigner.model.PutObjectPresignReques
 
 import java.net.URL;
 import java.time.Duration;
+@Component
 public class S3Config {
     private static final Dotenv dotenv = Dotenv.load();
     private static final String AWS_ACCESS_KEY = dotenv.get("AWS_ACCESS_KEY");

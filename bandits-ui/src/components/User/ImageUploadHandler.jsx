@@ -20,12 +20,16 @@ function ImageUploadHandler() {
     }
 
     try {
+      // Get the pre-signed URL from the backend
+      //const presignedUrl = await getPresignedUrl(image.type);
+
+      // Upload the image to S3 using the pre-signed URL
       const responseMessage = await uploadImage(image);
       setCondition("success");
       setMessage(responseMessage);
 
-      // Reset the form after successful upload
-      setImage(null);
+      setImage(null);  // Clear the selected image after upload
+      document.querySelector('input[type="file"]').value = '';  // Reset file input field
     } catch (error) {
       console.error("Error during upload:", error);
       setCondition("danger");
@@ -35,17 +39,12 @@ function ImageUploadHandler() {
 
   return (
     <div className="form">
-      <h1>Upload Image</h1>
-      <input 
-        type="file" 
-        accept="image/*" 
-        onChange={handleImageChange} 
-        value={image ? image.name : ""}
-      />
-      <button onClick={handleUpload}>Add Image to S3</button>
-      {message && <p className={`message ${condition}`}>{message}</p>}
+        <h1>Upload Image</h1>
+        <input type="file" accept="image/*" onChange={handleImageChange} />
+        <button onClick={handleUpload}>Upload to S3</button>
+        {message && <p>{message}</p>}
     </div>
-  );
+);
 }
 
 export default ImageUploadHandler;

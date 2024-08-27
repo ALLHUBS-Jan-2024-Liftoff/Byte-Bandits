@@ -23,7 +23,7 @@ public class SecurityConfig {
         http
                 .csrf().disable()
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/user/login", "/user/register").permitAll()
+                        .requestMatchers("/user/login", "/user/register", "/user/update-password/**", "/s3/presignedurl").permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);

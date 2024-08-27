@@ -42,7 +42,7 @@ export const fetchMealsForReview = async () => {
       throw error;
     }
   };
-
+/*
   export const updateUserPassword = async (currentPassword,newPassword ) => {
     try {
         const requestBody = { currentPassword, newPassword };
@@ -78,3 +78,4 @@ export const fetchMealsForReview = async () => {
       throw error;
     }
   };
+  */

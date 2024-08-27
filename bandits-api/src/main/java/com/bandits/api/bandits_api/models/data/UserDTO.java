@@ -7,15 +7,17 @@ public class UserDTO {
     private String lastName;
     private String email;
 
+
     // Constructors
     public UserDTO() {}
 
-    public UserDTO(Integer id, String username, String firstName, String lastName, String email) {
+    public UserDTO(Integer id, String username, String firstName, String lastName, String email, String profilePictureUrl) {
         this.id = id;
         this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+
     }
 
     // Getters and Setters
@@ -58,4 +60,5 @@ public class UserDTO {
     public void setEmail(String email) {
         this.email = email;
     }
+
 }

@@ -10,8 +10,8 @@ public class UpdatePasswordDTO {
     public UpdatePasswordDTO() {
     }
 
-    public UpdatePasswordDTO(String newPassWord, String currentPassword) {
-        this.newPassword = newPassWord;
+    public  UpdatePasswordDTO(String newPassword, String currentPassword) {
+        this.newPassword = newPassword;
         this.currentPassword = currentPassword;
     }
 
@@ -27,8 +27,8 @@ public class UpdatePasswordDTO {
         return newPassword;
     }
 
-    public void setNewPassWord(String newPassWord) {
-        this.newPassword = newPassWord;
+    public void setNewPassword(String newPassword) {
+        this.newPassword = newPassword;
     }
 }
 
