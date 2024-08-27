@@ -5,14 +5,12 @@ import CheckBoxGroup from '../Checkbox/CheckboxGroup';
 import RecipeCardView from './RecipeCardViewA';
 import { searchRecipes, addRecipe } from "../../services/recipeService";
 import RecipeCardViewA from './RecipeCardViewA';
+import { createTheme } from '@mui/material/styles';
+import { ThemeProvider } from '@mui/system';
 
 function RecipeTableA() {
-
-
-
     const [showResults, setShowResults] = useState(false);
     const [recipes, setRecipes] = useState([]);
-
     const [txtIngredients, setTxtIngredients] = useState(''); 
 
     
@@ -84,8 +82,39 @@ function RecipeTableA() {
 
     };
 
+    const theme = createTheme({
+      components: {
+        MuiButton: {
+          styleOverrides: {
+            root: {
+              backgroundColor: '#222222',
+              color: '#ffffff',
+              '&:hover': {
+                backgroundColor: 'green',
+              },
+              '&.Mui-disabled': {
+                color: '#fff',  // Styles for the disabled button state
+              },
+            },
+          },
+        },
+        MuiLink: {
+          styleOverrides: {
+            root: {
+              color: 'green', // Default link color
+              textDecoration: 'none', // Remove underline
+              '&:hover': {
+                color: 'black', // Hover color
+                textDecoration: 'underline', // Underline on hover
+              },
+            },
+          },
+        },
+      },
+    });
+
   return (
-    <>
+    <ThemeProvider theme={theme}>
 
         <Box sx={{width:'100%', py:'2rem'}}>
         <Typography variant='h1' sx={{fontSize:'1.5rem',p:'1rem 2rem', color:'#111', textAlign:'left', fontWeight:'bold'
@@ -114,7 +143,7 @@ function RecipeTableA() {
             </form>
             {showResults && <RecipeCardViewA recipes={recipes} />}
         </Box>
-    </>
+        </ThemeProvider>
 
   )
 }

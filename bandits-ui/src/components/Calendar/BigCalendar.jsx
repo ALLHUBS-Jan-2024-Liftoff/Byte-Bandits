@@ -12,26 +12,26 @@ export default function BigCal() {
   const [events, setEvents] = React.useState([]);
   const [recipeUris, setRecipeUris] = React.useState([]);
 
-  useEffect(() => {
-    // Fetch all meals when the component mounts
-    findRecipeByUri()
-      .then(setRecipeUris)
-      .catch((error) => {
-        console.error("There was an error fetching the meals", error);
-      });
-  }, []);
+  // useEffect(() => {
+  //   // Fetch all meals when the component mounts
+  //   findRecipeByUri()
+  //     .then(setRecipeUris)
+  //     .catch((error) => {
+  //       console.error("There was an error fetching the meals", error);
+  //     });
+  // }, []);
 
   useEffect(() => {
     // Fetch all meals when the component mounts
     fetchCalendarMeals()
       .then(setEvents)
       .catch((error) => {
-        console.error("There was an error fetching the meals", error);
+        console.error("Calendar Page: There was an error fetching the meals", error);
       });
   }, []);
 
-  console.log(events, "events");
-  console.log(recipeUris, "recipeUris");
+  // console.log(events, "events");
+  // console.log(recipeUris, "recipeUris");
 
   return (
     <div className="App">
