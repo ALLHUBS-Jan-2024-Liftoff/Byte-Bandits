@@ -3,7 +3,8 @@ import { BarChart } from '@mui/x-charts/BarChart';
 import { fetchCalendarMeals } from '../../services/calendarService';
 import { findRecipeByUri } from "../../services/recipeService";
 import { FormControl, InputLabel, Select, MenuItem } from '@mui/material';
-import { set } from 'date-fns';
+import Box from '@mui/material/Box';
+
 
 
 export default function NutriChart() {
@@ -60,6 +61,7 @@ export default function NutriChart() {
         console.log("findRecipeByUri: ", response.hits);
         setEventRecipes(response.hits);
         setChartData(iterate(response.hits[0].recipe.totalDaily));
+        setSelectedRecipe(response.hits[0].recipe.label);
       })
       .catch((error) => {
         console.error("There was an error fetching the meals or recipes", error);
@@ -74,8 +76,9 @@ export default function NutriChart() {
         max: 100,
       },
     ],
-    width: 800,
+    width: 1000,
     height: 600,
+    margin: { top: 20, right: 10, bottom: 20, left: 145 },
   };
 
   const valueFormatter = value => `${parseFloat(value.toFixed(2))}%`
@@ -129,6 +132,11 @@ export default function NutriChart() {
               ))}
             </Select>
           </FormControl>
+          <Box sx={{
+            display: 'flex',
+            marginRight: 10,
+            width: '75vw',
+          }}>
           <BarChart
             key={chartData}
             dataset={chartData}
@@ -137,7 +145,12 @@ export default function NutriChart() {
             layout="horizontal"
             grid={{ vertical: true }}
             {...chartSetting}
+            sx={{
+              px: 5,
+              pt: -3,
+             }}
           />
+          </Box>
         </div>
       </div>
     </div>
