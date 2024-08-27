@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import { uploadImage } from '../../services/imageService';
+import Box from '@mui/material/Box';
+import Paper from '@mui/material/Paper';
+import Button from '@mui/material/Button';
 
 function ImageUploadHandler() {
   const [image, setImage] = useState(null);
@@ -34,17 +37,33 @@ function ImageUploadHandler() {
   };
 
   return (
-    <div className="form">
-      <h1>Upload Image</h1>
-      <input 
-        type="file" 
-        accept="image/*" 
-        onChange={handleImageChange} 
-        value={image ? image.name : ""}
-      />
-      <button onClick={handleUpload}>Add Image to S3</button>
-      {message && <p className={`message ${condition}`}>{message}</p>}
-    </div>
+    <Paper elevation={0} sx={{ border: '1px solid #ccc' }}>
+      <Box
+        component="form"
+        onSubmit={handleUpload}
+        noValidate
+        sx={{
+          m: 1,
+          padding: 2,
+          alignContent: 'center',
+          minWidth: 275,
+          maxWidth: '40vw',
+        }}>
+        <input
+          type="file"
+          accept="image/*"
+          onChange={handleImageChange}
+          value={image ? image.name : ""}
+        />          <Button
+          type="submit"
+          variant="contained"
+          sx={{ mt: 3, mb: 2 }}
+        >
+          Add Image
+        </Button>
+        {message && <p className={`message ${condition}`}>{message}</p>}
+      </Box>
+    </Paper>
   );
 }
 
